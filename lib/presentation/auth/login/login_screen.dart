@@ -8,6 +8,7 @@ import '../../../core/app_export.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
   final LoginScreenController _con = Get.put(LoginScreenController());
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -55,13 +56,13 @@ class LoginScreen extends StatelessWidget {
                           ),
                           hSizedBox30,
                           AppTextField(
-                            hintText: AppString.email,
-                            prefixIcon: ImageConstant.email,
+                            hintText: AppString.userName,
+                            prefixIcon: ImageConstant.userIcon,
                             onChange: (val) {
-                              _con.email.value = val;
-                              _con.emailError.value = '';
+                              _con.username.value = val;
+                              _con.userNameError.value = '';
                             },
-                            errorMessage: _con.emailError,
+                            errorMessage: _con.userNameError,
                           ),
                           hSizedBox4,
                           Obx(
@@ -114,13 +115,15 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: Get.height * 0.07),
-                          AppButton(
-                            text: AppString.login,
-                            width: Get.width / 2,
-                            onPressed: () {
-                              _con.onLogin();
-                            },
-                          ),
+                          Obx(() => _con.loading.value
+                              ? CircularProgressIndicator()
+                              : AppButton(
+                                  text: AppString.login,
+                                  width: Get.width / 2,
+                                  onPressed: () {
+                                    _con.onLogin(context);
+                                  },
+                                )),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(

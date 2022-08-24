@@ -31,5 +31,24 @@ class HttpService {
       return null;
     }
   }
+  static Future<AuthModel?> userLogin(String username,String userPassword,) async {
+    try {
+      var response = await http.post(
+        Uri.parse(AppApis.login),
+        body: {
+          'username': username,
+          'user_password': userPassword,
+        },
+      );
+      if (response.statusCode == 200) {
+        return AuthModel.fromJson(jsonDecode(response.body));
+      } else
+        return null;
+    }
+    catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
 }

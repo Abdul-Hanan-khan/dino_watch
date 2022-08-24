@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:watch_app/model/signup.dart';
+import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
 
 import '../../../core/app_export.dart';
@@ -91,13 +95,19 @@ class SignUpController extends GetxController {
     return isValid.value;
   }
 
-  onSignup() async {
+  onSignup(BuildContext context) async {
     if (validate())  {
       loading.value=true;
      AuthModel ?response=  await HttpService.uesrSignUp(firstName.toString(), lastName.toString(), email.toString(), userName.toString(), password.toString());
       loading.value=false;
       if(response!.status == 'success'){
         Get.offAllNamed(AppRoutes.bottomBarScreen);
+      }else{
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialogWidget(onPositiveClick: (){},title: "Error",subTitle: "User name or password is Wrong",)
+        );
+
       }
     }
   }

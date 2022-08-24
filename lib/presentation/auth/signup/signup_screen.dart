@@ -63,7 +63,8 @@ class SignUpScreen extends StatelessWidget {
                               _con.firstName.value = val;
                             },
                             errorMessage: _con.firstNameErro,
-                          ), AppTextField(
+                          ),
+                          AppTextField(
                             hintText: AppString.lastName,
                             prefixIcon: ImageConstant.userIcon,
                             onChange: (val) {
@@ -71,7 +72,8 @@ class SignUpScreen extends StatelessWidget {
                             },
                             errorMessage: _con.lastNameError,
                           ),
-                          hSizedBox4,  AppTextField(
+                          hSizedBox4,
+                          AppTextField(
                             hintText: AppString.userName,
                             prefixIcon: ImageConstant.userIcon,
                             onChange: (val) {
@@ -126,12 +128,16 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: Get.height * 0.07),
-                          _con.loading.value?CircularProgressIndicator(): AppButton(
-                            text: AppString.signup,
-                            width: Get.width / 2,
-                            onPressed: () {
-                              _con.onSignup();
-                            },
+                          Obx(
+                            () => _con.loading.value
+                                ? CircularProgressIndicator()
+                                : AppButton(
+                                    text: AppString.signup,
+                                    width: Get.width / 2,
+                                    onPressed: () {
+                                      _con.onSignup(context);
+                                    },
+                                  ),
                           ),
                           hSizedBox10,
                           Text(
