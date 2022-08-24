@@ -57,12 +57,27 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           hSizedBox30,
                           AppTextField(
-                            hintText: AppString.fullName,
+                            hintText: AppString.firstName,
                             prefixIcon: ImageConstant.userIcon,
                             onChange: (val) {
-                              _con.name.value = val;
+                              _con.firstName.value = val;
                             },
-                            errorMessage: _con.nameError,
+                            errorMessage: _con.firstNameErro,
+                          ), AppTextField(
+                            hintText: AppString.lastName,
+                            prefixIcon: ImageConstant.userIcon,
+                            onChange: (val) {
+                              _con.lastName.value = val;
+                            },
+                            errorMessage: _con.lastNameError,
+                          ),
+                          hSizedBox4,  AppTextField(
+                            hintText: AppString.userName,
+                            prefixIcon: ImageConstant.userIcon,
+                            onChange: (val) {
+                              _con.userName.value = val;
+                            },
+                            errorMessage: _con.userNameError,
                           ),
                           hSizedBox4,
                           AppTextField(
@@ -111,7 +126,7 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: Get.height * 0.07),
-                          AppButton(
+                          _con.loading.value?CircularProgressIndicator(): AppButton(
                             text: AppString.signup,
                             width: Get.width / 2,
                             onPressed: () {
