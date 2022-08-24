@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:watch_app/core/utils/api_constants.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/model/product_list_model.dart';
 import 'package:watch_app/model/signup.dart';
 //
 class HttpService {
@@ -51,4 +52,23 @@ class HttpService {
     }
   }
 
+
+
+  static Future<List<Categories>?> getCategories() async {
+    try {
+      var response = await http.get(
+        Uri.parse(AppApis.categories),
+
+      );
+      if (response.statusCode == 200) {
+        List rawList = jsonDecode(response.body);
+        return rawList.map((json) => Categories.fromJson(json)).toList();
+
+      } else
+        return null;
+    }
+    catch (e) {
+      return null;
+    }
+  }
 }

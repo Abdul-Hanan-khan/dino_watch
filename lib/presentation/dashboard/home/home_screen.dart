@@ -5,7 +5,7 @@ import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-  final HomeController _con = Get.put(HomeController());
+  final HomeController _con = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             header(
-              text: AppString.discountOffer,
+              text: AppString.categories,
               ontap: () {},
             ),
             hSizedBox12,
@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: _con.categoriesList.length,
+                itemCount: _con.categoriesList!.length,
                 itemBuilder: ((context, index) {
                   return Obx(
                     () => Column(
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                                   : null,
                             ),
                             child: Text(
-                              _con.categoriesList[index]["name"],
+                              _con.categoriesList![index].name.toString(),
                               style: TextStyle(
                                 color: _con.isSelected.value == index
                                     ? const Color(0xff363636)

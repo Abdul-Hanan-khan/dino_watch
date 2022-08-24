@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:watch_app/model/signup.dart';
+import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 
 import '../../../core/app_export.dart';
@@ -9,6 +10,8 @@ import '../../../core/utils/helper.dart';
 import '../../../services/http_service.dart';
 
 class LoginScreenController extends GetxController {
+  HomeController homeController =Get.put(HomeController());
+
   RxString username = "kirtan@gmail.com".obs;
   RxString userNameError = "".obs;
 
@@ -17,6 +20,13 @@ class LoginScreenController extends GetxController {
   RxString passwordError = "".obs;
 
   RxBool obsure = true.obs;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    homeController.getCategories();
+  }
 
   bool validate() {
     RxBool isValid = true.obs;

@@ -47,6 +47,7 @@ class AppString {
   static String oldPassword = "Old Password";
   static String done = "Done";
   static String discountOffer = "Discount Offer";
+  static String brands = "Brands";
   static String seemore = "See More";
   static String trendingProducts = "Trending Products";
   static String blackWatch = "Black Watch";
