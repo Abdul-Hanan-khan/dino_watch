@@ -45,6 +45,8 @@ dependencies:
   google_maps_flutter: ^2.1.5
   location: ^4.4.0
   intl: ^0.17.0
+  http:
+  shared_preferences: ^2.0.15
   flutter_localizations:
     sdk: flutter
 

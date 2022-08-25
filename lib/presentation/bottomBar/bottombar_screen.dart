@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/main.dart';
 import 'package:watch_app/presentation/dashboard/favorite/favorite_screen.dart';
+import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_screen.dart';
 import 'package:watch_app/presentation/dashboard/profile/profile_screen.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_screen.dart';
@@ -215,34 +219,50 @@ class BottomBarScreen extends StatelessWidget {
                                                                 Get.back(),
                                                           ),
                                                           CupertinoDialogAction(
-                                                            child: Text(
-                                                              AppString.logout,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                                color:
-                                                                    Colors.red,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
+                                                              child: Text(
+                                                                AppString
+                                                                    .logout,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .red,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
                                                               ),
-                                                            ),
-                                                            onPressed: () =>
+                                                              onPressed:
+                                                                  () async {
+                                                                SharedPreferences
+                                                                    prefs =
+                                                                    await SharedPreferences
+                                                                        .getInstance();
+                                                                prefs.setBool(
+                                                                    'loginStatus',
+                                                                    false);
+                                                                userLoginStatus =
+                                                                    false;
                                                                 Get.offAllNamed(
-                                                              AppRoutes
-                                                                  .loginScreen,
-                                                            ),
-                                                          )
+                                                                  AppRoutes
+                                                                      .loginScreen,
+                                                                );
+                                                              })
                                                         ],
                                                       );
                                                     })
                                                 : logoutDialog(
                                                     context: Get.context,
-                                                    onTap: () =>
-                                                        Get.offAllNamed(
-                                                            AppRoutes
-                                                                .loginScreen),
-                                                  )
+                                                    onTap: () async {
+                                                      SharedPreferences prefs =
+                                                          await SharedPreferences
+                                                              .getInstance();
+                                                      prefs.setBool(
+                                                          'loginStatus', false);
+                                                      userLoginStatus = false;
+                                                      Get.offAllNamed(AppRoutes
+                                                          .loginScreen);
+                                                    })
                                             : null;
                       },
                       child: Container(
@@ -294,18 +314,18 @@ class BottomBarScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Steven Smiths',
-                            style: TextStyle(
+                          Text(
+                            "${StaticVars.userName}",
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                             ),
                           ),
                           hSizedBox4,
-                          const Text(
-                            'Itsmemamun@gmail.com',
-                            style: TextStyle(
+                          Text(
+                            '${StaticVars.email}',
+                            style: const TextStyle(
                               fontSize: 13,
                               color: Colors.white,
                             ),

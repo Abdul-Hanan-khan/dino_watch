@@ -25,7 +25,10 @@ class AppString {
   static String mes = "Message";
   static String dontHaveanAccount = "Don't Have an Account? ";
   static String fullName = "Full Name";
+  static String firstName = "Firs Name";
+  static String lastName = "Last Name";
   static String phNo = "Phone No";
+  static String userName = "userName";
   static String alreadyHaveanAccount = "Already Have an Account? ";
   static String or = "Or";
   static String backto = "Back to";
@@ -44,6 +47,7 @@ class AppString {
   static String oldPassword = "Old Password";
   static String done = "Done";
   static String discountOffer = "Discount Offer";
+  static String brands = "Brands";
   static String seemore = "See More";
   static String trendingProducts = "Trending Products";
   static String blackWatch = "Black Watch";
