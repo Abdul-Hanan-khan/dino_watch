@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_app/model/signup.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
@@ -10,7 +10,7 @@ import '../../../core/app_export.dart';
 import '../../../core/utils/helper.dart';
 
 class SignUpController extends GetxController {
-  HomeController homeController =Get.put(HomeController());
+  // HomeController homeController =Get.put(HomeController());
 
   RxBool values = false.obs;
   RxBool loading=false.obs;
@@ -70,13 +70,7 @@ class SignUpController extends GetxController {
       isValid.value = false;
 
     }
-    @override
-    void onInit() {
-      // TODO: implement onInit
-      super.onInit();
-      homeController.getCategories();
 
-    }
     // if (email.value.isEmpty) {
     //   emailError.value = "Enter email";
     //   isValid.value = false;
@@ -112,6 +106,11 @@ class SignUpController extends GetxController {
       loading.value=false;
       if(response!.status == 'success'){
         Get.offAllNamed(AppRoutes.bottomBarScreen);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('loginStatus', true);
+        prefs.setString('userId', response.userId.toString());
+        prefs.setString('userName', response.userName.toString());
+        prefs.setString('userEmail', response.userEmail.toString());
       }else{
         showDialog(
             context: context,

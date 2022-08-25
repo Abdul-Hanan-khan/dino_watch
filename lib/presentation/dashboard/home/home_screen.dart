@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-  final HomeController _con = Get.find();
+  HomeController _con = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -34,59 +36,65 @@ class HomeScreen extends StatelessWidget {
               ontap: () {},
             ),
             hSizedBox12,
-            SizedBox(
-              height: 60,
-              child: ListView.builder(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: _con.categoriesList!.length,
-                itemBuilder: ((context, index) {
-                  return Obx(
-                    () => Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            _con.isSelected.value = index;
+            Obx(
+              () => SizedBox(
+                height: 60,
+                child: _con.loadingCat.value
+                    ? Center(child: CupertinoActivityIndicator())
+                    : ListView.builder(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: _con.categoriesList!.length,
+                        itemBuilder: ((context, index) {
+                          return Obx(
+                            ()=> Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    _con.isSelected.value = index;
+                                    _con.getProductByCat(category: _con.categoriesList![index].slug.toString());
 
-                            // _con.isSelected.value == 0
-                            //     ? Get.toNamed(AppRoutes.chairTabBar)
-                            //     : null;
-                          },
-                          borderRadius: BorderRadius.circular(25),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  _con.isSelected.value == index ? 20 : 8,
-                              vertical: 15,
+                                    // _con.isSelected.value == 0
+                                    //     ? Get.toNamed(AppRoutes.chairTabBar)
+                                    //     : null;
+                                  },
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          _con.isSelected.value == index ? 20 : 8,
+                                      vertical: 15,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: _con.isSelected.value == index
+                                          ? const Color(0xffFFE7C1)
+                                          : null,
+                                    ),
+                                    child: Text(
+                                      _con.categoriesList![index].name.toString(),
+                                      style: TextStyle(
+                                        color: _con.isSelected.value == index
+                                            ? const Color(0xff363636)
+                                            : Colors.black.withOpacity(.5),
+                                        fontWeight: _con.isSelected.value == index
+                                            ? FontWeight.bold
+                                            : FontWeight.w500,
+                                        fontSize: _con.isSelected.value == index
+                                            ? 14
+                                            : 16,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: _con.isSelected.value == index
-                                  ? const Color(0xffFFE7C1)
-                                  : null,
-                            ),
-                            child: Text(
-                              _con.categoriesList![index].name.toString(),
-                              style: TextStyle(
-                                color: _con.isSelected.value == index
-                                    ? const Color(0xff363636)
-                                    : Colors.black.withOpacity(.5),
-                                fontWeight: _con.isSelected.value == index
-                                    ? FontWeight.bold
-                                    : FontWeight.w500,
-                                fontSize:
-                                    _con.isSelected.value == index ? 14 : 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
+                          );
+                        }),
+                      ),
               ),
             ),
             hSizedBox4,
@@ -102,33 +110,42 @@ class HomeScreen extends StatelessWidget {
             hSizedBox12,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(2, (index) {
-                  return productCardView(index);
-                }),
-              ),
+              child: Obx(() => !_con.loadingProducts.value ?
+              GridView.builder(
+                shrinkWrap: true,
+                itemCount: _con.productsModal.value.products!.length,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 2/2.8,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    crossAxisCount:  2 ),
+                itemBuilder: (BuildContext context, int index) {
+                  return  productCardView(_con.productsModal.value.products![index], index);
+                },
+              )
+                  : Center(child: const CupertinoActivityIndicator())),
             ),
-            hSizedBox20,
-            header(
-              text: AppString.trendingProducts,
-              ontap: () {
-                Get.toNamed(
-                  AppRoutes.seeMoreScreen,
-                  arguments: AppString.trendingProducts,
-                );
-              },
-            ),
-            hSizedBox8,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(2, (index) {
-                  return productCardView(index);
-                }),
-              ),
-            ),
+            // hSizedBox20,
+            // header(
+            //   text: AppString.trendingProducts,
+            //   ontap: () {
+            //     Get.toNamed(
+            //       AppRoutes.seeMoreScreen,
+            //       arguments: AppString.trendingProducts,
+            //     );
+            //   },
+            // ),
+            // hSizedBox8,
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: List.generate(2, (index) {
+            //       return productCardView(index);
+            //     }),
+            //   ),
+            // ),
             hSizedBox10,
           ],
         ),
@@ -136,7 +153,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  productCardView(index) {
+  productCardView(Products product, index) {
     return GestureDetector(
       onTap: () {
         Get.toNamed(AppRoutes.watchDetailScreen);
@@ -175,17 +192,18 @@ class HomeScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Amazfit GTS2 Mini Smart Watch",
+                      Text(
+                        product.title.toString(),
                         style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       Row(
                         children: [
-                          const Text(
-                            "\$200",
+                           Text(
+                            "\$ ${product.regularPrice}",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -194,9 +212,9 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           wSizedBox10,
-                          const Text(
-                            "\$200",
-                            style: TextStyle(
+                           Text(
+                             "\$ ${product.price}",
+                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF4d18cc),

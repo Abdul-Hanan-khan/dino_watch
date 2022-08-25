@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:watch_app/core/utils/api_constants.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
 import 'package:watch_app/model/signup.dart';
 //
@@ -68,6 +69,25 @@ class HttpService {
         return null;
     }
     catch (e) {
+      return null;
+    }
+  }
+
+  static Future<ProductByCat?> getProductsByCategory({required String category}) async {
+    try {
+      String url='https://dannidion.com/apies/productsbycategory.php?category_slug=$category';
+      print(url);
+      var response = await http.post(
+        Uri.parse(url),
+
+      );
+      if (response.statusCode == 200) {
+        return ProductByCat.fromJson(jsonDecode(response.body));
+      } else
+        return null;
+    }
+    catch (e) {
+      print(e);
       return null;
     }
   }

@@ -46,7 +46,7 @@ dependencies:
   location: ^4.4.0
   intl: ^0.17.0
   http:
-  fluttertoast: ^8.0.9
+  shared_preferences: ^2.0.15
   flutter_localizations:
     sdk: flutter
 
