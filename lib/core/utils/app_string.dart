@@ -50,6 +50,7 @@ class AppString {
   static String brands = "Brands";
   static String seemore = "See More";
   static String trendingProducts = "Trending Products";
+  static String products = "Products";
   static String blackWatch = "Black Watch";
   static String brand = "BRAND";
   static String arnold = "ARNOLD";

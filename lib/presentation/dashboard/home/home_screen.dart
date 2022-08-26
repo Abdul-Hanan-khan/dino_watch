@@ -7,9 +7,19 @@ import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/watch_details/watch_details_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   HomeController _con = Get.find();
+
+  ScrollController scrollControllerNested = ScrollController();
+  ScrollController scrollController = ScrollController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +117,8 @@ class HomeScreen extends StatelessWidget {
             ),
             hSizedBox4,
             header(
-              text: AppString.discountOffer,
+              text: AppString.products,
+              showSeeMore: false,
               ontap: () {
                 Get.toNamed(
                   AppRoutes.seeMoreScreen,
@@ -116,28 +127,43 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             hSizedBox12,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Obx(() => !_con.loadingProducts.value
-                  ? GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: _con.productsModal.value.products!.length > 10
-                          ? 10
-                          : _con.productsModal.value.products!.length,
-                      // itemCount: _con.productsModal.value.products!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 2 / 2.8,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              crossAxisCount: 2),
-                      itemBuilder: (BuildContext context, int index) {
-                        return productCardView(
-                            _con.productsModal.value.products![index], index);
-                      },
-                    )
-                  : Center(child: const CupertinoActivityIndicator())),
+            Column(
+
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Obx(() => !_con.loadingProducts.value
+                      ? Column(
+                        children: [
+                          GridView.builder(
+                    controller: _con.scrollController ,
+                              shrinkWrap: true,
+                              itemCount: _con.productChunks.length ,
+
+                              // itemCount: _con.productsModal.value.products!.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 2 / 2.8,
+                                      mainAxisSpacing: 10,
+                                      crossAxisSpacing: 10,
+                                      crossAxisCount: 2),
+                              itemBuilder: (BuildContext context, int index) {
+                                return productCardView(
+                               _con.productChunks[index] ,index);
+                              },
+                            ),
+                          SizedBox(height: 30,),
+                          TextButton(onPressed: (){_con.loadMoreProducts();}, child: Text("see more",style: TextStyle(
+                              color: AppColors.backgroundColor
+                          ),)),
+                        ],
+                      )
+                      : Center(child: const CupertinoActivityIndicator())),
+                ),
+
+
+              ],
             ),
             // hSizedBox20,
             // header(
@@ -292,7 +318,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Padding header({required String text, required Function() ontap}) {
+  Padding header({required String text, required Function() ontap,bool ?showSeeMore}) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -308,7 +334,7 @@ class HomeScreen extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          GestureDetector(
+        showSeeMore==false?Container():   GestureDetector(
             onTap: ontap,
             child: Text(
               AppString.seemore,

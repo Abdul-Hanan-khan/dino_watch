@@ -13,11 +13,11 @@ import '../../../services/http_service.dart';
 
 class LoginScreenController extends GetxController {
 
-  RxString username = "kirtan@gmail.com".obs;
+  RxString username = "".obs;
   RxString userNameError = "".obs;
 
   RxBool loading = false.obs;
-  RxString password = "Admin@123".obs;
+  RxString password = "".obs;
   RxString passwordError = "".obs;
 
   RxBool obsure = true.obs;
@@ -39,12 +39,13 @@ class LoginScreenController extends GetxController {
   }
 
   onLogin(BuildContext context) async {
-    loading.value = true;
-    AuthModel? response =
-        await HttpService.userLogin(username.toString(), password.toString());
-    loading.value = false;
-
     if (validate()) {
+      loading.value = true;
+      AuthModel? response =
+      await HttpService.userLogin(username.toString(), password.toString());
+      loading.value = false;
+
+
       if (response!.status == "success") {
         Get.offAllNamed(AppRoutes.bottomBarScreen);
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -53,18 +54,17 @@ class LoginScreenController extends GetxController {
         prefs.setString('userName', response.userName.toString());
         prefs.setString('userEmail', response.userEmail.toString());
 
-        StaticVars.email=response.userEmail.toString();
-        StaticVars.userName=response.userName.toString();
-        userLoginStatus=true;
-
-
-
-
+        StaticVars.email = response.userEmail.toString();
+        StaticVars.userName = response.userName.toString();
+        userLoginStatus = true;
       } else {
         showDialog(
             context: context,
-            builder: (_) => AlertDialogWidget(
-                  onPositiveClick: () {Get.back();},
+            builder: (_) =>
+                AlertDialogWidget(
+                  onPositiveClick: () {
+                    Get.back();
+                  },
                   title: "Error",
                   subTitle: "User name or password is Wrong",
                 ));

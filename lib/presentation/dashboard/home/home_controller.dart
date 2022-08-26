@@ -5,12 +5,37 @@ import 'package:watch_app/model/product_list_model.dart';
 import 'package:watch_app/services/http_service.dart';
 
 class HomeController extends GetxController {
+  var scrollController = ScrollController();
   RxBool loadingCat = false.obs;
   RxBool loadingProducts = false.obs;
   RxInt isSelected = (1).obs;
   RxList isFavdiscount = [].obs;
   RxList<Categories>? categoriesList = <Categories>[].obs;
   Rx<ProductByCat> productsModal = ProductByCat().obs;
+
+  RxList<Products> productChunks = <Products>[].obs;
+  RxList<int> indexes = <int>[
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ].obs;
 
   @override
   void onInit() {
@@ -52,16 +77,40 @@ class HomeController extends GetxController {
   getProductByCat({required String category}) async {
     loadingProducts.value = true;
 
-
     // List<ProductByCat>? data = await HttpService.getProductsByCategory(category: category);
 
-    productsModal.value=(await HttpService.getProductsByCategory(category: category))!;
+    productsModal.value =
+        (await HttpService.getProductsByCategory(category: category))!;
+
+    // productsModal.value.products.forEach((element) { });
     // print(productsModal.value.products);
     // for (var element in data!) {
     //   productsList!.add(element);
     //   productsList!.refresh();
     // }
-
+    loadMoreProducts();
     loadingProducts.value = false;
+  }
+
+  loadMoreProducts() {
+    if (indexes.first == 0) {
+      indexes.forEach((element) {
+        productChunks.add(productsModal.value.products![element]);
+      });
+      indexes.first = 100000;
+    } else {
+      int lastIndex = indexes.last;
+      indexes.clear();
+      for (int i = 1; i <= 20; i++) {
+        indexes.add(lastIndex + i);
+      }
+      indexes.forEach((element) {
+        productChunks.add(productsModal.value.products![element]);
+        print(productChunks[element].productId);
+      });
+    }
+
+    // print(productChunks);
+    print(productChunks.length);
   }
 }

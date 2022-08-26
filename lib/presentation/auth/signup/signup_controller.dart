@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_app/core/static/static_vars.dart';
+import 'package:watch_app/main.dart';
 import 'package:watch_app/model/signup.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
@@ -111,6 +113,10 @@ class SignUpController extends GetxController {
         prefs.setString('userId', response.userId.toString());
         prefs.setString('userName', response.userName.toString());
         prefs.setString('userEmail', response.userEmail.toString());
+
+        StaticVars.userName= response.userName.toString();
+        StaticVars.email= response.userEmail.toString();
+        userLoginStatus=true;
       }else{
         showDialog(
             context: context,
