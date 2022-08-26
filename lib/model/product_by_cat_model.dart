@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class ProductByCat {
   String? status;
   List<Products>? products;
@@ -33,6 +35,7 @@ class Products {
   String? regularPrice;
   String? salePrice;
   String? productImg;
+  RxInt ? quantity=0.obs;
 
   Products(
       {this.productId,
@@ -42,7 +45,8 @@ class Products {
         this.price,
         this.regularPrice,
         this.salePrice,
-        this.productImg});
+        this.productImg,
+      this.quantity});
 
   Products.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'];

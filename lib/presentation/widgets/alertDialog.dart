@@ -31,7 +31,7 @@ class AlertDialogWidget extends StatelessWidget {
                   color: Colors.deepPurple,
                   fontWeight: FontWeight.bold)
           ),
-          onPressed: (){Get.back();},
+          onPressed: onPositiveClick,
         ),
         // TextButton(
         //     child: Text(

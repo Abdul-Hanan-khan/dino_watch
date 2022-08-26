@@ -260,9 +260,20 @@ class BottomBarScreen extends StatelessWidget {
                                                       prefs.setBool(
                                                           'loginStatus', false);
                                                       userLoginStatus = false;
+                                                      prefs.setString(
+                                                          'userId', '');
+                                                      prefs.setString(
+                                                          'userName', '');
+                                                      prefs.setString(
+                                                          'userEmail', '');
                                                       Get.offAllNamed(AppRoutes
                                                           .loginScreen);
-                                                    })
+
+                                                      StaticVars.userName='';
+                                                      StaticVars.email='';
+
+                                                    },
+                                                  )
                                             : null;
                       },
                       child: Container(

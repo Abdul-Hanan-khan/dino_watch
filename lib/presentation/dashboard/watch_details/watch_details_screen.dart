@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/main.dart';
+import 'package:watch_app/presentation/auth/login/login_screen.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/commamn/rateing_bar.dart';
+import 'package:watch_app/presentation/widgets/alertDialog.dart';
 
 import 'watch_details_controller.dart';
 
 class WatchDetailScreen extends StatelessWidget {
-  WatchDetailScreen({Key? key}) : super(key: key);
-  final WatchDetailController _con = Get.put(WatchDetailController());
+  int watchId;
+
+  WatchDetailScreen(this.watchId);
+
   @override
   Widget build(BuildContext context) {
+    final WatchDetailController _con = Get.put(WatchDetailController(watchId));
+
     return Scaffold(
       appBar: appBar(
         text: "",
@@ -167,6 +174,19 @@ class WatchDetailScreen extends StatelessWidget {
                   Expanded(
                     child: AppButton(
                       text: AppString.addtocart,
+                      onPressed: () {
+                        if (!userLoginStatus!) {
+                          showDialog(
+                              context: context,
+                              builder: (_) => AlertDialogWidget(
+                                    onPositiveClick: () {
+                                      Get.off(LoginScreen());
+                                    },
+                                    title: "Warning",
+                                    subTitle: "Please login first",
+                                  ));
+                        }
+                      },
                     ),
                   ),
                 ],
