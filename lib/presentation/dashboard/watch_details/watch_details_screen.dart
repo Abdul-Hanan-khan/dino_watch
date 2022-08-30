@@ -3,9 +3,12 @@ import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/main.dart';
 import 'package:watch_app/presentation/auth/login/login_screen.dart';
+import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/commamn/rateing_bar.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_screen.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 
 import 'watch_details_controller.dart';
@@ -18,6 +21,9 @@ class WatchDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final WatchDetailController _con = Get.put(WatchDetailController(watchId));
+
+    BottomBarController barController=Get.find();
+    final  cartController=Get.put(ShoppingCartController());
 
     return Scaffold(
       appBar: appBar(
@@ -171,23 +177,43 @@ class WatchDetailScreen extends StatelessWidget {
                     },
                   ),
                   wSizedBox30,
-                  Expanded(
-                    child: AppButton(
-                      text: AppString.addtocart,
-                      onPressed: () {
-                        if (!userLoginStatus!) {
-                          showDialog(
-                              context: context,
-                              builder: (_) => AlertDialogWidget(
+                  Obx(
+                    ()=> !cartController.loading.value? Expanded(
+                      child: AppButton(
+                        text: AppString.addtocart,
+                        onPressed: () async {
+                          if (!userLoginStatus!) {
+                            showDialog(
+                                context: context,
+                                builder: (_) => AlertDialogWidget(
+                                      onPositiveClick: () {
+                                        Get.off(LoginScreen());
+                                      },
+                                      title: "Warning",
+                                      subTitle: "Please login first",
+                                    ));
+                          }else{
+                           await cartController.addToCart(watchId.toString());
+                            if(cartController.cartModel.value.status == 'success'){
+                              barController.pageIndex.value=1;
+                              cartController.viewCart();
+                              Get.back();
+                              Get.back();
+                            }else{
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => AlertDialogWidget(
                                     onPositiveClick: () {
-                                      Get.off(LoginScreen());
+                                      Get.back();
                                     },
-                                    title: "Warning",
-                                    subTitle: "Please login first",
+                                    title: "Error",
+                                    subTitle: "Failed adding to cart",
                                   ));
-                        }
-                      },
-                    ),
+                            }
+                          }
+                        },
+                      ),
+                    ):CircularProgressIndicator(),
                   ),
                 ],
               ),

@@ -1,8 +1,31 @@
 import 'package:watch_app/core/app_export.dart';
+import 'package:watch_app/model/cart_model.dart';
+import 'package:watch_app/model/view_cart_model.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
+import 'package:watch_app/services/http_service.dart';
 
 class ShoppingCartController extends GetxController {
   final BottomBarController barController = Get.find();
+  @override
+  void onInit() {
+   viewCart();
+    super.onInit();
+
+  }
+
+
+  Rx<AddToCart> cartModel = AddToCart().obs;
+  Rx<ViewCartModel> viewCartModel = ViewCartModel().obs;
+  RxBool loading = false.obs;
+  RxBool loadingCart = false.obs;
+
+  Future<dynamic>? addToCart(String productId) async {
+    loading.value = true;
+
+    cartModel.value = (await HttpService.addToCart(productID: productId))!;
+    loading.value = false;
+    return null;
+  }
 
   RxList<Cart> cartList = RxList([
     Cart(
@@ -37,6 +60,13 @@ class ShoppingCartController extends GetxController {
       total.value += cartList[i].price * cartList[i].quantity.value;
     }
     return total.value;
+  }
+
+  Future<dynamic>? viewCart() async {
+    loadingCart.value = true;
+    viewCartModel.value = (await HttpService.viewCart())!;
+    loadingCart.value = false;
+    return null;
   }
 }
 

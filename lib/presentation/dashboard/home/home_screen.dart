@@ -5,6 +5,7 @@ import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/watch_details/watch_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ScrollController scrollControllerNested = ScrollController();
   ScrollController scrollController = ScrollController();
+  // var cartController =Get.put(ShoppingCartController());
 
 
   @override

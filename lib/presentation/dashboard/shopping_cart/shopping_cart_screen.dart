@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
@@ -8,93 +9,114 @@ import 'shopping_cart_controller.dart';
 class ShoppingCartScreen extends StatelessWidget {
   ShoppingCartScreen({Key? key}) : super(key: key);
   final ShoppingCartController _con = Get.put(ShoppingCartController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return checkoutList(index);
-              },
-            ),
-            hSizedBox20,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                children: [
-                  cartOption(
-                    ontap: () {
-                      _con.barController.pageIndex.value = 0;
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        wSizedBox10,
-                        const Icon(
-                          Icons.west,
-                          color: Color(0xff707070),
-                          size: 16,
+      body: Obx(
+        () => !_con.loadingCart.value
+            ? SingleChildScrollView(
+                child: _con.viewCartModel.value.status != 'success'
+                    ? Container(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: const [Text("Your cart is Empty")],
                         ),
-                        wSizedBox10,
-                        const Expanded(
-                          child: Text(
-                            "Continue Shopping",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              color: Color(0xff707070),
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: 4,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return checkoutList(index);
+                            },
+                          ),
+                          hSizedBox20,
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              children: [
+                                cartOption(
+                                  ontap: () {
+                                    _con.barController.pageIndex.value = 0;
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      wSizedBox10,
+                                      const Icon(
+                                        Icons.west,
+                                        color: Color(0xff707070),
+                                        size: 16,
+                                      ),
+                                      wSizedBox10,
+                                      const Expanded(
+                                        child: Text(
+                                          "Continue Shopping",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            color: Color(0xff707070),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                wSizedBox10,
+                                cartOption(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      const Text(
+                                        "Total -",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Color(0xff707070),
+                                        ),
+                                      ),
+                                      Obx(
+                                        () => Text(
+                                          "\$${_con.subTotal().toString()}",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                            color: Color(0xff707070),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  wSizedBox10,
-                  cartOption(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Text(
-                          "Total -",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: Color(0xff707070),
+                          hSizedBox20,
+                          AppButton(
+                            text: AppString.checkout,
+                            width: Get.width / 2,
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.checkoutScreen);
+                            },
                           ),
-                        ),
-                        Obx(
-                          () => Text(
-                            "\$${_con.subTotal().toString()}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: Color(0xff707070),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+                          hSizedBox20,
+                        ],
+                      ))
+            : Center(
+                child: CircularProgressIndicator(),
               ),
-            ),
-            hSizedBox20,
-            AppButton(
-              text: AppString.checkout,
-              width: Get.width / 2,
-              onPressed: () {
-                Get.toNamed(AppRoutes.checkoutScreen);
-              },
-            ),
-            hSizedBox20,
-          ],
-        ),
       ),
     );
   }

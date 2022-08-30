@@ -1,4 +1,4 @@
-class ProductList {
+class WatchDetailsModel {
   int? id;
   String? name;
   String? slug;
@@ -17,16 +17,16 @@ class ProductList {
   String? price;
   String? regularPrice;
   String? salePrice;
-  // Null? dateOnSaleFrom;
-  // Null? dateOnSaleFromGmt;
-  // Null? dateOnSaleTo;
-  // Null? dateOnSaleToGmt;
+  Null? dateOnSaleFrom;
+  Null? dateOnSaleFromGmt;
+  Null? dateOnSaleTo;
+  Null? dateOnSaleToGmt;
   bool? onSale;
   bool? purchasable;
   int? totalSales;
   bool? virtual;
   bool? downloadable;
-  // List<Null>? downloads;
+  List<Null>? downloads;
   int? downloadLimit;
   int? downloadExpiry;
   String? externalUrl;
@@ -34,11 +34,11 @@ class ProductList {
   String? taxStatus;
   String? taxClass;
   bool? manageStock;
-  // Null? stockQuantity;
+  Null? stockQuantity;
   String? backorders;
   bool? backordersAllowed;
   bool? backordered;
-  // Null? lowStockAmount;
+  Null? lowStockAmount;
   bool? soldIndividually;
   String? weight;
   Dimensions? dimensions;
@@ -53,7 +53,7 @@ class ProductList {
   // List<Null>? crossSellIds;
   int? parentId;
   String? purchaseNote;
-  List<Categories>? categories;
+  List<WatchCategories>? categories;
   List<Tags>? tags;
   List<Images>? images;
   List<Attributes>? attributes;
@@ -66,10 +66,10 @@ class ProductList {
   List<MetaData>? metaData;
   String? stockStatus;
   bool? hasOptions;
-  // List<Null>? aioseoNotices;
+  List<Null>? aioseoNotices;
   Links? lLinks;
 
-  ProductList(
+  WatchDetailsModel(
       {this.id,
         this.name,
         this.slug,
@@ -88,16 +88,16 @@ class ProductList {
         this.price,
         this.regularPrice,
         this.salePrice,
-        // this.dateOnSaleFrom,
-        // this.dateOnSaleFromGmt,
-        // this.dateOnSaleTo,
-        // this.dateOnSaleToGmt,
+        this.dateOnSaleFrom,
+        this.dateOnSaleFromGmt,
+        this.dateOnSaleTo,
+        this.dateOnSaleToGmt,
         this.onSale,
         this.purchasable,
         this.totalSales,
         this.virtual,
         this.downloadable,
-        // this.downloads,
+        this.downloads,
         this.downloadLimit,
         this.downloadExpiry,
         this.externalUrl,
@@ -105,11 +105,11 @@ class ProductList {
         this.taxStatus,
         this.taxClass,
         this.manageStock,
-        // this.stockQuantity,
+        this.stockQuantity,
         this.backorders,
         this.backordersAllowed,
         this.backordered,
-        // this.lowStockAmount,
+        this.lowStockAmount,
         this.soldIndividually,
         this.weight,
         this.dimensions,
@@ -137,10 +137,10 @@ class ProductList {
         this.metaData,
         this.stockStatus,
         this.hasOptions,
-        // this.aioseoNotices,
+        this.aioseoNotices,
         this.lLinks});
 
-  ProductList.fromJson(Map<String, dynamic> json) {
+  WatchDetailsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];
@@ -159,10 +159,10 @@ class ProductList {
     price = json['price'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
-    // dateOnSaleFrom = json['date_on_sale_from'];
-    // dateOnSaleFromGmt = json['date_on_sale_from_gmt'];
-    // dateOnSaleTo = json['date_on_sale_to'];
-    // dateOnSaleToGmt = json['date_on_sale_to_gmt'];
+    dateOnSaleFrom = json['date_on_sale_from'];
+    dateOnSaleFromGmt = json['date_on_sale_from_gmt'];
+    dateOnSaleTo = json['date_on_sale_to'];
+    dateOnSaleToGmt = json['date_on_sale_to_gmt'];
     onSale = json['on_sale'];
     purchasable = json['purchasable'];
     totalSales = json['total_sales'];
@@ -181,11 +181,11 @@ class ProductList {
     taxStatus = json['tax_status'];
     taxClass = json['tax_class'];
     manageStock = json['manage_stock'];
-    // stockQuantity = json['stock_quantity'];
+    stockQuantity = json['stock_quantity'];
     backorders = json['backorders'];
     backordersAllowed = json['backorders_allowed'];
     backordered = json['backordered'];
-    // lowStockAmount = json['low_stock_amount'];
+    lowStockAmount = json['low_stock_amount'];
     soldIndividually = json['sold_individually'];
     weight = json['weight'];
     dimensions = json['dimensions'] != null
@@ -213,9 +213,9 @@ class ProductList {
     parentId = json['parent_id'];
     purchaseNote = json['purchase_note'];
     if (json['categories'] != null) {
-      categories = <Categories>[];
+      categories = <WatchCategories>[];
       json['categories'].forEach((v) {
-        categories!.add(new Categories.fromJson(v));
+        categories!.add(new WatchCategories.fromJson(v));
       });
     }
     if (json['tags'] != null) {
@@ -294,10 +294,10 @@ class ProductList {
     data['price'] = this.price;
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
-    // data['date_on_sale_from'] = this.dateOnSaleFrom;
-    // data['date_on_sale_from_gmt'] = this.dateOnSaleFromGmt;
-    // data['date_on_sale_to'] = this.dateOnSaleTo;
-    // data['date_on_sale_to_gmt'] = this.dateOnSaleToGmt;
+    data['date_on_sale_from'] = this.dateOnSaleFrom;
+    data['date_on_sale_from_gmt'] = this.dateOnSaleFromGmt;
+    data['date_on_sale_to'] = this.dateOnSaleTo;
+    data['date_on_sale_to_gmt'] = this.dateOnSaleToGmt;
     data['on_sale'] = this.onSale;
     data['purchasable'] = this.purchasable;
     data['total_sales'] = this.totalSales;
@@ -313,11 +313,11 @@ class ProductList {
     data['tax_status'] = this.taxStatus;
     data['tax_class'] = this.taxClass;
     data['manage_stock'] = this.manageStock;
-    // data['stock_quantity'] = this.stockQuantity;
+    data['stock_quantity'] = this.stockQuantity;
     data['backorders'] = this.backorders;
     data['backorders_allowed'] = this.backordersAllowed;
     data['backordered'] = this.backordered;
-    // data['low_stock_amount'] = this.lowStockAmount;
+    data['low_stock_amount'] = this.lowStockAmount;
     data['sold_individually'] = this.soldIndividually;
     data['weight'] = this.weight;
     if (this.dimensions != null) {
@@ -381,27 +381,6 @@ class ProductList {
   }
 }
 
-class Dimensions {
-  String? length;
-  String? width;
-  String? height;
-
-  Dimensions({this.length, this.width, this.height});
-
-  Dimensions.fromJson(Map<String, dynamic> json) {
-    length = json['length'];
-    width = json['width'];
-    height = json['height'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['length'] = this.length;
-    data['width'] = this.width;
-    data['height'] = this.height;
-    return data;
-  }
-}
 class Tags {
   int? id;
   String? name;
@@ -424,14 +403,36 @@ class Tags {
   }
 }
 
-class Categories {
+class Dimensions {
+  String? length;
+  String? width;
+  String? height;
+
+  Dimensions({this.length, this.width, this.height});
+
+  Dimensions.fromJson(Map<String, dynamic> json) {
+    length = json['length'];
+    width = json['width'];
+    height = json['height'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['length'] = this.length;
+    data['width'] = this.width;
+    data['height'] = this.height;
+    return data;
+  }
+}
+
+class WatchCategories {
   int? id;
   String? name;
   String? slug;
 
-  Categories({this.id, this.name, this.slug});
+  WatchCategories({this.id, this.name, this.slug});
 
-  Categories.fromJson(Map<String, dynamic> json) {
+  WatchCategories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];
@@ -571,6 +572,7 @@ class Links {
     }
   }
 
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
@@ -583,21 +585,6 @@ class Links {
   }
 }
 
-class Self {
-  String? href;
-
-  Self({this.href});
-
-  Self.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
-    return data;
-  }
-}
 
 class Collection {
   String? href;
@@ -615,3 +602,19 @@ class Collection {
   }
 }
 
+
+class Self {
+  String? href;
+
+  Self({this.href});
+
+  Self.fromJson(Map<String, dynamic> json) {
+    href = json['href'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['href'] = this.href;
+    return data;
+  }
+}
