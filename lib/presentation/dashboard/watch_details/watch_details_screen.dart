@@ -32,7 +32,7 @@ class WatchDetailScreen extends StatelessWidget {
         actionIcon: true,
         action: ImageConstant.bag,
       ),
-      body: SingleChildScrollView(
+      body: Obx(() => _con.loading.value? Center(child: CircularProgressIndicator(),):SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
@@ -61,8 +61,8 @@ class WatchDetailScreen extends StatelessWidget {
                       child: SizedBox(
                         height: 300,
                         // color: Colors.amberAccent,
-                        child: Image.asset(
-                          ImageConstant.intro3,
+                        child: Image.network(
+                          _con.watchDetailsM.value.images![0].src.toString() ,
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -76,10 +76,10 @@ class WatchDetailScreen extends StatelessWidget {
                           children: [
                             hSizedBox36,
                             details(AppString.brand),
-                            info(AppString.arnold),
+                            info(_con.watchDetailsM.value.tags![0].name.toString()),
                             hSizedBox36,
                             details(AppString.color),
-                            info(AppString.gold),
+                            info(_con.watchDetailsM.value.attributes![1].options![0]),
                             hSizedBox36,
                             details(AppString.warranty),
                             info(AppString.years),
@@ -94,11 +94,11 @@ class WatchDetailScreen extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    flex: 3,
+                    flex: 1,
                     child: Text(
-                      AppString.keroenBlackWatch,
+                      _con.watchDetailsM.value.name.toString(),
                       style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 30),
+                          fontWeight: FontWeight.w700, fontSize: 18),
                     ),
                   ),
                   wSizedBox10,
@@ -112,7 +112,7 @@ class WatchDetailScreen extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                            text: '78',
+                            text: '${_con.watchDetailsM.value.price}',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 34,
@@ -137,7 +137,7 @@ class WatchDetailScreen extends StatelessWidget {
               ),
               hSizedBox8,
               Text(
-                AppString.loremipsum,
+                _con.watchDetailsM.value.description??"No Description Available".toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color: Colors.black.withOpacity(.4),
@@ -149,9 +149,9 @@ class WatchDetailScreen extends StatelessWidget {
                 children: [
                   ...List.generate(
                     _con.colorList.length,
-                    (index) {
+                        (index) {
                       return Obx(
-                        () => GestureDetector(
+                            () => GestureDetector(
                           onTap: () {
                             _con.isSelectColor.value = index;
                           },
@@ -178,7 +178,7 @@ class WatchDetailScreen extends StatelessWidget {
                   ),
                   wSizedBox30,
                   Obx(
-                    ()=> !cartController.loading.value? Expanded(
+                        ()=> !cartController.loading.value? Expanded(
                       child: AppButton(
                         text: AppString.addtocart,
                         onPressed: () async {
@@ -186,14 +186,14 @@ class WatchDetailScreen extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (_) => AlertDialogWidget(
-                                      onPositiveClick: () {
-                                        Get.off(LoginScreen());
-                                      },
-                                      title: "Warning",
-                                      subTitle: "Please login first",
-                                    ));
+                                  onPositiveClick: () {
+                                    Get.off(LoginScreen());
+                                  },
+                                  title: "Warning",
+                                  subTitle: "Please login first",
+                                ));
                           }else{
-                           await cartController.addToCart(watchId.toString());
+                            await cartController.addToCart(watchId.toString());
                             if(cartController.cartModel.value.status == 'success'){
                               barController.pageIndex.value=1;
                               cartController.viewCart();
@@ -221,7 +221,7 @@ class WatchDetailScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 
