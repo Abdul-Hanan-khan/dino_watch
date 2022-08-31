@@ -89,7 +89,7 @@ class ShoppingCartScreen extends StatelessWidget {
                                       ),
                                       Obx(
                                         () => Text(
-                                          "\$${_con.subTotal().toString()}",
+                                          "\$ to disp",
                                           style: const TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14,
@@ -141,7 +141,7 @@ class ShoppingCartScreen extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            _con.cartList[index].wimage,
+            _con.cart.products![index].images![0].src.toString(),
             height: 100,
             width: 100,
             fit: BoxFit.contain,
@@ -153,7 +153,7 @@ class ShoppingCartScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  _con.cartList[index].wname,
+                  _con.cart.products![index].name.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -166,7 +166,7 @@ class ShoppingCartScreen extends StatelessWidget {
                   children: [
                     Obx(
                       () => Text(
-                        "\$${_con.cartList[index].quantity * _con.cartList[index].price}",
+                        "\$${_con.cart.products![index].productQuantity!.value * int.parse(_con.cart.products![index].price.toString())}",
                         style: TextStyle(
                             color: AppColors.backgroundColor,
                             fontWeight: FontWeight.bold,
@@ -179,10 +179,10 @@ class ShoppingCartScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              _con.cartList[index].quantity.value == 1
+                              _con.cart.products![index].productQuantity!.value == 1
                                   ? null
-                                  : _con.cartList[index].quantity.value >= 1
-                                      ? _con.cartList[index].quantity.value--
+                                  : _con.cart.products![index].productQuantity!.value >= 1
+                                      ? _con.cart.products![index].productQuantity!.value--
                                       : null;
                             },
                             child: Container(
@@ -203,7 +203,7 @@ class ShoppingCartScreen extends StatelessWidget {
                             height: 30,
                             width: 30,
                             child: Text(
-                                _con.cartList[index].quantity.value
+                                _con.cart.products![index].productQuantity!.value
                                     .toString()
                                     .padLeft(2, "0"),
                                 style: const TextStyle(
@@ -213,8 +213,8 @@ class ShoppingCartScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _con.cartList[index].quantity.value < 15
-                                  ? _con.cartList[index].quantity.value++
+                              _con.cart.products![index].productQuantity!.value < 15
+                                  ? _con.cart.products![index].productQuantity!.value++
                                   : null;
                             },
                             child: Container(

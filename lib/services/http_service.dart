@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:watch_app/core/utils/api_constants.dart';
 
-import 'package:watch_app/model/cart_model.dart';
+import 'package:watch_app/model/add_to_cart_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
 import 'package:watch_app/model/signup.dart';

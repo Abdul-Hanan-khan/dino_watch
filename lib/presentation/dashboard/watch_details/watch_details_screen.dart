@@ -193,23 +193,23 @@ class WatchDetailScreen extends StatelessWidget {
                                   subTitle: "Please login first",
                                 ));
                           }else{
-                            await cartController.addToCart(watchId.toString());
-                            if(cartController.cartModel.value.status == 'success'){
-                              barController.pageIndex.value=1;
-                              cartController.viewCart();
-                              Get.back();
-                              Get.back();
-                            }else{
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => AlertDialogWidget(
-                                    onPositiveClick: () {
-                                      Get.back();
-                                    },
-                                    title: "Error",
-                                    subTitle: "Failed adding to cart",
-                                  ));
-                            }
+                            // await cartController.addToCart(watchId.toString());
+                            // if(cartController.cartModel.value.status == 'success'){
+                            //   barController.pageIndex.value=1;
+                            //   cartController.viewCart();
+                            //   Get.back();
+                            //   Get.back();
+                            // }else{
+                            //   showDialog(
+                            //       context: context,
+                            //       builder: (_) => AlertDialogWidget(
+                            //         onPositiveClick: () {
+                            //           Get.back();
+                            //         },
+                            //         title: "Error",
+                            //         subTitle: "Failed adding to cart",
+                            //       ));
+                            // }
                           }
                         },
                       ),

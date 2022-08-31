@@ -1,3 +1,5 @@
+import 'package:watch_app/core/app_export.dart';
+
 class WatchDetailsModel {
   int? id;
   String? name;
@@ -9,15 +11,12 @@ class WatchDetailsModel {
   String? salePrice;
   int? ratingCount;
   int? parentId;
-  // String? purchaseNote;
   List<Tags>? tags;
   List<Images>? images;
   List<Attributes>? attributes;
-  // int? menuOrder;
-  // String? priceHtml;
-  // List<int>? relatedIds;
-  // String? stockStatus;
-  // bool? hasOptions;
+
+  RxInt ?productQuantity=0.obs;
+
 
   WatchDetailsModel(
       {this.id,
@@ -33,6 +32,7 @@ class WatchDetailsModel {
         this.tags,
         this.images,
         this.attributes,
+        this.productQuantity,
         // this.lLinks
       });
 
