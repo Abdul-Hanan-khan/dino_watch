@@ -20,7 +20,7 @@ class ShoppingCartController extends GetxController {
 
 
   Rx<AddToCart> addToCartModel = AddToCart().obs;
-  Rx<ViewCartModel> viewCartModel = ViewCartModel().obs;
+  // Rx<ViewCartModel> viewCartModel = ViewCartModel().obs;
   RxBool loading = false.obs;
   RxBool loadingCart = false.obs;
 
@@ -131,13 +131,14 @@ class ShoppingCartController extends GetxController {
   //   )
   // ]);
 
-  // double subTotal() {
-  //   RxDouble? total = 0.0.obs;
-  //   for (int i = 0; i < cartList.length; i++) {
-  //     total.value += cartList[i].price * cartList[i].quantity.value;
-  //   }
-  //   return total.value;
-  // }
+  double subTotal() {
+    RxDouble? total = 0.0.obs;
+    for (int i = 0; i < cart.products!.length; i++) {
+      // total.value += cart.products![i].price * cart.products![i].quantity.value;
+      total.value += int.parse(cart.products![i].price.toString()) * cart.products![i].productQuantity!.value;
+    }
+    return total.value;
+  }
 
   // Future<dynamic>? viewCart() async {
   //   loadingCart.value = true;

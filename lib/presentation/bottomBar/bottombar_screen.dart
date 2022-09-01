@@ -10,6 +10,7 @@ import 'package:watch_app/presentation/dashboard/favorite/favorite_screen.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_screen.dart';
 import 'package:watch_app/presentation/dashboard/profile/profile_screen.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_screen.dart';
 
 import '../commamn/app_bar.dart';
@@ -20,7 +21,10 @@ import '../../core/app_export.dart';
 
 class BottomBarScreen extends StatelessWidget {
   BottomBarScreen({Key? key}) : super(key: key);
-  final BottomBarController _con = Get.put(BottomBarController());
+
+  var carController=Get.put(ShoppingCartController());
+  final BottomBarController _con = Get.find();
+  // sdf
 
   @override
   Widget build(BuildContext context) {

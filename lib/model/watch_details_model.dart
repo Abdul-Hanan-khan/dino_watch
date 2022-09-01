@@ -14,7 +14,6 @@ class WatchDetailsModel {
   List<Tags>? tags;
   List<Images>? images;
   List<Attributes>? attributes;
-
   RxInt ?productQuantity=0.obs;
 
 
@@ -43,6 +42,7 @@ class WatchDetailsModel {
     price = json['price'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
+    productQuantity!.value=json['product_quantity']??1;
 
     if (json['tags'] != null) {
       tags = <Tags>[];
@@ -72,6 +72,8 @@ class WatchDetailsModel {
     data['price'] = this.price;
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
+    data['product_quantity']=this.productQuantity!.value??1;
+
     if (this.tags != null) {
       data['tags'] = this.tags!.map((v) => v.toJson()).toList();
     }

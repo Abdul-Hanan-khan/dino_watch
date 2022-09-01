@@ -63,6 +63,7 @@ class AppString {
   static String loremipsum =
       "Lorem ipsum dolor sit amet, the a consectetur adipiscing elit, se eiusmod tempor incididunt ut labore et dolore mad minim veniam Lorem Ipsum is simply dummy text of the printing and typesetting industry";
   static String addtocart = "ADD TO CART";
+  static String removeFromCart = "Remove From Cart";
   static String search = "Search...";
   static String favorite = "Favorite";
   static String srch = "Search";

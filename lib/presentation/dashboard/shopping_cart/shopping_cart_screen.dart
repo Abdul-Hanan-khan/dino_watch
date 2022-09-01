@@ -8,7 +8,7 @@ import 'shopping_cart_controller.dart';
 
 class ShoppingCartScreen extends StatelessWidget {
   ShoppingCartScreen({Key? key}) : super(key: key);
-  final ShoppingCartController _con = Get.put(ShoppingCartController());
+  final ShoppingCartController _con = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ShoppingCartScreen extends StatelessWidget {
       body: Obx(
         () => !_con.loadingCart.value
             ? SingleChildScrollView(
-                child: _con.viewCartModel.value.status != 'success'
+                child: _con.cart.products!.length ==0
                     ? Container(
                         height: MediaQuery.of(context).size.height * 0.7,
                         width: double.infinity,
@@ -32,7 +32,7 @@ class ShoppingCartScreen extends StatelessWidget {
                         children: [
                           ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 4,
+                            itemCount: _con.cart.products!.length,
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -89,7 +89,7 @@ class ShoppingCartScreen extends StatelessWidget {
                                       ),
                                       Obx(
                                         () => Text(
-                                          "\$ to disp",
+                                          "\$${_con.subTotal()}",
                                           style: const TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14,
@@ -122,6 +122,10 @@ class ShoppingCartScreen extends StatelessWidget {
   }
 
   checkoutList(index) {
+    RxInt cartIndex =1.obs;
+    cartIndex.value = _con.cart.products!.indexWhere((element) => element.id == _con.cart.products![index].id);
+
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       height: 100,
@@ -140,7 +144,7 @@ class ShoppingCartScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
+          Image.network(
             _con.cart.products![index].images![0].src.toString(),
             height: 100,
             width: 100,
@@ -179,11 +183,12 @@ class ShoppingCartScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              _con.cart.products![index].productQuantity!.value == 1
-                                  ? null
-                                  : _con.cart.products![index].productQuantity!.value >= 1
-                                      ? _con.cart.products![index].productQuantity!.value--
-                                      : null;
+                              _con.removeItem(_con.cart.products![index], cartIndex.value);
+                              // _con.cart.products![index].productQuantity!.value == 1
+                              //     ? null
+                              //     : _con.cart.products![index].productQuantity!.value >= 1
+                              //         ? _con.cart.products![index].productQuantity!.value--
+                              //         : null;
                             },
                             child: Container(
                               height: 30,
@@ -213,9 +218,11 @@ class ShoppingCartScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _con.cart.products![index].productQuantity!.value < 15
-                                  ? _con.cart.products![index].productQuantity!.value++
-                                  : null;
+                              _con.addItem(_con.cart.products![index], cartIndex.value);
+
+                              // _con.cart.products![index].productQuantity!.value < 15
+                              //     ? _con.cart.products![index].productQuantity!.value++
+                              //     : null;
                             },
                             child: Container(
                               height: 30,

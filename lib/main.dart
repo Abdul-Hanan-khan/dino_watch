@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/routes/app_routes.dart';
@@ -26,7 +27,7 @@ getLoginStatus() async {
 class LazyBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(CheckoutController());
+    Get.put(BottomBarController());
   }
 }
 
