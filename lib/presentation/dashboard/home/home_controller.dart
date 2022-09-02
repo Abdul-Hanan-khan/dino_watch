@@ -8,7 +8,7 @@ class HomeController extends GetxController {
   var scrollController = ScrollController();
   RxBool loadingCat = false.obs;
   RxBool loadingProducts = false.obs;
-  RxInt isSelected = (1).obs;
+  RxInt isSelected = (0).obs;
   RxList isFavdiscount = [].obs;
   RxList<Categories>? categoriesList = <Categories>[].obs;
   Rx<ProductByCat> productsModal = ProductByCat().obs;
@@ -21,7 +21,7 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getCategories();
-    getProductByCat(category: 'men');
+    getProductByCat(catId: '97'); // for ladies related products
   }
 
   onFavdiscount(int index) {
@@ -53,7 +53,7 @@ class HomeController extends GetxController {
     loadingCat.value = false;
   }
 
-  getProductByCat({required String category}) async {
+  getProductByCat({required String catId}) async {
     indexes.clear();
     indexes.value=[
       0,
@@ -81,7 +81,7 @@ class HomeController extends GetxController {
     // List<ProductByCat>? data = await HttpService.getProductsByCategory(category: category);
 
     productsModal.value =
-        (await HttpService.getProductsByCategory(category: category))!;
+        (await HttpService.getProductsByCategory(catId: catId))!;
 
     // productsModal.value.products.forEach((element) { });
     // print(productsModal.value.products);

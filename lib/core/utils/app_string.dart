@@ -51,6 +51,7 @@ class AppString {
   static String seemore = "See More";
   static String trendingProducts = "Trending Products";
   static String products = "Products";
+  static String offeredBy = "Offered By";
   static String blackWatch = "Black Watch";
   static String brand = "BRAND";
   static String arnold = "ARNOLD";
@@ -110,6 +111,7 @@ class AppString {
   static String pemail = "williamrouse51@gmail.com";
   static String myCart = "My Cart";
   static String myOrders = "My Orders";
+  static String allBrands = "All Brands";
   static String chooseLanguage = "Choose Language";
   static String privacyPolicy = "Privacy Policy";
   static String settings = "Settings";

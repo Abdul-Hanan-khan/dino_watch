@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
+import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/watch_details/watch_details_screen.dart';
@@ -20,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ScrollController scrollControllerNested = ScrollController();
   ScrollController scrollController = ScrollController();
-  // var cartController =Get.put(ShoppingCartController());
 
+  // var cartController =Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.all(15),
-              height: 170,
-              width: Get.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.amber,
-                image: const DecorationImage(
-                  image: AssetImage(
-                    ImageConstant.poster,
+            GestureDetector(
+              onTap: () {
+                Get.to(AllBrandsScreen());
+              },
+              child: Container(
+                margin: const EdgeInsets.all(15),
+                height: 170,
+                width: Get.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.amber,
+                  image: const DecorationImage(
+                    image: AssetImage(
+                      ImageConstant.poster,
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -70,8 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     _con.isSelected.value = index;
                                     _con.getProductByCat(
-                                        category: _con
-                                            .categoriesList![index].slug
+                                        catId: _con.categoriesList![index].id
                                             .toString());
 
                                     // _con.isSelected.value == 0
@@ -130,17 +135,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             hSizedBox12,
             Column(
-
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Obx(() => !_con.loadingProducts.value
                       ? Column(
-                        children: [
-                          GridView.builder(
-                    controller: _con.scrollController ,
+                          children: [
+                            GridView.builder(
+                              controller: _con.scrollController,
                               shrinkWrap: true,
-                              itemCount: _con.productChunks.length ,
+                              itemCount: _con.productChunks.length,
 
                               // itemCount: _con.productsModal.value.products!.length,
                               physics: const NeverScrollableScrollPhysics(),
@@ -152,19 +156,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                       crossAxisCount: 2),
                               itemBuilder: (BuildContext context, int index) {
                                 return productCardView(
-                               _con.productChunks[index] ,index);
+                                    _con.productChunks[index], index);
                               },
                             ),
-                          SizedBox(height: 30,),
-                          TextButton(onPressed: (){_con.loadMoreProducts();}, child: Text("see more",style: TextStyle(
-                              color: AppColors.backgroundColor
-                          ),)),
-                        ],
-                      )
+                            SizedBox(
+                              height: 30,
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  _con.loadMoreProducts();
+                                },
+                                child: Text(
+                                  "see more",
+                                  style: TextStyle(
+                                      color: AppColors.backgroundColor),
+                                )),
+                          ],
+                        )
                       : Center(child: const CupertinoActivityIndicator())),
                 ),
-
-
               ],
             ),
             // hSizedBox20,
@@ -226,9 +236,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   CachedNetworkImage(
                     imageUrl: '${product.productImg}',
-                      height: 115,
-                      width: Get.width,
-                      fit: BoxFit.contain,
+                    height: 115,
+                    width: Get.width,
+                    fit: BoxFit.contain,
                     placeholder: (context, url) => const SizedBox(
                       height: 150,
                       child: CupertinoActivityIndicator(),
@@ -320,7 +330,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Padding header({required String text, required Function() ontap,bool ?showSeeMore}) {
+  Padding header(
+      {required String text, required Function() ontap, bool? showSeeMore}) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -336,17 +347,19 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.w600,
             ),
           ),
-        showSeeMore==false?Container():   GestureDetector(
-            onTap: ontap,
-            child: Text(
-              AppString.seemore,
-              style: const TextStyle(
-                color: Color(0xff707070),
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
+          showSeeMore == false
+              ? Container()
+              : GestureDetector(
+                  onTap: ontap,
+                  child: Text(
+                    AppString.seemore,
+                    style: const TextStyle(
+                      color: Color(0xff707070),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
         ],
       ),
     );
