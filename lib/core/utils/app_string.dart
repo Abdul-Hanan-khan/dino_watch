@@ -50,6 +50,8 @@ class AppString {
   static String brands = "Brands";
   static String seemore = "See More";
   static String trendingProducts = "Trending Products";
+  static String products = "Products";
+  static String offeredBy = "Offered By";
   static String blackWatch = "Black Watch";
   static String brand = "BRAND";
   static String arnold = "ARNOLD";
@@ -62,6 +64,7 @@ class AppString {
   static String loremipsum =
       "Lorem ipsum dolor sit amet, the a consectetur adipiscing elit, se eiusmod tempor incididunt ut labore et dolore mad minim veniam Lorem Ipsum is simply dummy text of the printing and typesetting industry";
   static String addtocart = "ADD TO CART";
+  static String removeFromCart = "Remove From Cart";
   static String search = "Search...";
   static String favorite = "Favorite";
   static String srch = "Search";
@@ -108,6 +111,7 @@ class AppString {
   static String pemail = "williamrouse51@gmail.com";
   static String myCart = "My Cart";
   static String myOrders = "My Orders";
+  static String allBrands = "All Brands";
   static String chooseLanguage = "Choose Language";
   static String privacyPolicy = "Privacy Policy";
   static String settings = "Settings";
@@ -150,7 +154,7 @@ class AppString {
       "Invite a friend, Using the code, you\nWill both receive \$${20} discount, and\nLot more offers to come!";
   static String agree = "Agree";
   static String iagreewiththe = "I agree with the";
-  static String termsandcondiition = "Terms and condiition";
+  static String termsandcondiition = "Terms and Condition";
   static String privacypolicy = "Privacy Policy";
   static String dataprivacy = "Data & Privacy";
   static String analytics = "SEARE ANALYTICS";

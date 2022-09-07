@@ -73,7 +73,7 @@ class AppRoutes {
     GetPage(
         name: createNewPasswordScreen, page: () => CreateNewPasswordScreen()),
     GetPage(name: bottomBarScreen, page: () => BottomBarScreen()),
-    GetPage(name: watchDetailScreen, page: () => WatchDetailScreen()),
+    // GetPage(name: watchDetailScreen, page: () => WatchDetailScreen()),
     GetPage(name: seeMoreScreen, page: () => SeeMoreScreen()),
     GetPage(name: searchScreen, page: () => SearchScreen()),
     GetPage(name: checkoutScreen, page: () => CheckoutScreen()),

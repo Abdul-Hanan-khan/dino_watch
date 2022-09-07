@@ -15,6 +15,7 @@ class ImageConstant {
   static const google = "assets/images/google.png";
   static const facebook = "assets/images/facebook.png";
   static const bag = "assets/images/bag.png";
+  static const brands = "assets/images/flyers.png";
   static const drawerIcon = "assets/images/drawerIcon.png";
   static const verifyyouremailbg = "assets/images/verifyyouremailbg.png";
   static const home = "assets/images/home.png";

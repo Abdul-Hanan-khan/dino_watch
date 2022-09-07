@@ -66,7 +66,7 @@ AppBar appBar({
                 },
               )
             : const SizedBox(),
-        if (actionIcon!)
+        if (actionIcon??false)
           IconButton(
             icon: Image.asset(
               action ?? ImageConstant.notification,

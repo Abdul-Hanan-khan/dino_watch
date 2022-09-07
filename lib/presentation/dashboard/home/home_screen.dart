@@ -1,13 +1,28 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
+import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
+import 'package:watch_app/presentation/dashboard/watch_details/watch_details_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   HomeController _con = Get.find();
+
+  ScrollController scrollControllerNested = ScrollController();
+  ScrollController scrollController = ScrollController();
+
+  // var cartController =Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +31,23 @@ class HomeScreen extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.all(15),
-              height: 170,
-              width: Get.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.amber,
-                image: const DecorationImage(
-                  image: AssetImage(
-                    ImageConstant.poster,
+            GestureDetector(
+              onTap: () {
+                // Get.to(AllBrandsScreen());
+              },
+              child: Container(
+                margin: const EdgeInsets.all(15),
+                height: 170,
+                width: Get.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.amber,
+                  image: const DecorationImage(
+                    image: AssetImage(
+                      ImageConstant.poster,
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -48,14 +68,16 @@ class HomeScreen extends StatelessWidget {
                         itemCount: _con.categoriesList!.length,
                         itemBuilder: ((context, index) {
                           return Obx(
-                            ()=> Column(
+                            () => Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
                                   onTap: () {
                                     _con.isSelected.value = index;
-                                    _con.getProductByCat(category: _con.categoriesList![index].slug.toString());
+                                    _con.getProductByCat(
+                                        catId: _con.categoriesList![index].id
+                                            .toString());
 
                                     // _con.isSelected.value == 0
                                     //     ? Get.toNamed(AppRoutes.chairTabBar)
@@ -64,8 +86,9 @@ class HomeScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(25),
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          _con.isSelected.value == index ? 20 : 8,
+                                      horizontal: _con.isSelected.value == index
+                                          ? 20
+                                          : 8,
                                       vertical: 15,
                                     ),
                                     decoration: BoxDecoration(
@@ -75,14 +98,16 @@ class HomeScreen extends StatelessWidget {
                                           : null,
                                     ),
                                     child: Text(
-                                      _con.categoriesList![index].name.toString(),
+                                      _con.categoriesList![index].name
+                                          .toString(),
                                       style: TextStyle(
                                         color: _con.isSelected.value == index
                                             ? const Color(0xff363636)
                                             : Colors.black.withOpacity(.5),
-                                        fontWeight: _con.isSelected.value == index
-                                            ? FontWeight.bold
-                                            : FontWeight.w500,
+                                        fontWeight:
+                                            _con.isSelected.value == index
+                                                ? FontWeight.bold
+                                                : FontWeight.w500,
                                         fontSize: _con.isSelected.value == index
                                             ? 14
                                             : 16,
@@ -99,7 +124,8 @@ class HomeScreen extends StatelessWidget {
             ),
             hSizedBox4,
             header(
-              text: AppString.discountOffer,
+              text: AppString.products,
+              showSeeMore: false,
               ontap: () {
                 Get.toNamed(
                   AppRoutes.seeMoreScreen,
@@ -108,23 +134,48 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             hSizedBox12,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Obx(() => !_con.loadingProducts.value ?
-              GridView.builder(
-                shrinkWrap: true,
-                itemCount: _con.productsModal.value.products!.length,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 2/2.8,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    crossAxisCount:  2 ),
-                itemBuilder: (BuildContext context, int index) {
-                  return  productCardView(_con.productsModal.value.products![index], index);
-                },
-              )
-                  : Center(child: const CupertinoActivityIndicator())),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Obx(() => !_con.loadingProducts.value
+                      ? Column(
+                          children: [
+                            GridView.builder(
+                              controller: _con.scrollController,
+                              shrinkWrap: true,
+                              itemCount: _con.productChunks.length,
+
+                              // itemCount: _con.productsModal.value.products!.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 2 / 2.8,
+                                      mainAxisSpacing: 10,
+                                      crossAxisSpacing: 10,
+                                      crossAxisCount: 2),
+                              itemBuilder: (BuildContext context, int index) {
+                                return productCardView(
+                                    _con.productChunks[index], index);
+                              },
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  _con.loadMoreProducts();
+                                },
+                                child: Text(
+                                  "see more",
+                                  style: TextStyle(
+                                      color: AppColors.backgroundColor),
+                                )),
+                          ],
+                        )
+                      : Center(child: const CupertinoActivityIndicator())),
+                ),
+              ],
             ),
             // hSizedBox20,
             // header(
@@ -156,7 +207,8 @@ class HomeScreen extends StatelessWidget {
   productCardView(Products product, index) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(AppRoutes.watchDetailScreen);
+        Get.to(WatchDetailScreen(product.productId!));
+        // Get.toNamed(AppRoutes.watchDetailScreen);
       },
       child: Container(
         width: Get.width / 2 - 20,
@@ -182,11 +234,19 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    ImageConstant.intro3,
+                  CachedNetworkImage(
+                    imageUrl: '${product.productImg}',
                     height: 115,
                     width: Get.width,
                     fit: BoxFit.contain,
+                    placeholder: (context, url) => const SizedBox(
+                      height: 150,
+                      child: CupertinoActivityIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => const SizedBox(
+                      height: 150,
+                      child: Icon(Icons.error),
+                    ),
                   ),
                   hSizedBox10,
                   Column(
@@ -202,7 +262,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                           Text(
+                          Text(
                             "\$ ${product.regularPrice}",
                             style: TextStyle(
                               fontSize: 12,
@@ -212,9 +272,9 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           wSizedBox10,
-                           Text(
-                             "\$ ${product.price}",
-                             style: TextStyle(
+                          Text(
+                            "\$ ${product.price}",
+                            style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF4d18cc),
@@ -250,7 +310,7 @@ class HomeScreen extends StatelessWidget {
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
                     decoration: const BoxDecoration(
-                        color: Color(0xffE5F0FF), shape: BoxShape.circle),
+                        color: Color(0xff939393), shape: BoxShape.circle),
                     child: Icon(
                       _con.isFavtrending.contains(index)
                           ? Icons.favorite
@@ -258,7 +318,7 @@ class HomeScreen extends StatelessWidget {
                       size: 16,
                       color: _con.isFavtrending.contains(index)
                           ? const Color(0xffFF4848)
-                          : const Color(0xff939393),
+                          : Colors.white,
                     ),
                   ),
                 ),
@@ -270,7 +330,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Padding header({required String text, required Function() ontap}) {
+  Padding header(
+      {required String text, required Function() ontap, bool? showSeeMore}) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -286,17 +347,19 @@ class HomeScreen extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          GestureDetector(
-            onTap: ontap,
-            child: Text(
-              AppString.seemore,
-              style: const TextStyle(
-                color: Color(0xff707070),
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
+          showSeeMore == false
+              ? Container()
+              : GestureDetector(
+                  onTap: ontap,
+                  child: Text(
+                    AppString.seemore,
+                    style: const TextStyle(
+                      color: Color(0xff707070),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
         ],
       ),
     );

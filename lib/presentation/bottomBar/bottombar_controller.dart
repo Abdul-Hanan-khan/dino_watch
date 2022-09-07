@@ -46,6 +46,10 @@ class BottomBarController extends GetxController {
       title: AppString.paymentMethods,
     ),
     DrawerTab(
+      image: ImageConstant.brands,
+      title: AppString.brands,
+    ),
+    DrawerTab(
       image: ImageConstant.help,
       title: AppString.helpfaq,
     ),

@@ -119,9 +119,11 @@ class MyOrdersScreen extends StatelessWidget {
                       () => Text(
                         "\$${_con.myorderList[index].quantity * _con.myorderList[index].price}",
                         style: TextStyle(
-                            color: AppColors.appColor,
+                            color: AppColors.purple,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                            fontSize: 16,
+                          decoration: TextDecoration.underline
+                        ),
                       ),
                     ),
                     const Spacer(),
@@ -141,13 +143,11 @@ class MyOrdersScreen extends StatelessWidget {
                               width: 30,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Color(0xffFFF2DD),
+                                color: Colors.grey,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Image.asset(
-                                  ImageConstant.remove,
-                                ),
+                              child: Icon(
+                                Icons.remove,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -175,12 +175,12 @@ class MyOrdersScreen extends StatelessWidget {
                               width: 30,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Color(0xffFFF2DD),
+                                color: Colors.grey,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Image.asset(ImageConstant.add),
-                              ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
                             ),
                           ),
                         ],

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
@@ -7,99 +8,124 @@ import 'shopping_cart_controller.dart';
 
 class ShoppingCartScreen extends StatelessWidget {
   ShoppingCartScreen({Key? key}) : super(key: key);
-  final ShoppingCartController _con = Get.put(ShoppingCartController());
+  final ShoppingCartController _con = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return checkoutList(index);
-              },
-            ),
-            hSizedBox20,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                children: [
-                  cartOption(
-                    ontap: () {
-                      _con.barController.pageIndex.value = 0;
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        wSizedBox10,
-                        const Icon(
-                          Icons.west,
-                          color: Color(0xff707070),
-                          size: 16,
+      body: Obx(
+        () => !_con.loadingCart.value
+            ? SingleChildScrollView(
+                child: _con.cart.products!.length ==0
+                    ? Container(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: const [Text("Your cart is Empty")],
                         ),
-                        wSizedBox10,
-                        const Expanded(
-                          child: Text(
-                            "Continue Shopping",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              color: Color(0xff707070),
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: _con.cart.products!.length,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return checkoutList(index);
+                            },
+                          ),
+                          hSizedBox20,
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              children: [
+                                cartOption(
+                                  ontap: () {
+                                    _con.barController.pageIndex.value = 0;
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      wSizedBox10,
+                                      const Icon(
+                                        Icons.west,
+                                        color: Color(0xff707070),
+                                        size: 16,
+                                      ),
+                                      wSizedBox10,
+                                      const Expanded(
+                                        child: Text(
+                                          "Continue Shopping",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            color: Color(0xff707070),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                wSizedBox10,
+                                cartOption(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      const Text(
+                                        "Total -",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Color(0xff707070),
+                                        ),
+                                      ),
+                                      Obx(
+                                        () => Text(
+                                          "\$${_con.subTotal()}",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                            color: Color(0xff707070),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  wSizedBox10,
-                  cartOption(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Text(
-                          "Total -",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: Color(0xff707070),
+                          hSizedBox20,
+                          AppButton(
+                            text: AppString.checkout,
+                            width: Get.width / 2,
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.checkoutScreen);
+                            },
                           ),
-                        ),
-                        Obx(
-                          () => Text(
-                            "\$${_con.subTotal().toString()}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: Color(0xff707070),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+                          hSizedBox20,
+                        ],
+                      ))
+            : Center(
+                child: CircularProgressIndicator(),
               ),
-            ),
-            hSizedBox20,
-            AppButton(
-              text: AppString.checkout,
-              width: Get.width / 2,
-              onPressed: () {
-                Get.toNamed(AppRoutes.checkoutScreen);
-              },
-            ),
-            hSizedBox20,
-          ],
-        ),
       ),
     );
   }
 
   checkoutList(index) {
+    RxInt cartIndex =1.obs;
+    cartIndex.value = _con.cart.products!.indexWhere((element) => element.id == _con.cart.products![index].id);
+
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       height: 100,
@@ -118,8 +144,8 @@ class ShoppingCartScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            _con.cartList[index].wimage,
+          Image.network(
+            _con.cart.products![index].images![0].src.toString(),
             height: 100,
             width: 100,
             fit: BoxFit.contain,
@@ -131,7 +157,7 @@ class ShoppingCartScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  _con.cartList[index].wname,
+                  _con.cart.products![index].name.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -144,7 +170,7 @@ class ShoppingCartScreen extends StatelessWidget {
                   children: [
                     Obx(
                       () => Text(
-                        "\$${_con.cartList[index].quantity * _con.cartList[index].price}",
+                        "\$${_con.cart.products![index].productQuantity!.value * int.parse(_con.cart.products![index].price.toString())}",
                         style: TextStyle(
                             color: AppColors.backgroundColor,
                             fontWeight: FontWeight.bold,
@@ -157,11 +183,12 @@ class ShoppingCartScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              _con.cartList[index].quantity.value == 1
-                                  ? null
-                                  : _con.cartList[index].quantity.value >= 1
-                                      ? _con.cartList[index].quantity.value--
-                                      : null;
+                              _con.removeItem(_con.cart.products![index], cartIndex.value);
+                              // _con.cart.products![index].productQuantity!.value == 1
+                              //     ? null
+                              //     : _con.cart.products![index].productQuantity!.value >= 1
+                              //         ? _con.cart.products![index].productQuantity!.value--
+                              //         : null;
                             },
                             child: Container(
                               height: 30,
@@ -181,7 +208,7 @@ class ShoppingCartScreen extends StatelessWidget {
                             height: 30,
                             width: 30,
                             child: Text(
-                                _con.cartList[index].quantity.value
+                                _con.cart.products![index].productQuantity!.value
                                     .toString()
                                     .padLeft(2, "0"),
                                 style: const TextStyle(
@@ -191,9 +218,11 @@ class ShoppingCartScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _con.cartList[index].quantity.value < 15
-                                  ? _con.cartList[index].quantity.value++
-                                  : null;
+                              _con.addItem(_con.cart.products![index], cartIndex.value);
+
+                              // _con.cart.products![index].productQuantity!.value < 15
+                              //     ? _con.cart.products![index].productQuantity!.value++
+                              //     : null;
                             },
                             child: Container(
                               height: 30,

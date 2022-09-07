@@ -6,10 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/main.dart';
+import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/favorite/favorite_screen.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_screen.dart';
 import 'package:watch_app/presentation/dashboard/profile/profile_screen.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_screen.dart';
 
 import '../commamn/app_bar.dart';
@@ -20,7 +22,11 @@ import '../../core/app_export.dart';
 
 class BottomBarScreen extends StatelessWidget {
   BottomBarScreen({Key? key}) : super(key: key);
-  final BottomBarController _con = Get.put(BottomBarController());
+
+  var carController = Get.put(ShoppingCartController());
+  final BottomBarController _con = Get.find();
+
+  // sdf
 
   @override
   Widget build(BuildContext context) {
@@ -177,93 +183,116 @@ class BottomBarScreen extends StatelessWidget {
                                 : _con.drawerIndex.value == 2
                                     ? Get.toNamed(AppRoutes.paymentScreen)
                                     : _con.drawerIndex.value == 3
-                                        ? Get.toNamed(AppRoutes.faqscreen)
+                                        ? Get.to(const AllBrandsScreen())
                                         : _con.drawerIndex.value == 4
-                                            ? Platform.isIOS
-                                                ? showDialog(
-                                                    barrierColor:
-                                                        const Color.fromRGBO(
-                                                            0, 0, 0, 0.76),
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return CupertinoAlertDialog(
-                                                        title: Text(
-                                                          AppString.logout,
-                                                          style: const TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                        content: Text(
-                                                          AppString.surelogout,
-                                                        ),
-                                                        actions: <Widget>[
-                                                          CupertinoDialogAction(
-                                                            isDefaultAction:
-                                                                true,
-                                                            child: Text(
-                                                              AppString.cancel,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 18,
-                                                                color:
-                                                                    Colors.blue,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                            onPressed: () =>
-                                                                Get.back(),
-                                                          ),
-                                                          CupertinoDialogAction(
-                                                              child: Text(
-                                                                AppString
-                                                                    .logout,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .red,
+                                            // ? Get.toNamed(AppRoutes.faqscreen)
+                                            ? StaticVars.customLauncher(Uri.parse('https://dannidion.com/frequently-asked-questions/'))
+                                            : _con.drawerIndex.value == 5
+                                                ? Platform.isIOS
+                                                    ? showDialog(
+                                                        barrierColor:
+                                                            const Color
+                                                                    .fromRGBO(
+                                                                0, 0, 0, 0.76),
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return CupertinoAlertDialog(
+                                                            title: Text(
+                                                              AppString.logout,
+                                                              style: const TextStyle(
+                                                                  fontSize: 18,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w400,
+                                                                          .w600),
+                                                            ),
+                                                            content: Text(
+                                                              AppString
+                                                                  .surelogout,
+                                                            ),
+                                                            actions: <Widget>[
+                                                              CupertinoDialogAction(
+                                                                isDefaultAction:
+                                                                    true,
+                                                                child: Text(
+                                                                  AppString
+                                                                      .cancel,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
                                                                 ),
+                                                                onPressed: () =>
+                                                                    Get.back(),
                                                               ),
-                                                              onPressed:
-                                                                  () async {
-                                                                SharedPreferences
-                                                                    prefs =
-                                                                    await SharedPreferences
-                                                                        .getInstance();
-                                                                prefs.setBool(
-                                                                    'loginStatus',
-                                                                    false);
-                                                                userLoginStatus =
-                                                                    false;
-                                                                Get.offAllNamed(
-                                                                  AppRoutes
-                                                                      .loginScreen,
-                                                                );
-                                                              })
-                                                        ],
-                                                      );
-                                                    })
-                                                : logoutDialog(
-                                                    context: Get.context,
-                                                    onTap: () async {
-                                                      SharedPreferences prefs =
-                                                          await SharedPreferences
-                                                              .getInstance();
-                                                      prefs.setBool(
-                                                          'loginStatus', false);
-                                                      userLoginStatus = false;
-                                                      Get.offAllNamed(AppRoutes
-                                                          .loginScreen);
-                                                    })
-                                            : null;
+                                                              CupertinoDialogAction(
+                                                                  child: Text(
+                                                                    AppString
+                                                                        .logout,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: Colors
+                                                                          .red,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed:
+                                                                      () async {
+                                                                    SharedPreferences
+                                                                        prefs =
+                                                                        await SharedPreferences
+                                                                            .getInstance();
+                                                                    prefs.setBool(
+                                                                        'loginStatus',
+                                                                        false);
+                                                                    userLoginStatus =
+                                                                        false;
+                                                                    Get.offAllNamed(
+                                                                      AppRoutes
+                                                                          .loginScreen,
+                                                                    );
+                                                                  })
+                                                            ],
+                                                          );
+                                                        })
+                                                    : logoutDialog(
+                                                        context: Get.context,
+                                                        onTap: () async {
+                                                          SharedPreferences
+                                                              prefs =
+                                                              await SharedPreferences
+                                                                  .getInstance();
+                                                          prefs.setBool(
+                                                              'loginStatus',
+                                                              false);
+                                                          userLoginStatus =
+                                                              false;
+                                                          prefs.setString(
+                                                              'userId', '');
+                                                          prefs.setString(
+                                                              'userName', '');
+                                                          prefs.setString(
+                                                              'userEmail', '');
+                                                          Get.offAllNamed(
+                                                              AppRoutes
+                                                                  .loginScreen);
+
+                                                          StaticVars.userName =
+                                                              '';
+                                                          StaticVars.email = '';
+                                                        },
+                                                      )
+                                                : null;
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 15),

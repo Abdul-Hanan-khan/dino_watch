@@ -124,27 +124,36 @@ class LoginScreen extends StatelessWidget {
                                     _con.onLogin(context);
                                   },
                                 )),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: const Size(50, 0),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  alignment: Alignment.centerLeft),
-                              onPressed: () {
-                                Get.toNamed(AppRoutes.bottomBarScreen);
-                              },
-                              child: Text(
-                                AppString.skip,
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ),
+                          SizedBox(height: 5,),
+                          AppButton(
+                            color: AppColors.backgroundColor,
+                            text: AppString.skip,
+                            width: Get.width / 2,
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.bottomBarScreen);
+                            },
+                          )
+                          // Align(
+                          //   alignment: Alignment.centerRight,
+                          //   child: TextButton(
+                          //     style: TextButton.styleFrom(
+                          //         padding: EdgeInsets.zero,
+                          //         minimumSize: const Size(50, 0),
+                          //         tapTargetSize:
+                          //             MaterialTapTargetSize.shrinkWrap,
+                          //         alignment: Alignment.centerLeft),
+                          //     onPressed: () {
+                          //       Get.toNamed(AppRoutes.bottomBarScreen);
+                          //     },
+                          //     child: Text(
+                          //       AppString.skip,
+                          //       style: const TextStyle(
+                          //         color: Colors.red,
+                          //         fontSize: 12,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       const Spacer(),

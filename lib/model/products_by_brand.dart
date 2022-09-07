@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 
-class ProductByCat {
+class ProductByBrand {
   String? status;
   List<Products>? products;
 
-  ProductByCat({this.status, this.products});
+  ProductByBrand({this.status, this.products});
 
-  ProductByCat.fromJson(Map<String, dynamic> json) {
+  ProductByBrand.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['products'] != null) {
       products = <Products>[];
@@ -46,7 +46,7 @@ class Products {
         this.regularPrice,
         this.salePrice,
         this.productImg,
-      this.quantity});
+        this.quantity});
 
   Products.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'];

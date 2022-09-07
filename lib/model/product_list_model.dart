@@ -66,7 +66,7 @@ class ProductList {
   List<MetaData>? metaData;
   String? stockStatus;
   bool? hasOptions;
-  List<Null>? aioseoNotices;
+  // List<Null>? aioseoNotices;
   Links? lLinks;
 
   ProductList(
@@ -137,7 +137,7 @@ class ProductList {
         this.metaData,
         this.stockStatus,
         this.hasOptions,
-        this.aioseoNotices,
+        // this.aioseoNotices,
         this.lLinks});
 
   ProductList.fromJson(Map<String, dynamic> json) {

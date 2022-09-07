@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:watch_app/core/app_export.dart';
+import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 
@@ -61,13 +62,15 @@ class SettingScreen extends StatelessWidget {
               ),
               settingList(
                 text: AppString.help,
+                onTap: (){
+                  StaticVars.customLauncher(Uri.parse('https://dannidion.com/frequently-asked-questions/'));
+
+                }
               ),
               settingList(
                   text: AppString.aboutUs,
                   onTap: () {
-                    Get.toNamed(
-                      AppRoutes.contactUsScreen,
-                    );
+                  StaticVars.customLauncher(Uri.parse('https://dannidion.com/about-us/'));
                   }),
               const Divider(
                 thickness: 1,
@@ -75,6 +78,11 @@ class SettingScreen extends StatelessWidget {
               ),
               settingList(
                 text: AppString.contacts,
+                onTap: (){
+                  Get.toNamed(
+                    AppRoutes.contactUsScreen,
+                  );
+                }
               ),
               settingList(
                   text: AppString.terms,
@@ -93,24 +101,27 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
               hSizedBox4,
+              // Obx(
+              //   () => settingList(
+              //     value: _con.fb.value,
+              //     onToggle: (val) {
+              //       _con.fb.value = val;
+              //     },
+              //     text: AppString.facebook,
+              //     toggle: true,
+              //   ),
+              // ),
               Obx(
                 () => settingList(
-                  value: _con.fb.value,
-                  onToggle: (val) {
-                    _con.fb.value = val;
+                  onTap: (){
+                    StaticVars.customLauncher(Uri.parse('https://www.instagram.com/dannidionofficial/'));
                   },
-                  text: AppString.facebook,
-                  toggle: true,
-                ),
-              ),
-              Obx(
-                () => settingList(
-                  onToggle: (val) {
-                    _con.insta.value = val;
-                  },
+                  // onToggle: (val) {
+                  //   _con.insta.value = val;
+                  // },
                   value: _con.insta.value,
                   text: AppString.insta,
-                  toggle: true,
+                  // toggle: true,
                 ),
               ),
               hSizedBox10,

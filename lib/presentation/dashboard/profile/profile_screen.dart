@@ -53,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                     Text(
                       AppString.pemail,
                       style: const TextStyle(
-                        color: Color(0xffF2CAD0),
+                        color: Colors.white,
                         fontSize: 14,
                       ),
                     ),
