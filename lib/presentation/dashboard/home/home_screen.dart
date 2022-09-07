@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             GestureDetector(
               onTap: () {
-                Get.to(AllBrandsScreen());
+                // Get.to(AllBrandsScreen());
               },
               child: Container(
                 margin: const EdgeInsets.all(15),
@@ -310,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
                     decoration: const BoxDecoration(
-                        color: Color(0xffE5F0FF), shape: BoxShape.circle),
+                        color: Color(0xff939393), shape: BoxShape.circle),
                     child: Icon(
                       _con.isFavtrending.contains(index)
                           ? Icons.favorite
@@ -318,7 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 16,
                       color: _con.isFavtrending.contains(index)
                           ? const Color(0xffFF4848)
-                          : const Color(0xff939393),
+                          : Colors.white,
                     ),
                   ),
                 ),

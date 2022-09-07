@@ -7,6 +7,7 @@ class AppColors {
   static Color appIconColor = fromHex('#797F7E');
   static Color yellowColor = fromHex('#000000');
   static Color backgroundColor = fromHex('#4d18cc');
+  static Color purple = Colors.purple;
 
   static Color fromHex(String hexString) {
     final buffer = StringBuffer();

@@ -5,6 +5,7 @@ import 'package:watch_app/main.dart';
 import 'package:watch_app/model/watch_details_model.dart';
 import 'package:watch_app/presentation/auth/login/login_screen.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
+import 'package:watch_app/presentation/bottomBar/bottombar_screen.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/commamn/rateing_bar.dart';
@@ -49,19 +50,19 @@ class WatchDetailScreen extends StatelessWidget {
                       height: 300,
                       child: Row(
                         children: [
-                          const Expanded(
-                            flex: 1,
-                            child: RotatedBox(
-                              quarterTurns: -1,
-                              child: Text(
-                                "Black Watch",
-                                style: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xffFFE7C1)),
-                              ),
-                            ),
-                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: RotatedBox(
+                          //     quarterTurns: -1,
+                          //     child: Text(
+                          //       "Black Watch",
+                          //       style: TextStyle(
+                          //           fontSize: 40,
+                          //           fontWeight: FontWeight.w600,
+                          //           color: Color(0xffFFE7C1)),
+                          //     ),
+                          //   ),
+                          // ),
                           Expanded(
                             flex: 3,
                             child: SizedBox(
@@ -128,15 +129,16 @@ class WatchDetailScreen extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 23,
-                              color: AppColors.appColor,
+                              color: AppColors.purple,
                             ),
                             children: [
                               TextSpan(
                                   text: '${_con.watchDetailsM.value.price}',
                                   style: TextStyle(
+                                    decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 34,
-                                    color: AppColors.appColor,
+                                    color: AppColors.purple,
                                   ))
                             ],
                           ),
@@ -168,42 +170,42 @@ class WatchDetailScreen extends StatelessWidget {
                     hSizedBox20,
                     Row(
                       children: [
-                        ...List.generate(
-                          _con.colorList.length,
-                          (index) {
-                            return Obx(
-                              () => GestureDetector(
-                                onTap: () {
-                                  _con.isSelectColor.value = index;
-                                },
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 3),
-                                  height: _con.isSelectColor.value == index
-                                      ? 35
-                                      : 24,
-                                  width: _con.isSelectColor.value == index
-                                      ? 35
-                                      : 24,
-                                  decoration: BoxDecoration(
-                                    color: _con.colorList[index],
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.white, width: 3),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        blurRadius: 10.0,
-                                        spreadRadius: .5,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        wSizedBox30,
+                        // ...List.generate(
+                        //   _con.colorList.length,
+                        //   (index) {
+                        //     return Obx(
+                        //       () => GestureDetector(
+                        //         onTap: () {
+                        //           _con.isSelectColor.value = index;
+                        //         },
+                        //         child: Container(
+                        //           margin:
+                        //               const EdgeInsets.symmetric(horizontal: 3),
+                        //           height: _con.isSelectColor.value == index
+                        //               ? 35
+                        //               : 24,
+                        //           width: _con.isSelectColor.value == index
+                        //               ? 35
+                        //               : 24,
+                        //           decoration: BoxDecoration(
+                        //             color: _con.colorList[index],
+                        //             shape: BoxShape.circle,
+                        //             border: Border.all(
+                        //                 color: Colors.white, width: 3),
+                        //             boxShadow: const [
+                        //               BoxShadow(
+                        //                 color: Colors.black12,
+                        //                 blurRadius: 10.0,
+                        //                 spreadRadius: .5,
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
+                        // wSizedBox30,
                         Obx(
                           () => !cartController.loading.value
                               ? Expanded(
@@ -241,9 +243,16 @@ class WatchDetailScreen extends StatelessWidget {
                                               // await cartController.addToCart(watchId.toString());
                                               // if(cartController.cartModel.value.status == 'success'){
                                               barController.pageIndex.value = 1;
+                                              // Get.off(BottomBarScreen());
                                               //   cartController.viewCart();
+
+
                                               Get.back();
                                               Get.back();
+                                              Get.back();
+
+
+
                                               // }else{
                                               //   showDialog(
                                               //       context: context,

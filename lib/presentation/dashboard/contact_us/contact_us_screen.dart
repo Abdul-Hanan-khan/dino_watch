@@ -36,7 +36,7 @@ class ContactUsScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       height: 50,
                       decoration: BoxDecoration(
                         boxShadow: const [
@@ -54,7 +54,7 @@ class ContactUsScreen extends StatelessWidget {
                           Image.asset(
                             ImageConstant.emailus,
                             color: AppColors.appColor,
-                            height: 18,
+                            height: 15,
                           ),
                           wSizedBox10,
                           Expanded(
@@ -71,7 +71,7 @@ class ContactUsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const Text(
-                                  "ingo@info.com",
+                                  "support@dannidion.com",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -88,7 +88,7 @@ class ContactUsScreen extends StatelessWidget {
                   wSizedBox14,
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.only(left: 5 ),
                       height: 50,
                       decoration: BoxDecoration(
                         boxShadow: const [
@@ -106,7 +106,7 @@ class ContactUsScreen extends StatelessWidget {
                           Image.asset(
                             ImageConstant.call,
                             color: AppColors.appColor,
-                            height: 20,
+                            height: 15,
                           ),
                           wSizedBox10,
                           Column(
@@ -122,7 +122,7 @@ class ContactUsScreen extends StatelessWidget {
                                 ),
                               ),
                               const Text(
-                                "+00 894 371 234",
+                                "+1 (501) 504-7548",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,

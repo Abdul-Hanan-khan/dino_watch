@@ -16,7 +16,7 @@ class ProductsByBrandScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: appBar(
         text: AppString.products,
         back: true,
@@ -28,29 +28,32 @@ class ProductsByBrandScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                child: Container(
-                  color: Colors.white,
-                  child: GridView.builder(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: Container(
+                    color: Colors.white,
+                    child: GridView.builder(
                       // controller: _con.scrollController ,
                       shrinkWrap: true,
                       itemCount: con.prodByBrandM.value.products!.length,
 
                       // itemCount: _con.productsModal.value.products!.length,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 2 / 2.8,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          crossAxisCount: 2),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 2 / 2.8,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              crossAxisCount: 2),
                       itemBuilder: (BuildContext context, int index) {
-                        return productCardView(con.prodByBrandM.value.products![index], index);
+                        return productCardView(
+                            con.prodByBrandM.value.products![index], index);
                       },
                     ),
+                  ),
                 ),
               ),
-            ),
       ),
     );
   }
@@ -153,7 +156,7 @@ class ProductsByBrandScreen extends StatelessWidget {
               top: 5,
               right: 5,
               child: Obx(
-                    () => GestureDetector(
+                () => GestureDetector(
                   onTap: () {
                     con.onFavtrending(index);
                   },
@@ -161,7 +164,7 @@ class ProductsByBrandScreen extends StatelessWidget {
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
                     decoration: const BoxDecoration(
-                        color: Color(0xffE5F0FF), shape: BoxShape.circle),
+                        color: const Color(0xff939393), shape: BoxShape.circle),
                     child: Icon(
                       con.isFavtrending.contains(index)
                           ? Icons.favorite
@@ -169,7 +172,7 @@ class ProductsByBrandScreen extends StatelessWidget {
                       size: 16,
                       color: con.isFavtrending.contains(index)
                           ? const Color(0xffFF4848)
-                          : const Color(0xff939393),
+                          : const Color(0xffE5F0FF),
                     ),
                   ),
                 ),

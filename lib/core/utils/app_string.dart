@@ -154,7 +154,7 @@ class AppString {
       "Invite a friend, Using the code, you\nWill both receive \$${20} discount, and\nLot more offers to come!";
   static String agree = "Agree";
   static String iagreewiththe = "I agree with the";
-  static String termsandcondiition = "Terms and condiition";
+  static String termsandcondiition = "Terms and Condition";
   static String privacypolicy = "Privacy Policy";
   static String dataprivacy = "Data & Privacy";
   static String analytics = "SEARE ANALYTICS";

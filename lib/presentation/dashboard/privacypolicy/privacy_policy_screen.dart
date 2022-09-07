@@ -93,7 +93,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     ),
                     const TextSpan(text: " "),
                     TextSpan(
-                      text: "williamrouse51@gmail.com",
+                      text: "info@dannidion.com",
                       style: TextStyle(
                         color: AppColors.appColor,
                         fontWeight: FontWeight.w500,
@@ -108,47 +108,47 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 color: Color(0xffDDDDDD),
               ),
               hSizedBox20,
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppString.analytics,
-                      style: const TextStyle(
-                        color: Color(0xff4B4B4B),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  Obx(
-                    () => FlutterSwitch(
-                      height: 24,
-                      width: 45,
-                      padding: 2,
-                      toggleSize: 20,
-                      activeTextColor: Colors.white,
-                      activeTextFontWeight: FontWeight.w600,
-                      value: _con.save.value,
-                      toggleColor: Colors.white,
-                      activeToggleColor: Colors.white,
-                      activeColor: AppColors.appColor,
-                      inactiveColor: const Color(0xffCACACA),
-                      onToggle: (val) {
-                        _con.save.value = val;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              hSizedBox20,
-              Text(
-                AppString.loremipsum,
-                style: const TextStyle(
-                    color: Color(0xff4A4A4A),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14),
-              ),
-              hSizedBox20,
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Text(
+              //         AppString.analytics,
+              //         style: const TextStyle(
+              //           color: Color(0xff4B4B4B),
+              //           fontWeight: FontWeight.w600,
+              //           fontSize: 15,
+              //         ),
+              //       ),
+              //     ),
+              //     Obx(
+              //       () => FlutterSwitch(
+              //         height: 24,
+              //         width: 45,
+              //         padding: 2,
+              //         toggleSize: 20,
+              //         activeTextColor: Colors.white,
+              //         activeTextFontWeight: FontWeight.w600,
+              //         value: _con.save.value,
+              //         toggleColor: Colors.white,
+              //         activeToggleColor: Colors.white,
+              //         activeColor: AppColors.appColor,
+              //         inactiveColor: const Color(0xffCACACA),
+              //         onToggle: (val) {
+              //           _con.save.value = val;
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // hSizedBox20,
+              // Text(
+              //   AppString.loremipsum,
+              //   style: const TextStyle(
+              //       color: Color(0xff4A4A4A),
+              //       fontWeight: FontWeight.w400,
+              //       fontSize: 14),
+              // ),
+              // hSizedBox20,
             ],
           ),
         ),

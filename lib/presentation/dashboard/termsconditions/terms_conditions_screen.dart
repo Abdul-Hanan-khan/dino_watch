@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 
@@ -30,20 +31,31 @@ class TermsConditionsScreen extends StatelessWidget {
                   child: Image.asset(ImageConstant.tcbg),
                 ),
                 hSizedBox20,
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _con.termsConditionList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return (termsConditionItem(index));
-                    }),
+                Text('Welcome to DanniDion! ',style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18
+                ),),  Text('These terms and conditions outline the rules and regulations for the use of DanniDion’s Website, located at DanniDion.com.By accessing this website we assume you accept these terms and conditions. Do not continue to use DanniDion if you do not agree to take all of the terms and conditions stated on this page.',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16
+                ),),
+                // ListView.builder(
+                //     shrinkWrap: true,
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     itemCount: _con.termsConditionList.length,
+                //     itemBuilder: (BuildContext context, int index) {
+                //       return (termsConditionItem(index));
+                //     }),
+
+                hSizedBox20,
+
                 Column(
                   children: [
                     checkBox(
                       func: () {
                         _con.isTC.value = !_con.isTC.value;
                       },
-                      name: AppString.termsandcondiition,
+                      name: AppString.termsandcondiition,  
                       icon: _con.isTC.value
                           ? Icon(
                               Icons.done,
@@ -113,12 +125,23 @@ class TermsConditionsScreen extends StatelessWidget {
         Text(AppString.iagreewiththe,
             style: const TextStyle(fontSize: 15, color: Color(0xff91919D))),
         wSizedBox4,
-        Text(
-          name!,
-          style: TextStyle(
-            color: AppColors.appColor,
-            fontWeight: FontWeight.w500,
-            fontSize: 15,
+        GestureDetector(
+          onTap: (){
+            if(name == AppString.termsandcondiition){
+              StaticVars.customLauncher(Uri.parse('https://dannidion.com/terms-conditions/'));
+            }else{
+              StaticVars.customLauncher(Uri.parse('https://dannidion.com/privacy-policy-2/'));
+
+            }
+          },
+          child: Text(
+            name!,
+            style: TextStyle(
+              color: AppColors.appColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
+              decoration: TextDecoration.underline
+            ),
           ),
         ),
       ],
