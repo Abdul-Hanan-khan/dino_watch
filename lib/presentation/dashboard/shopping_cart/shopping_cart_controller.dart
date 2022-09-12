@@ -1,4 +1,5 @@
 import 'package:cached_map/cached_map.dart';
+import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/model/add_to_cart_model.dart';
 import 'package:watch_app/model/cart_model.dart';
@@ -10,6 +11,9 @@ import 'package:watch_app/services/http_service.dart';
 class ShoppingCartController extends GetxController {
   final BottomBarController barController = Get.find();
   Cart cart = Cart(products: <WatchDetailsModel>[].obs);
+  //   var firstNameCtr=TextEditingController();
+
+
   @override
   void onInit() {
    // viewCart();
@@ -24,13 +28,6 @@ class ShoppingCartController extends GetxController {
   RxBool loading = false.obs;
   RxBool loadingCart = false.obs;
 
-  // Future<dynamic>? addToCart(String productId) async {
-  //   loading.value = true;
-  //
-  //   addToCartModel.value = (await HttpService.addToCart(productID: productId))!;
-  //   loading.value = false;
-  //   return null;
-  // }
   Future<Cart?> loadCart() async {
     loadingCart.value= true;
     try{

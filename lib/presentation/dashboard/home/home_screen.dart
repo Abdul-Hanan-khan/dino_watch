@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ScrollController scrollControllerNested = ScrollController();
   ScrollController scrollController = ScrollController();
 
-  // var cartController =Get.put(ShoppingCartController());
+
 
   @override
   Widget build(BuildContext context) {

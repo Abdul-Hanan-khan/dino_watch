@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/main.dart';
@@ -23,7 +24,7 @@ class WatchDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RxInt cartIndex = 1.obs;
-    cartIndex.value=-1;
+    cartIndex.value = -1;
     final WatchDetailController _con = Get.put(WatchDetailController(watchId));
     BottomBarController barController = Get.find();
     ShoppingCartController cartController = Get.find();
@@ -63,18 +64,75 @@ class WatchDetailScreen extends StatelessWidget {
                           //     ),
                           //   ),
                           // ),
-                          Expanded(
-                            flex: 3,
-                            child: SizedBox(
-                              height: 300,
-                              // color: Colors.amberAccent,
-                              child: Image.network(
-                                _con.watchDetailsM.value.images![0].src
-                                    .toString(),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
+                          ImageSlideshow(
+                            width: MediaQuery.of(context).size.width * 0.6,
+
+                            /// Height of the [ImageSlideshow].
+                            height: 300,
+
+                            /// The page to show when first creating the [ImageSlideshow].
+                            initialPage: 0,
+
+                            /// The color to paint the indicator.
+                            indicatorColor: Colors.blue,
+
+                            /// The color to paint behind th indicator.
+                            indicatorBackgroundColor: Colors.grey,
+                            children: _con.watchDetailsM.value.images!
+                                .map(
+                                  (e) => Image.network(
+                                    e.src.toString(),
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
+                                .toList(),
+                            // [
+                            // Image.network(
+                            //   _con.watchDetailsM.value.images![0].src
+                            //       .toString(),
+                            //   fit: BoxFit.contain,
+                            // ),
+                            // Image.network(
+                            //   _con.watchDetailsM.value.images![0].src
+                            //       .toString(),
+                            //   fit: BoxFit.contain,
+                            // ),
+                            // Image.network(
+                            //   _con.watchDetailsM.value.images![0].src
+                            //       .toString(),
+                            //   fit: BoxFit.contain,
+                            // ),
+                            // Image.network(
+                            //   _con.watchDetailsM.value.images![0].src
+                            //       .toString(),
+                            //   fit: BoxFit.contain,
+                            // ),
+
+                            // ],
+
+                            onPageChanged: (value) {
+                              print('Page changed: $value');
+                            },
+
+                            /// Auto scroll interval.
+                            /// Do not auto scroll with null or 0.
+                            autoPlayInterval: 3000,
+                            /// Loops back to first slide.
+                            // isLoop: true,
                           ),
+
+                          // Expanded(
+                          //   flex: 3,
+                          //   child: SizedBox(
+                          //     height: 300,
+                          //     // color: Colors.amberAccent,
+                          //     child: Image.network(
+                          //       _con.watchDetailsM.value.images![0].src
+                          //           .toString(),
+                          //       fit: BoxFit.contain,
+                          //     ),
+                          //   ),
+                          // ),
                           Expanded(
                             flex: 2,
                             child: Padding(
@@ -209,9 +267,8 @@ class WatchDetailScreen extends StatelessWidget {
                         Obx(
                           () => !cartController.loading.value
                               ? Expanded(
-                                  child:
-                                  cartIndex.value == -1 ?
-                                  AppButton(
+                                  child: cartIndex.value == -1
+                                      ? AppButton(
                                           text: AppString.addtocart,
                                           onPressed: () async {
                                             if (!userLoginStatus!) {
@@ -246,12 +303,9 @@ class WatchDetailScreen extends StatelessWidget {
                                               // Get.off(BottomBarScreen());
                                               //   cartController.viewCart();
 
-
                                               Get.back();
                                               Get.back();
                                               Get.back();
-
-
 
                                               // }else{
                                               //   showDialog(
