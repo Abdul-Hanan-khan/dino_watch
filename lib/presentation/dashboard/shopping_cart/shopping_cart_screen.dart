@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/get_checkout_info.dart';
 
 import 'shopping_cart_controller.dart';
 
@@ -108,7 +109,8 @@ class ShoppingCartScreen extends StatelessWidget {
                             text: AppString.checkout,
                             width: Get.width / 2,
                             onPressed: () {
-                              Get.toNamed(AppRoutes.checkoutScreen);
+                              Get.to(GetCheckoutInfoScreen());
+                              // Get.toNamed(AppRoutes.checkoutScreen);
                             },
                           ),
                           hSizedBox20,
