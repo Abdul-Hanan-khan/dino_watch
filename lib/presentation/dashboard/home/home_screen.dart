@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
+import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
+import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/watch_details/watch_details_screen.dart';
@@ -18,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController _con = Get.find();
+  var controller=Get.put(CheckoutController());
 
   ScrollController scrollControllerNested = ScrollController();
   ScrollController scrollController = ScrollController();
@@ -26,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("user id is ---------------------- "+StaticVars.id);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

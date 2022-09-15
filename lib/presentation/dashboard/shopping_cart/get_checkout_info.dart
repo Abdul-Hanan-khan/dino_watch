@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:watch_app/core/static/static_vars.dart';
+import 'package:watch_app/model/place_order_model.dart';
+import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
+import 'package:watch_app/presentation/dashboard/checkout/checkout_screen_custom.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
+import 'package:watch_app/presentation/widgets/alertDialog.dart';
+import 'package:watch_app/services/http_service.dart';
 
 import '../../../core/utils/app_string.dart';
 import '../../../core/utils/constant_sizebox.dart';
@@ -9,14 +15,21 @@ import '../../../core/utils/image_constant.dart';
 import '../../commamn/app_bar.dart';
 import '../../commamn/app_text_field.dart';
 
-class GetCheckoutInfoScreen extends StatelessWidget {
-   GetCheckoutInfoScreen({Key? key}) : super(key: key);
+class GetCheckoutInfoScreen extends StatefulWidget {
+  GetCheckoutInfoScreen({Key? key}) : super(key: key);
 
-   final _con= Get.put(CheckoutController());
+  @override
+  State<GetCheckoutInfoScreen> createState() => _GetCheckoutInfoScreenState();
+}
 
+class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
+  final _con = Get.put(CheckoutController());
+  ShoppingCartController cartController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    // String dropdownvalue = '${_con.countryList[0].name}';
+
     return Scaffold(
       appBar: appBar(
         text: "Confirmation",
@@ -24,92 +37,334 @@ class GetCheckoutInfoScreen extends StatelessWidget {
         actionIcon: true,
         action: ImageConstant.bag,
       ),
-      body: Container(
-        margin: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: Get.width,
-            ),
-            const Text(
-              'Please Provide us Following Information. Please make sure to provide the right information for order placement',
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                titleText("First Name"),
-                hSizedBox6,
-                AppTextField(
-                  shadow: true,
-                  hintText: "Enter First Name",
-                  // errorMessage: _con.emailError,
-                  errorMessage: _con.firstNameError,
-                  onChange: (val) {
-                    _con.firstNameCtr.text = val;
-                  },
-                ),titleText("Last Name"),
-                hSizedBox6,
-                AppTextField(
-                  shadow: true,
-                  hintText: "Enter Last Name",
-                  // errorMessage: _con.emailError,
-                  errorMessage: _con.lastNameError,
-                  onChange: (val) {
-                    _con.lastNameCtr.text = val;
-                  },
-                ),titleText("Email"),
-                hSizedBox6,
-                AppTextField(
-                  shadow: true,
-                  hintText: "Enter Your Email",
-                  // errorMessage: _con.emailError,
-                  errorMessage: _con.emailError,
-                  onChange: (val) {
-                    _con.emailCtr.text = val;
-                  },
-                ),titleText("Address"),
-                hSizedBox6,
-                AppTextField(
-                  shadow: true,
-                  hintText: "Enter Your Address",
-                  // errorMessage: _con.emailError,
-                  errorMessage: _con.addressError,
-                  onChange: (val) {
-                    _con.addressCtr.text = val;
-                  },
-                ),titleText("Post Code"),
-                hSizedBox6,
-                AppTextField(
-                  shadow: true,
-                  hintText: "Enter Your Area Post Code",
-                  // errorMessage: _con.emailError,
-                  errorMessage: _con.postCodeError,
-                  onChange: (val) {
-                    _con.postCodeCtr.text = val;
-                  },
-                ),
-              ],
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: Get.width,
+              ),
+              const Text(
+                'Please Provide us Following Information. Please make sure to provide the right information for order placement',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  titleText("First Name"),
+                  hSizedBox6,
+                  AppTextField(
+                    shadow: true,
+                    hintText: "Enter First Name",
+                    // errorMessage: _con.emailError,
+                    errorMessage: _con.firstNameError,
+                    onChange: (val) {
+                      _con.firstNameCtr.text = val;
+                    },
+                  ),
+                  titleText("Last Name"),
+                  hSizedBox6,
+                  AppTextField(
+                    shadow: true,
+                    hintText: "Enter Last Name",
+                    // errorMessage: _con.emailError,
+                    errorMessage: _con.lastNameError,
+                    onChange: (val) {
+                      _con.lastNameCtr.text = val;
+                    },
+                  ),
+                  titleText("Email"),
+                  hSizedBox6,
+                  AppTextField(
+                    shadow: true,
+                    hintText: "Enter Your Email",
+                    // errorMessage: _con.emailError,
+                    errorMessage: _con.emailError,
+                    onChange: (val) {
+                      _con.emailCtr.text = val;
+                    },
+                  ),
+                  titleText("Phone No"),
+                  hSizedBox6,
+                  AppTextField(
+                    shadow: true,
+                    hintText: "Enter Your Phone No",
+                    // errorMessage: _con.emailError,
+                    errorMessage: _con.phoneNoError,
+                    onChange: (val) {
+                      _con.phoneNoCtr.text = val;
+                    },
+                  ),
+                  titleText("Address"),
+                  hSizedBox6,
+                  AppTextField(
+                    shadow: true,
+                    hintText: "Enter Your Address",
+                    // errorMessage: _con.emailError,
+                    errorMessage: _con.addressError,
+                    onChange: (val) {
+                      _con.addressCtr.text = val;
+                    },
+                  ),
+                  titleText("Post Code"),
+                  hSizedBox6,
+                  AppTextField(
+                    shadow: true,
+                    hintText: "Enter Your Area Post Code",
+                    // errorMessage: _con.emailError,
+                    errorMessage: _con.postCodeError,
+                    onChange: (val) {
+                      _con.postCodeCtr.text = val;
+                    },
+                  ),
+                  titleText("Select Country"),
+                  hSizedBox6,
+                  Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(50),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade200,
+                          blurRadius: 10.0,
+                          spreadRadius: 2.0,
+                        ),
+                      ],
+                    ),
+                    child: Obx(
+                      () => DropdownButton(
+                        // Initial Value
+                        value: _con.countryDropDownValue.value,
+
+                        // Down Arrow Icon
+                        // icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: _con.countryList.map((items) {
+                          return DropdownMenuItem(
+                            value: items.name,
+                            child: SizedBox(
+                                width: 200, child: Text(items.name.toString())),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          int index = _con.countryList
+                              .indexWhere((item) => item.name == newValue);
+                          _con.getStatesByCountryCode(
+                              _con.countryList[index].code.toString());
+                          _con.countryDropDownValue.value = newValue.toString();
+                        },
+                      ),
+                    ),
+                  ),
+                  hSizedBox6,
+                  Obx(
+                    () => !_con.fetchedStates.value
+                        ? Container()
+                        : _con.loadingStates.value
+                            ? const Center(child: CircularProgressIndicator())
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  titleText("Select State"),
+                                  hSizedBox6,
+                                  Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade200,
+                                          blurRadius: 10.0,
+                                          spreadRadius: 2.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: DropdownButton(
+                                      // Initial Value
+                                      value: _con.statesDropdownvalue.value,
+
+                                      // Down Arrow Icon
+                                      // icon: const Icon(Icons.keyboard_arrow_down),
+
+                                      // Array list of items
+                                      items: _con.statesList.value.states!
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items.name,
+                                          child: SizedBox(
+                                              width: 200,
+                                              child:
+                                                  Text(items.name.toString())),
+                                        );
+                                      }).toList(),
+                                      // After selecting the desired option,it will
+                                      // change button value to selected value
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          _con.statesDropdownvalue.value =
+                                              newValue.toString();
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                  ),
+                  Container(
+                    height: 30,
+                  ),
+                  Obx(
+                    () => _con.placeOrderLoading.value
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : AppButton(
+                            text: AppString.placeOrder,
+                            onPressed: () async {
+
+                              if (_con.firstNameCtr.text.toString() == '' ||
+                                  _con.lastNameCtr.text.toString() == "" ||
+                                  _con.emailCtr.text.toString() == "" ||
+                                  _con.phoneNoCtr.text.toString() == "" ||
+                                  _con.addressCtr.text.toString() == "" ||
+                                  _con.countryDropDownValue.value.toString() == "" ||
+                                  _con.statesDropdownvalue.value.toString() == ""||
+                                  _con.postCodeCtr.text.toString() == ""
+                              ) {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialogWidget(
+                                          onPositiveClick: () {
+                                            Get.back();
+                                          },
+                                          title: "Error",
+                                          subTitle: "All Fields are Required",
+                                        ));
+                              }else if(cartController.cart.products!.length <1){
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialogWidget(
+                                      onPositiveClick: () {
+                                        Get.back();
+                                      },
+                                      title: "Error",
+                                      subTitle: "Your Cart is Empty",
+                                    ));
+                              }else{
+                                _con.placeOrderLoading.value = true;
+                                PlaceOrderModel? response = await HttpService.placeOrder(
+                                    userid: StaticVars.id,
+                                    firstName: _con.firstNameCtr.text.toString(),
+                                    lastName: _con.lastNameCtr.text.toString(),
+                                    email: _con.emailCtr.text.toString(),
+                                    phone: _con.phoneNoCtr.text.toString(),
+                                    address: _con.addressCtr.text.toString(),
+                                    country: _con.countryDropDownValue.value
+                                        .toString(),
+                                    state:
+                                    _con.statesDropdownvalue.value.toString(),
+                                    postCode: _con.postCodeCtr.text.toString(),
+                                    items: cartController.cart.products!.value);
+                                _con.placeOrderLoading.value = false;
+
+                                if(response!.paymentLink.isNull){
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => AlertDialogWidget(
+                                        onPositiveClick: () {
+                                          Get.back();
+                                        },
+                                        title: "Error",
+                                        subTitle: "Something Went Wrong",
+                                      ));
+                                }else{
+                                  Get.to(CustomCheckoutScreen(url: response.paymentLink.toString()));
+                                }
+                              }
+
+
+
+                              // if (!userLoginStatus!) {
+                              //   showDialog(
+                              //       context: context,
+                              //       builder: (_) =>
+                              //           AlertDialogWidget(
+                              //             onPositiveClick: () {
+                              //               Get.off(
+                              //                   LoginScreen());
+                              //             },
+                              //             title: "Warning",
+                              //             subTitle:
+                              //             "Please login first",
+                              //           ));
+                              // } else
+                              // {
+                              //   cartIndex.value = cartController
+                              //       .cart.products!
+                              //       .indexWhere((element) =>
+                              //   element.id ==
+                              //       _con.watchDetailsM.value
+                              //           .id);
+                              //
+                              //   print(cartIndex.value);
+                              //   await cartController.addItem(
+                              //       _con.watchDetailsM.value,
+                              //       cartIndex.value);
+                              //   // Get.to(ShoppingCartScreen());
+                              //   // await cartController.addToCart(watchId.toString());
+                              //   // if(cartController.cartModel.value.status == 'success'){
+                              //   barController.pageIndex.value = 1;
+                              //   // Get.off(BottomBarScreen());
+                              //   //   cartController.viewCart();
+                              //
+                              //   Get.back();
+                              //   Get.back();
+                              //   Get.back();
+                              //
+                              //   // }else{
+                              //   //   showDialog(
+                              //   //       context: context,
+                              //   //       builder: (_) => AlertDialogWidget(
+                              //   //         onPositiveClick: () {
+                              //   //           Get.back();
+                              //   //         },
+                              //   //         title: "Error",
+                              //   //         subTitle: "Failed adding to cart",
+                              //   //       ));
+                              //   // }
+                              // }
+                            },
+                          ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-   titleText(inputTitle) {
-     return Text(
-       inputTitle,
-       style: const TextStyle(
-         fontSize: 15,
-         color: Color(0xff707070),
-         fontWeight: FontWeight.w500,
-       ),
-     );
-   }
+
+  titleText(inputTitle) {
+    return Text(
+      inputTitle,
+      style: const TextStyle(
+        fontSize: 15,
+        color: Color(0xff707070),
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
 }

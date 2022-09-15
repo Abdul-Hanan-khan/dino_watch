@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:watch_app/core/utils/api_constants.dart';
 
 import 'package:watch_app/model/add_to_cart_model.dart';
 import 'package:watch_app/model/all_brands_model.dart';
 import 'package:watch_app/model/country_list_model.dart';
+import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
 import 'package:watch_app/model/products_by_brand.dart';
@@ -13,9 +16,12 @@ import 'package:watch_app/model/signup.dart';
 import 'package:watch_app/model/states_by_country_code.dart';
 import 'package:watch_app/model/view_cart_model.dart';
 import 'package:watch_app/model/watch_details_model.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 
 //
 class HttpService {
+  ShoppingCartController cartController = Get.find();
+
   static Future<AuthModel?> uesrSignUp(
     String firstName,
     String lastName,
@@ -218,10 +224,122 @@ class HttpService {
       );
       if (response.statusCode == 200) {
         List rawList = jsonDecode(response.body);
+        print("countries fetched");
         return rawList.map((json) => CountryListModel.fromJson(json)).toList();
       } else
         return null;
     } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<PlaceOrderModel?> placeOrder(
+      {required String userid,
+      required String firstName,
+      required String lastName,
+      required String email,
+      required String phone,
+      required String address,
+      required String country,
+      required String state,
+      required String postCode,
+      required List<WatchDetailsModel> items}) async {
+    try {
+
+      List<Map<String,dynamic>> itemsList=[];
+      for (var element in items) {
+        itemsList.add({
+          "product_id": element.id.toString(),
+          "product_name": element.name,
+          "product_price": int.parse(element.price.toString()),
+          "product_qty": element.productQuantity!.value
+        });
+
+      }
+     //  // print(itemsList);
+     //
+     //  // print(itemsList);
+     // // var orderDetails= json.encode(itemsList);
+     // //  print(orderDetails);
+     //  var headers = {
+     //    'Content-Type': 'application/json'
+     //  };
+     //  var request = http.Request('POST', Uri.parse('https://dannidion.com/apies/place_order.php'));
+     //  request.body = json.encode({
+     //    "user_id": "13",
+     //    "reference_id": 1290824643,
+     //    "shiping_first_name": "Shabbir",
+     //    "shiping_last_name": "Ahmad",
+     //    "shiping_email": "billing@yahoo.com",
+     //    "shiping_phone": "03214031256",
+     //    "shiping_address": "shiping address fsdfsdfsdf",
+     //    "shiping_country": "PAK",
+     //    "shiping_state": "Punjab",
+     //    "shiping_post_code": "5400",
+     //    "items_list":[
+     //      {
+     //        "product_id": "9017",
+     //        "product_name": "Rolex Submariner Series 116618lb-0003",
+     //        "product_price": 525,
+     //        "product_qty": 1
+     //      },
+     //      {
+     //        "product_id": "8939 ",
+     //        "product_name": "Hublot Classic Fusion Chronograph 521.OX.7080.LR Watch",
+     //        "product_price": 525,
+     //        "product_qty": 1
+     //      }
+     //    ]
+     //  });
+     //  request.headers.addAll(headers);
+     //
+     //  http.StreamedResponse response = await request.send();
+     //
+     //  if (response.statusCode == 200) {
+     //    // print(await response.stream.bytesToString());
+     //    var temp = await response.stream.bytesToString();
+     //    var response1=json.decode(temp);
+     //    print(response1);
+     //  }
+     //  else {
+     //    print(response.reasonPhrase);
+     //  }
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('POST', Uri.parse('https://dannidion.com/apies/place_order.php'));
+      request.body = json.encode({
+        "user_id": "13",
+        "reference_id": 1290824643,
+        "shiping_first_name": "Shabbir",
+        "shiping_last_name": "Ahmad",
+        "shiping_email": "billing@yahoo.com",
+        "shiping_phone": "03214031256",
+        "shiping_address": "shiping address fsdfsdfsdf",
+        "shiping_country": "PAK",
+        "shiping_city": "Lahore",
+        "shiping_state": "Punjab",
+        "shiping_post_code": "5400",
+        "items_list": itemsList
+      });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var temp=await response.stream.bytesToString();
+        var response2=json.decode(temp);
+        return PlaceOrderModel.fromJson(response2);
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+
+
+    } catch (e) {
+      print('place order api error');
+      print(e);
       return null;
     }
   }

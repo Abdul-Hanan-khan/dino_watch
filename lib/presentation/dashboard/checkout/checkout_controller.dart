@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/model/country_list_model.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -9,17 +10,23 @@ import '../../../model/states_by_country_code.dart';
 class CheckoutController extends GetxController {
   RxBool loadingCountry = false.obs;
   RxBool loadingStates = false.obs;
+  RxBool placeOrderLoading = false.obs;
+  RxBool fetchedStates=false.obs;
   RxList<CountryListModel> countryList =<CountryListModel>[].obs;
   Rx<StatesByCountryCodeModel> statesList =StatesByCountryCodeModel().obs;
+  RxString statesDropdownvalue= ''.obs;
+  RxString countryDropDownValue= ''.obs;
 
   var firstNameCtr=TextEditingController();
   var lastNameCtr=TextEditingController();
   var emailCtr=TextEditingController();
+  var phoneNoCtr=TextEditingController();
   var addressCtr=TextEditingController();
   var postCodeCtr=TextEditingController();
   RxString firstNameError= ''.obs;
   RxString lastNameError= ''.obs;
   RxString emailError= ''.obs;
+  RxString phoneNoError= ''.obs;
   RxString addressError= ''.obs;
   RxString postCodeError= ''.obs;
 
@@ -37,14 +44,17 @@ class CheckoutController extends GetxController {
   getCountriesList()async{
     loadingCountry.value=true;
     countryList.value=(await HttpService.getCountries())!;
+    countryDropDownValue.value=countryList[0].name!;
     loadingCountry.value=false;
   }
 
 
   getStatesByCountryCode(String countryCode)async{
     loadingStates.value=true;
+    fetchedStates.value=true;
     statesList.value=(await HttpService.getStatesByCountryCode(countryCode))!;
     loadingStates.value=false;
+    statesDropdownvalue.value=statesList.value.states![0].name!;
   }
 
   RxDouble delivery = 200.00.obs;

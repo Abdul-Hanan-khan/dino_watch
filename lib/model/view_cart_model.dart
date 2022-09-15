@@ -1,15 +1,15 @@
 class ViewCartModel {
   String? status;
-  List<Products>? products;
+  List<CartProducts>? products;
 
   ViewCartModel({this.status, this.products});
 
   ViewCartModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['products'] != null) {
-      products = <Products>[];
+      products = <CartProducts>[];
       json['products'].forEach((v) {
-        products!.add(new Products.fromJson(v));
+        products!.add(new CartProducts.fromJson(v));
       });
     }
   }
@@ -24,21 +24,21 @@ class ViewCartModel {
   }
 }
 
-class Products {
+class CartProducts {
   int? proudctId;
   String? productTitle;
   int? productQty;
   String? productPrice;
   String? productImg;
 
-  Products(
+  CartProducts(
       {this.proudctId,
         this.productTitle,
         this.productQty,
         this.productPrice,
         this.productImg});
 
-  Products.fromJson(Map<String, dynamic> json) {
+  CartProducts.fromJson(Map<String, dynamic> json) {
     proudctId = json['proudct_id'];
     productTitle = json['product_title'];
     productQty = json['product_qty'];
