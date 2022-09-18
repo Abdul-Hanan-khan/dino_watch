@@ -4,6 +4,7 @@ class StaticVars{
   static String userName='';
   static String id='';
   static String email='';
+  static String avatar='';
 
 
  static Future<void> customLauncher(Uri url) async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/commamn/clip_path.dart';
@@ -33,16 +34,16 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.grey.shade200,
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 4),
-                          image: const DecorationImage(
+                          image:  DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(ImageConstant.intro3),
+                            image: NetworkImage(StaticVars.avatar),
                           ),
                         ),
                       ),
                     ),
                     hSizedBox10,
                     Text(
-                      AppString.pname,
+                      StaticVars.userName,
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -51,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     hSizedBox6,
                     Text(
-                      AppString.pemail,
+                      StaticVars.email,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,

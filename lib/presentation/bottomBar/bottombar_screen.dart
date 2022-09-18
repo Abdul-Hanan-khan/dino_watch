@@ -326,10 +326,10 @@ class BottomBarScreen extends StatelessWidget {
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                        image: const DecorationImage(
+                        image:  DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                                "https://images.squarespace-cdn.com/content/v1/5ceafa407824f80001793b84/1617145105645-4JQVM5BOCNU2XD62M3UM/modal-verbs-passive-past.jpg?format=2500w")),
+                                StaticVars.avatar)),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Colors.white,

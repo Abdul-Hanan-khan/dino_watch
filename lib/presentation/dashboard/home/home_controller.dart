@@ -8,7 +8,7 @@ class HomeController extends GetxController {
   var scrollController = ScrollController();
   RxBool loadingCat = false.obs;
   RxBool loadingProducts = false.obs;
-  RxInt isSelected = (0).obs;
+  RxInt isSelected = (2).obs;
   RxList isFavdiscount = [].obs;
   RxList<Categories>? categoriesList = <Categories>[].obs;
   Rx<ProductByCat> productsModal = ProductByCat().obs;
@@ -50,6 +50,8 @@ class HomeController extends GetxController {
       categoriesList!.add(element);
       categoriesList!.refresh();
     }
+    categoriesList!.reversed.toList();
+    print(categoriesList!.value);
     loadingCat.value = false;
   }
 

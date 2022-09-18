@@ -2,94 +2,56 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:path/path.dart' as path;
+import 'package:watch_app/core/static/static_vars.dart';
 import 'dart:io';
 
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/services/http_service.dart';
 
-class EditProfileController extends GetxController {
-  RxString email = "".obs;
-  RxString emailError = "".obs;
-  RxString name = "".obs;
-  RxString nameError = "".obs;
-  RxString bio = "".obs;
-  RxString bioError = "".obs;
-  RxString date = "".obs;
-  RxString dateError = "".obs;
-  RxString gender = "".obs;
-  RxString genderError = "".obs;
+import '../../../model/edit_profile_model.dart';
 
-  Rx<DateTime> selectedDate = Rx<DateTime>(DateTime(0, 0, 0));
+class ProfileEditController extends GetxController {
 
-  RxInt isSelectGender = 0.obs;
-  List genderList = [AppString.male, AppString.female];
+  RxString firstName = "".obs;
+  RxString firstNameError = "".obs;
+  RxString lastName = "".obs;
+  RxString lastNameError = "".obs;
+
+  RxBool loading=false.obs;
+  Rx<EditProfileModel> editModel=EditProfileModel().obs;
 
   Rx<File> profileImage = File("").obs;
   final ImagePicker picker = ImagePicker();
   dio.MultipartFile? multipartFile;
-
   RxString profileUrl =
-      "https://expertphotography.b-cdn.net/wp-content/uploads/2018/10/cool-profile-pictures-retouching-1.jpg"
+      StaticVars.avatar
           .obs;
 
   bool validate() {
     RxBool isValid = true.obs;
-    if (name.value.isEmpty) {
-      nameError.value = "Enter valid name";
+    if (firstName.value.isEmpty) {
+      firstNameError.value = "Please Enter First Name";
       isValid.value = false;
+    }else{
+      firstNameError.value = "";
+      isValid.value=true;
+    }
+    if (lastName.value.isEmpty) {
+      lastNameError.value = "Please Enter Last Name";
+      isValid.value = false;
+    }else{
+      lastNameError.value = "";
+      isValid.value = true;
     }
 
-    if (email.value.isEmpty) {
-      emailError.value = "Enter email";
-      isValid.value = false;
-    } else if (!email.value.isEmail) {
-      emailError.value = "valid email";
-      isValid.value = false;
-    }
-
-    if (date.value.isEmpty) {
-      dateError.value = "Enter Date";
-      isValid.value = false;
-    }
-
-    if (bio.value.isEmpty) {
-      bioError.value = "Write SomeThing your self";
-      isValid.value = false;
-    }
 
     return isValid.value;
   }
 
-  selectDate(BuildContext context) async {
-    DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: AppColors.appColor,
-              onPrimary: Colors.white,
-              surface: AppColors.appColor,
-              onSurface: Colors.black,
-            ),
-            dialogBackgroundColor: AppColors.secondaryColor,
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (selected != selectedDate.value) {
-      selectedDate.value = selected!;
-      date.value =
-          "${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}";
-    }
-  }
 
   void pickProfileFile(context) async {
     showModalBottomSheet(
@@ -225,45 +187,30 @@ class EditProfileController extends GetxController {
         print(e);
       }
     }
-    if (pickedFile != null) {
-      CroppedFile? croppedFile = await ImageCropper().cropImage(
-          sourcePath: pickedFile.path,
-          aspectRatio: const CropAspectRatio(ratioX: 300, ratioY: 300),
-          compressQuality: 50,
-          uiSettings: [
-            AndroidUiSettings(
-              toolbarTitle: 'Edit',
-              statusBarColor: AppColors.appColor,
-              toolbarColor: AppColors.yellowColor,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.square,
-              lockAspectRatio: true,
-            ),
-            IOSUiSettings(
-              title: 'Edit',
-            ),
-          ]);
-      if (croppedFile != null) {
-        profileImage.value = File(croppedFile.path);
-        if (kDebugMode) {
-          print("===IMAGE SIZE==");
-          print(profileImage.value.readAsBytesSync().lengthInBytes);
-        }
+    profileImage.value = File(pickedFile!.path);
 
-        multipartFile = dio.MultipartFile.fromFileSync(
-          File(croppedFile.path).path,
-          filename: path.basename(File(croppedFile.path).path),
-        );
-        // edit();
-      }
-    } else {
-      return;
-    }
   }
 
-  edit() {
+
+
+  void updateProfile()async{
     if (validate()) {
-      Get.back();
-    } else {}
+      loading.value= true;
+
+      editModel.value=(await HttpService.editProfile(userId: StaticVars.id,firstName: firstName.value,lastName: lastName.value,image: profileImage.value.path ))!;
+
+      if(editModel.value.status == 'success'){
+        StaticVars.userName= firstName.value + " " + lastName.value;
+        StaticVars.avatar= editModel.value.firstName!;
+        SharedPreferences prefs=await SharedPreferences.getInstance();
+
+        prefs.setString('userName', StaticVars.userName);
+        // prefs.setString('userEmail', response.userEmail.toString());
+        prefs.setString('avatar', StaticVars.avatar);
+        Get.back();
+
+      }
+      loading.value= false;
+    }
   }
 }

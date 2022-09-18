@@ -9,7 +9,8 @@ class WatchDetailsModel {
   String? price;
   String? regularPrice;
   String? salePrice;
-  int? ratingCount;
+  String? ratingCount;
+  bool? isRatingAllowed;
   int? parentId;
   List<Tags>? tags;
   List<Images>? images;
@@ -27,6 +28,7 @@ class WatchDetailsModel {
         this.regularPrice,
         this.salePrice,
         this.ratingCount,
+        this.isRatingAllowed,
         this.parentId,
         this.tags,
         this.images,
@@ -43,6 +45,9 @@ class WatchDetailsModel {
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
     productQuantity!.value=json['product_quantity']??1;
+    ratingCount=json['average_rating']??'3';
+    isRatingAllowed=json['reviews_allowed']??false;
+    print(ratingCount);
 
     if (json['tags'] != null) {
       tags = <Tags>[];
@@ -73,6 +78,8 @@ class WatchDetailsModel {
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
     data['product_quantity']=this.productQuantity!.value??1;
+    data['average_rating']=this.ratingCount;
+    data['reviews_allowed']=this.isRatingAllowed;
 
     if (this.tags != null) {
       data['tags'] = this.tags!.map((v) => v.toJson()).toList();

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -8,6 +9,8 @@ import 'package:watch_app/core/utils/api_constants.dart';
 import 'package:watch_app/model/add_to_cart_model.dart';
 import 'package:watch_app/model/all_brands_model.dart';
 import 'package:watch_app/model/country_list_model.dart';
+import 'package:watch_app/model/edit_profile_model.dart';
+import 'package:watch_app/model/my_orders_model.dart';
 import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
@@ -245,8 +248,7 @@ class HttpService {
       required String postCode,
       required List<WatchDetailsModel> items}) async {
     try {
-
-      List<Map<String,dynamic>> itemsList=[];
+      List<Map<String, dynamic>> itemsList = [];
       for (var element in items) {
         itemsList.add({
           "product_id": element.id.toString(),
@@ -254,60 +256,10 @@ class HttpService {
           "product_price": int.parse(element.price.toString()),
           "product_qty": element.productQuantity!.value
         });
-
       }
-     //  // print(itemsList);
-     //
-     //  // print(itemsList);
-     // // var orderDetails= json.encode(itemsList);
-     // //  print(orderDetails);
-     //  var headers = {
-     //    'Content-Type': 'application/json'
-     //  };
-     //  var request = http.Request('POST', Uri.parse('https://dannidion.com/apies/place_order.php'));
-     //  request.body = json.encode({
-     //    "user_id": "13",
-     //    "reference_id": 1290824643,
-     //    "shiping_first_name": "Shabbir",
-     //    "shiping_last_name": "Ahmad",
-     //    "shiping_email": "billing@yahoo.com",
-     //    "shiping_phone": "03214031256",
-     //    "shiping_address": "shiping address fsdfsdfsdf",
-     //    "shiping_country": "PAK",
-     //    "shiping_state": "Punjab",
-     //    "shiping_post_code": "5400",
-     //    "items_list":[
-     //      {
-     //        "product_id": "9017",
-     //        "product_name": "Rolex Submariner Series 116618lb-0003",
-     //        "product_price": 525,
-     //        "product_qty": 1
-     //      },
-     //      {
-     //        "product_id": "8939 ",
-     //        "product_name": "Hublot Classic Fusion Chronograph 521.OX.7080.LR Watch",
-     //        "product_price": 525,
-     //        "product_qty": 1
-     //      }
-     //    ]
-     //  });
-     //  request.headers.addAll(headers);
-     //
-     //  http.StreamedResponse response = await request.send();
-     //
-     //  if (response.statusCode == 200) {
-     //    // print(await response.stream.bytesToString());
-     //    var temp = await response.stream.bytesToString();
-     //    var response1=json.decode(temp);
-     //    print(response1);
-     //  }
-     //  else {
-     //    print(response.reasonPhrase);
-     //  }
-      var headers = {
-        'Content-Type': 'application/json'
-      };
-      var request = http.Request('POST', Uri.parse('https://dannidion.com/apies/place_order.php'));
+      var headers = {'Content-Type': 'application/json'};
+      var request = http.Request(
+          'POST', Uri.parse('https://dannidion.com/apies/place_order.php'));
       request.body = json.encode({
         "user_id": "13",
         "reference_id": 1290824643,
@@ -327,20 +279,106 @@ class HttpService {
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        var temp=await response.stream.bytesToString();
-        var response2=json.decode(temp);
+        var temp = await response.stream.bytesToString();
+        var response2 = json.decode(temp);
         return PlaceOrderModel.fromJson(response2);
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
       }
-
-
-
     } catch (e) {
       print('place order api error');
       print(e);
       return null;
     }
+  }
+
+  static Future<MyOrdersModel?> getAllOrders(String userId) async {
+    try {
+      var request = http.Request('GET',
+          Uri.parse('https://dannidion.com/apies/myorders.php?userid=13'));
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        var temp = await response.stream.bytesToString();
+        var decodedResponse = json.decode(temp);
+        return MyOrdersModel.fromJson(decodedResponse);
+      } else {
+        print(response.reasonPhrase);
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future<dynamic> addReview({
+    required String userId,
+    required String productId,
+    required int rating,
+    required String commentContent,
+  }) async {
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/addproductrating.php'));
+      request.fields.addAll({
+        'user_id': userId,
+        'product_id': productId,
+        'rating': '$rating',
+        'comment_content': commentContent
+      });
+
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var temp = await response.stream.bytesToString();
+        var decodedResponse = json.decode(temp);
+        return decodedResponse;
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future<EditProfileModel?> editProfile(
+      {String? userId,
+      String? firstName,
+      String? lastName,
+      String? image}) async {
+    try {
+      var headers = {
+        'Cookie':
+            'wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=hanan1%7C1663522095%7C8N7fRjguvwuMW6PBEOCIDrX0AU9kwASJ5lbJ2cKqjFW%7Cbb81bffc69256ea415fdd5281400bc756da657b25fcca1919415c07e03376dca'
+      };
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('https://dannidion.com/apies/editprofile.php'));
+      request.fields.addAll({
+        'userid': userId!,
+        'first_name': firstName!,
+        'last_name': lastName!
+      });
+      if (image != '') {
+        request.files
+            .add(await http.MultipartFile.fromPath('profile_image', image!));
+      }
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var temp = await response.stream.bytesToString();
+        var decodedResponse = json.decode(temp);
+        return EditProfileModel.fromJson(decodedResponse);
+      } else {
+        print(response.reasonPhrase);
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    return null;
   }
 }

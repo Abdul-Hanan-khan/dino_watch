@@ -4,7 +4,7 @@ typedef RatingChangeCallback = void Function(double rating);
 
 class StarRating extends StatelessWidget {
   final int starCount;
-  final double rating;
+  final int rating;
   final RatingChangeCallback? onRatingChanged;
   final Color? color;
   final double? size;
@@ -12,7 +12,7 @@ class StarRating extends StatelessWidget {
   const StarRating(
       {Key? key,
       this.starCount = 5,
-      this.rating = .0,
+      this.rating = 0,
       this.onRatingChanged,
       this.color,
       this.size})

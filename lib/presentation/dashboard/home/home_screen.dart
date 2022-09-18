@@ -20,16 +20,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController _con = Get.find();
-  var controller=Get.put(CheckoutController());
+  var controller = Get.put(CheckoutController());
 
   ScrollController scrollControllerNested = ScrollController();
   ScrollController scrollController = ScrollController();
 
-
-
   @override
   Widget build(BuildContext context) {
-    print("user id is ---------------------- "+StaticVars.id);
+    print("user id is ---------------------- " + StaticVars.id);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -66,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _con.loadingCat.value
                     ? Center(child: CupertinoActivityIndicator())
                     : ListView.builder(
+                        reverse: true,
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -98,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
                                       color: _con.isSelected.value == index
-                                          ? const Color(0xffFFE7C1)
+                                          ? const Color(0xff4d18cc)
                                           : null,
                                     ),
                                     child: Text(
@@ -106,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .toString(),
                                       style: TextStyle(
                                         color: _con.isSelected.value == index
-                                            ? const Color(0xff363636)
+                                            ? Colors.white
                                             : Colors.black.withOpacity(.5),
                                         fontWeight:
                                             _con.isSelected.value == index
@@ -258,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text(
                         product.title.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -268,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             "\$ ${product.regularPrice}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Color(0xff939393),
@@ -277,12 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           wSizedBox10,
                           Text(
-                            "\$ ${product.price}",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF4d18cc),
-                            ),
+                            "\$${product.price}",
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF4d18cc),
+                                fontStyle: FontStyle.italic),
                           ),
                           const Spacer(),
                           Container(
