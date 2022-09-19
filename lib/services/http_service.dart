@@ -11,6 +11,7 @@ import 'package:watch_app/model/all_brands_model.dart';
 import 'package:watch_app/model/country_list_model.dart';
 import 'package:watch_app/model/edit_profile_model.dart';
 import 'package:watch_app/model/my_orders_model.dart';
+import 'package:watch_app/model/order_detials_model.dart';
 import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
@@ -375,6 +376,29 @@ class HttpService {
       } else {
         print(response.reasonPhrase);
       }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    return null;
+  }
+
+  static Future<OrderDetailsModel?> loadOrderDetails(String orderId) async {
+    try {
+      var request = http.Request('GET', Uri.parse('https://dannidion.com/wc-api/v3/orders/$orderId?consumer_key=ck_96d89bdadb96f00e78e0e2bc9d87a33e2fac45bf&consumer_secret=cs_6dda6a67adaa1decc82e07eac0d427965ea918c0'));
+
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var temp=(await response.stream.bytesToString());
+        var decodedResponse = json.decode(temp);
+        return OrderDetailsModel.fromJson(decodedResponse);
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
     } catch (e) {
       print(e);
       return null;

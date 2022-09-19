@@ -2,6 +2,7 @@ class AuthModel {
   String? status;
   int? userId;
   String? userName;
+  String? lastName;
   String? userEmail;
   String? profileImage;
 
@@ -9,6 +10,7 @@ class AuthModel {
       {this.status,
         this.userId,
         this.userName,
+        this.lastName,
         this.userEmail,
         this.profileImage});
 
@@ -16,6 +18,7 @@ class AuthModel {
     status = json['status'];
     userId = json['user_id'];
     userName = json['user_name'];
+    lastName = json['last_name'];
     userEmail = json['user_email'];
     profileImage = json['profile_image'];
   }
@@ -25,6 +28,7 @@ class AuthModel {
     data['status'] = this.status;
     data['user_id'] = this.userId;
     data['user_name'] = this.userName;
+    data['last_name'] = this.lastName;
     data['user_email'] = this.userEmail;
     data['profile_image'] = this.profileImage;
     return data;

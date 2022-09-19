@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_text_field.dart';
 import 'package:watch_app/presentation/commamn/clip_path.dart';
 import 'package:watch_app/presentation/dashboard/editProfile/edit_profile_controller.dart';
+import 'package:watch_app/presentation/dashboard/profile/profile_screen.dart';
 
 import '../../../core/app_export.dart';
 import '../../commamn/app_button.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({Key? key}) : super(key: key);
-  final ProfileEditController _con = Get.put(ProfileEditController());
+
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  final ProfileEditController _con = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +146,26 @@ class EditProfileScreen extends StatelessWidget {
                             child: AppButton(
                               text: AppString.save,
                               width: Get.width / 2,
-                              onPressed: () {
-                                _con.updateProfile();
+                              onPressed: () async {
+                               await _con.updateProfile();
+                               if(_con.editModel.value.status == 'success'){
+
+                                 _con.firstName.value=_con.editModel.value.firstName!;
+                                 _con.lastName.value=_con.editModel.value.lastName!;
+                                 _con.profileUrl.value=_con.editModel.value.profileImage!;
+
+                                   StaticVars.userName= _con.firstName.value + " " + _con.lastName.value;
+                                   StaticVars.avatar= _con.editModel.value.profileImage!.toString();
+                                   SharedPreferences prefs=await SharedPreferences.getInstance();
+
+                                   prefs.setString('userName', StaticVars.userName);
+                                   // prefs.setString('userEmail', response.userEmail.toString());
+                                   prefs.setString('avatar', StaticVars.avatar);
+
+
+                                Get.back();
+
+                               }
                               },
                             ),
                           ),

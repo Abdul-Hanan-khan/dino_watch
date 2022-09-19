@@ -16,14 +16,15 @@ import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_scr
 
 import '../commamn/app_bar.dart';
 import '../commamn/app_dialog.dart';
+import '../dashboard/editProfile/edit_profile_controller.dart';
 import 'bottombar_controller.dart';
 
 import '../../core/app_export.dart';
 
 class BottomBarScreen extends StatelessWidget {
   BottomBarScreen({Key? key}) : super(key: key);
+  final ProfileEditController _editprofilecon = Get.put(ProfileEditController());
 
-  var carController = Get.put(ShoppingCartController());
   final BottomBarController _con = Get.find();
 
   // sdf
@@ -344,7 +345,7 @@ class BottomBarScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${StaticVars.userName}",
+                            "${_editprofilecon.firstName.value} ${_editprofilecon.lastName.value} ",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,

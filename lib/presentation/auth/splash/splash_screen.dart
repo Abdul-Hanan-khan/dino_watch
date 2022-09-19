@@ -1,10 +1,13 @@
+import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
+
 import '../../../core/app_export.dart';
 import 'package:flutter/material.dart';
 
 import 'splash_controller.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+   SplashScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

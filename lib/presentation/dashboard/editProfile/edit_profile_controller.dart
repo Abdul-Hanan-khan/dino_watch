@@ -15,11 +15,24 @@ import 'package:watch_app/services/http_service.dart';
 import '../../../model/edit_profile_model.dart';
 
 class ProfileEditController extends GetxController {
-
   RxString firstName = "".obs;
   RxString firstNameError = "".obs;
   RxString lastName = "".obs;
   RxString lastNameError = "".obs;
+
+  List userNameSplit=StaticVars.userName.split(" ");
+  @override
+  void onInit() async {
+   firstName.value=userNameSplit[0];
+   lastName.value=userNameSplit[2];
+
+   print(firstName);
+   print(lastName);
+
+    super.onInit();
+  }
+
+
 
   RxBool loading=false.obs;
   Rx<EditProfileModel> editModel=EditProfileModel().obs;
@@ -193,24 +206,15 @@ class ProfileEditController extends GetxController {
 
 
 
-  void updateProfile()async{
+  Future updateProfile()async{
     if (validate()) {
       loading.value= true;
 
       editModel.value=(await HttpService.editProfile(userId: StaticVars.id,firstName: firstName.value,lastName: lastName.value,image: profileImage.value.path ))!;
 
-      if(editModel.value.status == 'success'){
-        StaticVars.userName= firstName.value + " " + lastName.value;
-        StaticVars.avatar= editModel.value.firstName!;
-        SharedPreferences prefs=await SharedPreferences.getInstance();
 
-        prefs.setString('userName', StaticVars.userName);
-        // prefs.setString('userEmail', response.userEmail.toString());
-        prefs.setString('avatar', StaticVars.avatar);
-        Get.back();
-
-      }
       loading.value= false;
     }
+    return editModel;
   }
 }

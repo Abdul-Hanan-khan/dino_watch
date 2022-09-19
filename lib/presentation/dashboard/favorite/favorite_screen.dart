@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/presentation/dashboard/favorite/favorite_controller.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 
 class FavoriteScreen extends StatelessWidget {
   FavoriteScreen({Key? key}) : super(key: key);
   final FavoriteController _con = Get.put(FavoriteController());
+  ShoppingCartController cartController=Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +18,28 @@ class FavoriteScreen extends StatelessWidget {
                 const Text("No favorite yet")
               ],
             )
-          : GridView.builder(
-              itemCount: _con.favList.length,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              primary: false,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                childAspectRatio: Get.size.width / (Get.size.height * 0.70),
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return productCardView(index);
-              },
-            ),
+          : Column(
+            children: [
+              TextButton(onPressed: (){
+                cartController.clearFavs();
+              }, child: Text("Clear Favourites")),
+              GridView.builder(
+                shrinkWrap: true,
+                  itemCount: _con.favList.length,
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  primary: false,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                    childAspectRatio: Get.size.width / (Get.size.height * 0.70),
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return productCardView(index);
+                  },
+                ),
+            ],
+          ),
     );
   }
 

@@ -304,7 +304,7 @@ class WatchDetailScreen extends StatelessWidget {
                       hSizedBox8,
                       Text(
                         _con.watchDetailsM.value.description ??
-                            "No Description Available".toString(),
+                            "".toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: Colors.black.withOpacity(.4),

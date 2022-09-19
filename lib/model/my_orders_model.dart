@@ -1,4 +1,3 @@
-
 class MyOrdersModel {
   String? status;
   List<Orderlist>? orderlist;
@@ -27,13 +26,15 @@ class MyOrdersModel {
 
 class Orderlist {
   int? orderId;
+  String? orderDate;
   String? orderStatus;
   String? orderAmount;
 
-  Orderlist({this.orderId, this.orderStatus, this.orderAmount});
+  Orderlist({this.orderId, this.orderDate, this.orderStatus, this.orderAmount});
 
   Orderlist.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
+    orderDate = json['order_date'];
     orderStatus = json['order_status'];
     orderAmount = json['order_amount'];
   }
@@ -41,11 +42,9 @@ class Orderlist {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['order_id'] = this.orderId;
+    data['order_date'] = this.orderDate;
     data['order_status'] = this.orderStatus;
     data['order_amount'] = this.orderAmount;
     return data;
   }
 }
-
-
-
