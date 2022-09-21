@@ -112,6 +112,7 @@ class AppString {
   static String pemail = "williamrouse51@gmail.com";
   static String myCart = "My Cart";
   static String myOrders = "My Orders";
+  static String orderDetails = "Orders Details";
   static String allBrands = "All Brands";
   static String chooseLanguage = "Choose Language";
   static String privacyPolicy = "Privacy Policy";

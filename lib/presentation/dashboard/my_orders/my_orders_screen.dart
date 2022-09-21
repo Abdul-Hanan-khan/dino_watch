@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/model/cart_model.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
+import 'package:watch_app/presentation/dashboard/order_details/order_details_controller.dart';
+import 'package:watch_app/presentation/dashboard/order_details/order_details_screen.dart';
 
 import 'my_orders_controller.dart';
 
 class MyOrdersScreen extends StatelessWidget {
   MyOrdersScreen({Key? key}) : super(key: key);
   final MyOrderController _con = Get.put(MyOrderController());
+  final OrderDetailsController orderDetailsController = Get.put(OrderDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,183 +21,117 @@ class MyOrdersScreen extends StatelessWidget {
         back: true,
         actionIcon: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return myOrdersList(index);
-              },
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10.0,
-                    spreadRadius: .5,
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Total -",
-                    style: TextStyle(
-                        color: Color(0xff707070),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15),
-                  ),
-                  Obx(
-                    () => Text(
-                      "\$${_con.subTotal().toString()}",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        color: Color(0xff707070),
+      body: SingleChildScrollView(
+        child: Obx(
+          () => _con.loadingOrders.value
+              ? Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 200),
+                        child: CircularProgressIndicator(),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-          ],
+                  ],
+                )
+              : _con.allOrders.value.orderlist.isNull ||
+                      _con.allOrders.value.orderlist!.length < 1
+                  ? const Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 200),
+                        child: Text("No Order Found"),
+                      ),
+                    )
+                  : SingleChildScrollView(child: showOrderList()),
         ),
       ),
     );
   }
 
-  myOrdersList(index) {
+  Widget showOrderList() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      height: 100,
       width: Get.width,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10.0,
-            spreadRadius: .5,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            _con.myorderList[index].wimage,
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
-          ),
-          wSizedBox8,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  _con.myorderList[index].wname,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
+      height: Get.height * 0.9,
+      child: ListView.builder(
+          // shrinkWrap: true,
+          itemCount: _con.allOrders.value.orderlist!.length ?? 0,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: (){
+                orderDetailsController.loadOrderDetails(_con.allOrders.value.orderlist![index].orderId.toString());
+                Get.to(OrderDetailsScreen());
+              },
+
+              child: Container(
+
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Color(0xff4d18cc),
                   ),
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    Obx(
-                      () => Text(
-                        "\$${_con.myorderList[index].quantity * _con.myorderList[index].price}",
-                        style: TextStyle(
-                            color: AppColors.purple,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          decoration: TextDecoration.underline
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Obx(
-                      () => Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              _con.myorderList[index].quantity.value == 1
-                                  ? null
-                                  : _con.myorderList[index].quantity.value >= 1
-                                      ? _con.myorderList[index].quantity.value--
-                                      : null;
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey,
-                              ),
-                              child: Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            height: 30,
-                            width: 30,
-                            child: Text(
-                                _con.myorderList[index].quantity.value
-                                    .toString()
-                                    .padLeft(2, "0"),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500)),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              _con.myorderList[index].quantity.value < 15
-                                  ? _con.myorderList[index].quantity.value++
-                                  : null;
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey,
-                              ),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  boxShadow: [
+                    BoxShadow(
+                      color:  Color(0xff4d18cc).withOpacity(0.2),
+                      spreadRadius: 3,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          wSizedBox12
-        ],
-      ),
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Order Id :",style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),),
+                          SizedBox(width: 20,),
+                          Text("${_con.allOrders.value.orderlist![index].orderId}"),
+                        ],
+                      ),
+
+                      SizedBox(height: 10,),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Created At"),
+                          // SizedBox(width: 10,),
+                          Text("${_con.allOrders.value.orderlist![index].orderDate}"),
+                        ],
+                      ),
+                      SizedBox(height: 5,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Order Amount"),
+
+                          Text("\$${_con.allOrders.value.orderlist![index].orderAmount}"),
+                        ],
+                      ),
+                      SizedBox(height: 5,),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Order Status"),
+                          SizedBox(width: 10,),
+                          Text("${_con.allOrders.value.orderlist![index].orderStatus}"),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ),
+            );
+          }),
     );
   }
 }

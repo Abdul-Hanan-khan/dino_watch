@@ -1,24 +1,36 @@
 class AuthModel {
+  String? status;
   int? userId;
   String? userName;
+  String? lastName;
   String? userEmail;
-  String? status;
+  String? profileImage;
 
-  AuthModel({this.userId, this.userName, this.userEmail, this.status});
+  AuthModel(
+      {this.status,
+        this.userId,
+        this.userName,
+        this.lastName,
+        this.userEmail,
+        this.profileImage});
 
   AuthModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
     userId = json['user_id'];
     userName = json['user_name'];
+    lastName = json['last_name'];
     userEmail = json['user_email'];
-    status = json['status'];
+    profileImage = json['profile_image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
     data['user_id'] = this.userId;
     data['user_name'] = this.userName;
+    data['last_name'] = this.lastName;
     data['user_email'] = this.userEmail;
-    data['status'] = this.status;
+    data['profile_image'] = this.profileImage;
     return data;
   }
 }

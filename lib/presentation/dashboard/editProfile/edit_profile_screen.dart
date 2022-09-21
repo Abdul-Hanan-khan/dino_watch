@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_text_field.dart';
 import 'package:watch_app/presentation/commamn/clip_path.dart';
 import 'package:watch_app/presentation/dashboard/editProfile/edit_profile_controller.dart';
+import 'package:watch_app/presentation/dashboard/profile/profile_screen.dart';
 
 import '../../../core/app_export.dart';
 import '../../commamn/app_button.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({Key? key}) : super(key: key);
-  final EditProfileController _con = Get.put(EditProfileController());
+
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  final ProfileEditController _con = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +69,7 @@ class EditProfileScreen extends StatelessWidget {
                                         // ? NetworkImage(
                                         //     _con.profileUrl.value,
                                         //   )
-                                        ? const AssetImage(ImageConstant.intro3)
+                                        ?  NetworkImage(StaticVars.avatar)
                                         : const AssetImage(
                                             ImageConstant.cam,
                                           ) as ImageProvider
@@ -99,152 +110,65 @@ class EditProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  titleText(AppString.email),
-                  hSizedBox6,
-                  AppTextField(
-                    shadow: true,
-                    hintText: "Email",
-                    errorMessage: _con.emailError,
-                    onChange: (val) {
-                      _con.email.value = val;
-                    },
-                  ),
                   hSizedBox4,
-                  titleText(AppString.name),
+                  titleText(AppString.firstName),
                   hSizedBox6,
                   AppTextField(
                     shadow: true,
-                    hintText: "User Name",
-                    errorMessage: _con.nameError,
+                    hintText: "Enter First Name",
+                    errorMessage: _con.firstNameError,
                     radius: 30,
                     border: true,
                     onChange: (val) {
-                      _con.name.value = val;
+                      _con.firstName.value = val;
                     },
                   ),
                   hSizedBox4,
-                  titleText(AppString.dob),
-                  hSizedBox6,
-                  GestureDetector(
-                    onTap: () {
-                      _con.selectDate(context);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      alignment: Alignment.centerLeft,
-                      height: 50,
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.1),
-                            blurRadius: 10.0,
-                            spreadRadius: 2.0,
-                          ),
-                        ],
-                      ),
-                      child: Obx(
-                        () => Row(
-                          children: [
-                            _con.selectedDate.value == DateTime(0, 0, 0)
-                                ? Text(
-                                    "DD/MM/YY",
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                      color: AppColors.appIconColor,
-                                    ),
-                                  )
-                                : Text(
-                                    "${_con.selectedDate.value.day}/${_con.selectedDate.value.month.toString().padLeft(2, "0")}/${_con.selectedDate.value.year}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                            const Spacer(),
-                            const Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: Color(0xff707070),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  hSizedBox12,
-                  titleText(AppString.gender),
-                  hSizedBox8,
-                  Row(
-                    children: List.generate(
-                      2,
-                      (index) {
-                        return Obx(
-                          () => Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                _con.isSelectGender.value = index;
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    left: index == 0 ? 0 : 6,
-                                    right: index == 0 ? 6 : 0),
-                                decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 10.0,
-                                      spreadRadius: .5,
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                height: 50,
-                                child: Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: AppColors.yellowColor,
-                                      value: _con.isSelectGender.value,
-                                      groupValue: index,
-                                      onChanged: (val) {
-                                        _con.isSelectGender.value = index;
-                                      },
-                                    ),
-                                    Text(_con.genderList[index])
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  hSizedBox12,
-                  titleText(AppString.aboutme),
+                  titleText(AppString.lastName),
                   hSizedBox6,
                   AppTextField(
                     shadow: true,
-                    maxLines: 2,
-                    hintText: "write something..",
-                    errorMessage: _con.bioError,
-                    radius: 100,
+                    hintText: "Enter Last Name",
+                    errorMessage: _con.lastNameError,
+                    radius: 30,
                     border: true,
                     onChange: (val) {
-                      _con.bio.value = val;
+                      _con.lastName.value = val;
                     },
                   ),
                   hSizedBox18,
-                  Center(
-                    child: AppButton(
-                      text: AppString.save,
-                      width: Get.width / 2,
-                      onPressed: () {
-                        _con.edit();
-                      },
-                    ),
+                  Obx(
+                    () => _con.loading.value
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Center(
+                            child: AppButton(
+                              text: AppString.save,
+                              width: Get.width / 2,
+                              onPressed: () async {
+                               await _con.updateProfile();
+                               if(_con.editModel.value.status == 'success'){
+
+                                 _con.firstName.value=_con.editModel.value.firstName!;
+                                 _con.lastName.value=_con.editModel.value.lastName!;
+                                 _con.profileUrl.value=_con.editModel.value.profileImage!;
+
+                                   StaticVars.userName= _con.firstName.value + " " + _con.lastName.value;
+                                   StaticVars.avatar= _con.editModel.value.profileImage!.toString();
+                                   SharedPreferences prefs=await SharedPreferences.getInstance();
+
+                                   prefs.setString('userName', StaticVars.userName);
+                                   // prefs.setString('userEmail', response.userEmail.toString());
+                                   prefs.setString('avatar', StaticVars.avatar);
+
+
+                                Get.back();
+
+                               }
+                              },
+                            ),
+                          ),
                   ),
                   hSizedBox18,
                 ],

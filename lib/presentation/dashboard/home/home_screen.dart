@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
+import 'package:watch_app/presentation/dashboard/editProfile/edit_profile_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/watch_details/watch_details_screen.dart';
@@ -20,16 +22,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController _con = Get.find();
-  var controller=Get.put(CheckoutController());
+  var controller = Get.put(CheckoutController());
+  ShoppingCartController cartController = Get.find();
 
   ScrollController scrollControllerNested = ScrollController();
   ScrollController scrollController = ScrollController();
 
-
-
   @override
   Widget build(BuildContext context) {
-    print("user id is ---------------------- "+StaticVars.id);
+
+    print("user id is ---------------------- " + StaticVars.id);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -66,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _con.loadingCat.value
                     ? Center(child: CupertinoActivityIndicator())
                     : ListView.builder(
+                        reverse: true,
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -98,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
                                       color: _con.isSelected.value == index
-                                          ? const Color(0xffFFE7C1)
+                                          ? const Color(0xff4d18cc)
                                           : null,
                                     ),
                                     child: Text(
@@ -106,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .toString(),
                                       style: TextStyle(
                                         color: _con.isSelected.value == index
-                                            ? const Color(0xff363636)
+                                            ? Colors.white
                                             : Colors.black.withOpacity(.5),
                                         fontWeight:
                                             _con.isSelected.value == index
@@ -258,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text(
                         product.title.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -268,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             "\$ ${product.regularPrice}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Color(0xff939393),
@@ -277,12 +280,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           wSizedBox10,
                           Text(
-                            "\$ ${product.price}",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF4d18cc),
-                            ),
+                            "\$${product.price}",
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF4d18cc),
+                                fontStyle: FontStyle.italic),
                           ),
                           const Spacer(),
                           Container(
@@ -308,7 +311,16 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Obx(
                 () => GestureDetector(
                   onTap: () {
-                    _con.onFavtrending(index);
+                    if (!product.isFavourite!.value == true) {
+                      _con.addToFav(product.productId!);
+                      product.isFavourite!.value = true;
+                      // print("current product like status ${product.isFavourite!.value}" );
+                    } else {
+                      product.isFavourite!.value = false;
+                      _con.removeFav(product.productId!);
+                      // print("current product like status ${product.isFavourite!.value}" );
+                    }
+                    // _con.onFavtrending(index);
                   },
                   child: Container(
                     margin: const EdgeInsets.all(5),
@@ -316,11 +328,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: const BoxDecoration(
                         color: Color(0xff939393), shape: BoxShape.circle),
                     child: Icon(
-                      _con.isFavtrending.contains(index)
+                      product.isFavourite!.value
                           ? Icons.favorite
                           : Icons.favorite_border,
                       size: 16,
-                      color: _con.isFavtrending.contains(index)
+                      color: product.isFavourite!.value
                           ? const Color(0xffFF4848)
                           : Colors.white,
                     ),

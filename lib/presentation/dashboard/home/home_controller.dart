@@ -1,11 +1,15 @@
+import 'package:cached_map/cached_map.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
+import 'package:watch_app/model/favourites_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/services/http_service.dart';
 
 class HomeController extends GetxController {
   var scrollController = ScrollController();
+  ShoppingCartController cartController = Get.find();
   RxBool loadingCat = false.obs;
   RxBool loadingProducts = false.obs;
   RxInt isSelected = (0).obs;
@@ -15,6 +19,10 @@ class HomeController extends GetxController {
 
   RxList<Products> productChunks = <Products>[].obs;
   RxList<int> indexes = <int>[].obs;
+
+  FavouritesModel favourites = FavouritesModel();
+  RxList<Products> favouriteList = <Products>[].obs;
+  RxBool loadingFavs = false.obs;
 
   @override
   void onInit() {
@@ -55,7 +63,7 @@ class HomeController extends GetxController {
 
   getProductByCat({required String catId}) async {
     indexes.clear();
-    indexes.value=[
+    indexes.value = [
       0,
       1,
       2,
@@ -75,13 +83,15 @@ class HomeController extends GetxController {
       16,
       17,
       18,
-      19];
+      19
+    ];
     loadingProducts.value = true;
 
     // List<ProductByCat>? data = await HttpService.getProductsByCategory(category: category);
 
     productsModal.value =
         (await HttpService.getProductsByCategory(catId: catId))!;
+    loadFav();
 
     // productsModal.value.products.forEach((element) { });
     // print(productsModal.value.products);
@@ -113,5 +123,76 @@ class HomeController extends GetxController {
 
     // print(productChunks);
     print(productChunks.length);
+  }
+
+  addToFav(int productId) {
+    favourites.productIds!.add(productId);
+    Mapped.saveFileDirectly(
+        file: favourites.toJson(), cachedFileName: "Favourites");
+
+    int index2 = productsModal.value.products!
+        .indexWhere((element) => element.productId == productId);
+    if (index2 != -1) {
+      productsModal.value.products![index2].isFavourite!.value = true;
+      favouriteList.add(productsModal.value.products![index2]);
+    }
+    print("fav added");
+  }
+
+  removeFav(int productId) {
+    int index = favourites.productIds!.indexWhere((element) => element == productId);
+    // favourites.productIds!.removeWhere((element)=> element==productId);
+    if (index != -1) {
+      favourites.productIds!.value.removeAt(index);
+      productsModal.value.products![index].isFavourite!.value = false;
+      print(favourites.productIds!.value);
+
+    }
+    Mapped.saveFileDirectly(
+        file: favourites.toJson(), cachedFileName: "Favourites");
+
+    int index2 = productsModal.value.products!.indexWhere((element) => element.productId == productId);
+    if (index2 != -1) {
+      favouriteList.remove(productsModal.value.products![index2]);
+    }
+    print(favouriteList.value);
+    print("fav removed");
+  }
+
+  loadFav() async {
+    try {
+      Map<String, dynamic>? favJson =
+          await Mapped.loadFileDirectly(cachedFileName: 'Favourites');
+
+      if (favJson == null) {
+        favourites.productIds = <int>[].obs;
+        loadingFavs.value = false;
+      } else {
+        loadingFavs.value = false;
+        favourites = FavouritesModel.fromJson(favJson);
+        for (var favElementId in favourites.productIds!.value) {
+          int index;
+          index = productsModal.value.products!.indexWhere((pElement) => pElement.productId == favElementId);
+          if (index != -1) {
+            productsModal.value.products![index].isFavourite!.value = true;
+            favouriteList.add(productsModal.value.products![index]);
+          }
+        }
+        print(favouriteList.value);
+        loadingFavs.value = false;
+        print("fav loaded");
+      }
+    } catch (e) {
+      print(e);
+      loadingFavs.value = false;
+    }
+
+    print(favourites);
+  }
+
+  clearFavs() {
+    Mapped.deleteFileDirectly(cachedFileName: 'Favourites');
+    // favouriteList.clear();
+    print("fav cleared");
   }
 }

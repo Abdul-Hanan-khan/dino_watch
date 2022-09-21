@@ -53,9 +53,12 @@ class LoginScreenController extends GetxController {
         prefs.setString('userId', response.userId.toString());
         prefs.setString('userName', response.userName.toString());
         prefs.setString('userEmail', response.userEmail.toString());
+        prefs.setString('avatar', response.profileImage.toString());
 
         StaticVars.email = response.userEmail.toString();
         StaticVars.userName = response.userName.toString();
+        StaticVars.avatar=response.profileImage.toString();
+
         userLoginStatus = true;
       } else {
         showDialog(

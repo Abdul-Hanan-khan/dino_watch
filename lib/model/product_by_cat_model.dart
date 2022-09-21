@@ -36,6 +36,8 @@ class Products {
   String? salePrice;
   String? productImg;
   RxInt ? quantity=0.obs;
+  RxBool ? isFavourite=false.obs;
+
 
   Products(
       {this.productId,
@@ -46,7 +48,8 @@ class Products {
         this.regularPrice,
         this.salePrice,
         this.productImg,
-      this.quantity});
+      this.quantity,
+      this.isFavourite});
 
   Products.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'];
@@ -57,6 +60,8 @@ class Products {
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
     productImg = json['product_img'];
+    isFavourite!.value = json['fav']??false;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -69,6 +74,7 @@ class Products {
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
     data['product_img'] = this.productImg;
+    data['fave'] = this.isFavourite??false;
     return data;
   }
 }

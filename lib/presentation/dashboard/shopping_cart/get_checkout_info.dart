@@ -94,9 +94,11 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                   titleText("Phone No"),
                   hSizedBox6,
                   AppTextField(
+
                     shadow: true,
                     hintText: "Enter Your Phone No",
                     // errorMessage: _con.emailError,
+                    keyboardType: TextInputType.number,
                     errorMessage: _con.phoneNoError,
                     onChange: (val) {
                       _con.phoneNoCtr.text = val;
@@ -290,7 +292,9 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                         subTitle: "Something Went Wrong",
                                       ));
                                 }else{
-                                  Get.to(CustomCheckoutScreen(url: response.paymentLink.toString()));
+                                  cartController.clearCart();
+                                  StaticVars.customLauncher(Uri.parse(response.paymentLink.toString()));
+                                  // Get.to(CustomCheckoutScreen(url: response.paymentLink.toString()));
                                 }
                               }
 

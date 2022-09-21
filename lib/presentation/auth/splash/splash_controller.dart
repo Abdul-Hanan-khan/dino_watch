@@ -16,6 +16,8 @@ class SplashController extends GetxController {
         StaticVars.userName=prefs.getString('userName').toString();
         StaticVars.id =prefs.getString('userId').toString();
         StaticVars.email=prefs.getString('userEmail').toString();
+        StaticVars.avatar=prefs.getString('avatar').toString();
+        print("---"+StaticVars.avatar+"---");
 
       }else{
         Get.offNamed(AppRoutes.introductionscreen);

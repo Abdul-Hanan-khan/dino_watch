@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/commamn/clip_path.dart';
+import 'package:watch_app/presentation/dashboard/editProfile/edit_profile_controller.dart';
 
 import '../../../core/app_export.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   final BottomBarController _barController = Get.find();
+  final ProfileEditController _con = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+
+    });
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -33,25 +45,27 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.grey.shade200,
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 4),
-                          image: const DecorationImage(
+                          image:  DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(ImageConstant.intro3),
+                            image: NetworkImage(StaticVars.avatar),
                           ),
                         ),
                       ),
                     ),
                     hSizedBox10,
-                    Text(
-                      AppString.pname,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                    Obx(
+                        ()=> Text(
+                        _con.firstName.toString() + " " +_con.lastName.value ,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     hSizedBox6,
                     Text(
-                      AppString.pemail,
+                      StaticVars.email,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,

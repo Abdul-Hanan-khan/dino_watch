@@ -94,6 +94,6 @@ class AppRoutes {
     GetPage(name: settingScreen, page: () => SettingScreen()),
     GetPage(name: filterScreen, page: () => FilterScreen()),
     GetPage(name: trackOrderScreen, page: () => TrackOrderScreen()),
-    GetPage(name: splashScreen, page: () => const SplashScreen()),
+    GetPage(name: splashScreen, page: () =>  SplashScreen()),
   ];
 }

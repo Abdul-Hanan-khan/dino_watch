@@ -113,9 +113,12 @@ class SignUpController extends GetxController {
         prefs.setString('userId', response.userId.toString());
         prefs.setString('userName', response.userName.toString());
         prefs.setString('userEmail', response.userEmail.toString());
+        prefs.setString('avatar', response.profileImage.toString());
+
 
         StaticVars.userName= response.userName.toString();
         StaticVars.email= response.userEmail.toString();
+        StaticVars.avatar=response.profileImage.toString();
         userLoginStatus=true;
       }else{
         showDialog(

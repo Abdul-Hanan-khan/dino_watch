@@ -1,22 +1,35 @@
+
+
 import 'package:cached_map/cached_map.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/model/add_to_cart_model.dart';
 import 'package:watch_app/model/cart_model.dart';
+import 'package:watch_app/model/favourites_model.dart';
 import 'package:watch_app/model/view_cart_model.dart';
 import 'package:watch_app/model/watch_details_model.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
+import 'package:watch_app/presentation/dashboard/favorite/favorite_controller.dart';
+import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/services/http_service.dart';
 
+import '../../../model/product_by_cat_model.dart';
+
 class ShoppingCartController extends GetxController {
+  // final HomeController homeController = Get.find();
   final BottomBarController barController = Get.find();
   Cart cart = Cart(products: <WatchDetailsModel>[].obs);
+  // FavouritesModel favourites=FavouritesModel();
+  // RxList<Products> favouriteList=<Products>[].obs;
+
+
+
+  // Map<String,dynamic> favIdsList=({});
   //   var firstNameCtr=TextEditingController();
 
 
   @override
   void onInit() {
-   // viewCart();
     loadCart();
     super.onInit();
 
@@ -96,37 +109,83 @@ class ShoppingCartController extends GetxController {
     cart.products!.clear();
 //    calculateTotalItems();
   }
-
-
-
-
 //
-  // RxList<Cart> cartList = RxList([
-  //   Cart(
-  //     price: 250,
-  //     quantity: 1.obs,
-  //     wimage: ImageConstant.intro3,
-  //     wname: "Amazfit GTS2 Mini gold Smart Watch ",
-  //   ),
-  //   Cart(
-  //     price: 350,
-  //     quantity: 1.obs,
-  //     wimage: ImageConstant.intro3,
-  //     wname: "Richard Mille RM 72-01 Automatic Lifestyle Chronograph watch",
-  //   ),
-  //   Cart(
-  //     price: 299,
-  //     quantity: 1.obs,
-  //     wimage: ImageConstant.intro3,
-  //     wname: "Amazfit GTS2 Mini gold Smart Watch ",
-  //   ),
-  //   Cart(
-  //     price: 455,
-  //     quantity: 1.obs,
-  //     wimage: ImageConstant.intro3,
-  //     wname: "Swatch Big Brand Chrono BIOCERAMIC watch",
-  //   )
-  // ]);
+//   addToFav(int productId){
+//     favourites.productIds!.add(productId);
+//     Mapped.saveFileDirectly(file: favourites.toJson(), cachedFileName: "Favourites");
+//
+//
+//
+//
+//     // int index2= homeController.productsModal.value.products!.indexWhere((element) => element.productId == productId);
+//     // if(index2 != -1){
+//     //   homeController.productsModal.value.products![index2].isFavourite!.value=true;
+//     //   favouriteList.add(homeController.productsModal.value.products![index2]);
+//     // }
+//     print("fav added");
+//
+//   }
+//   removeFav(int productId){
+//     int index = favourites.productIds!.indexWhere((element) => element==productId);
+//     // favourites.productIds!.removeWhere((element)=> element==productId);
+//     if(index !=-1){
+//       favourites.productIds!.remove(index);
+//       // homeController.productsModal.value.products![index].isFavourite!.value=false;
+//
+//     }
+//     Mapped.saveFileDirectly(file: favourites.toJson(), cachedFileName: "Favourites");
+//
+//     // int index2= homeController.productsModal.value.products!.indexWhere((element) => element.productId == productId);
+//     // if(index2 != -1){
+//       // favouriteList.remove(homeController.productsModal.value.products![index2]);
+//     // }
+//     print("fav removed");
+//
+//   }
+//   loadFav() async {
+//     try{
+//       Map<String, dynamic>? favJson =
+//       await Mapped.loadFileDirectly(cachedFileName: 'Favourites');
+//
+//       if (favJson == null) {
+//         favourites.productIds=<int>[].obs;
+//         loadingCart.value=false;
+//       }
+//       else {
+//
+//         loadingCart.value=false;
+//         favourites = FavouritesModel.fromJson(favJson);
+//         for (var favElementId in favourites.productIds!.value) {
+//           int index;
+//           // index= homeController.productsModal.value.products!.indexWhere((pElement) => pElement.productId==favElementId);
+//           // if(index != -1){
+//           //   homeController.productsModal.value.products![index].isFavourite!.value=true;
+//           //   favouriteList.add(homeController.productsModal.value.products![index]);
+//
+//           // }
+//         }
+//         print(favouriteList.value);
+//
+//         loadingCart.value=false;
+//
+//         print("fav loaded");
+// //        calculateTotalItems();
+//       }
+//     }
+//
+//     catch(e){
+//       print(e);
+//       loadingCart.value=false;
+//     }
+//
+//     print(favourites);
+//   }
+//   clearFavs(){
+//     Mapped.deleteFileDirectly(cachedFileName: 'Favourites');
+//     // favouriteList.clear();
+//     print("fav cleared");
+//
+//   }
 
   double subTotal() {
     RxDouble? total = 0.0.obs;
@@ -136,25 +195,4 @@ class ShoppingCartController extends GetxController {
     }
     return total.value;
   }
-
-  // Future<dynamic>? viewCart() async {
-  //   loadingCart.value = true;
-  //   viewCartModel.value = (await HttpService.viewCart())!;
-  //   loadingCart.value = false;
-  //   return null;
-  // }
 }
-
-// class Cart {
-//   String wimage;
-//   String wname;
-//   int price;
-//   RxInt quantity;
-//
-//   Cart({
-//     required this.price,
-//     required this.quantity,
-//     required this.wimage,
-//     required this.wname,
-//   });
-// }
