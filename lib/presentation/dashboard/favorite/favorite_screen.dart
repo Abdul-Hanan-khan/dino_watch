@@ -18,28 +18,26 @@ class FavoriteScreen extends StatelessWidget {
                 const Text("No favorite yet")
               ],
             )
-          : Column(
-            children: [
-              TextButton(onPressed: (){
-                cartController.clearFavs();
-              }, child: Text("Clear Favourites")),
-              GridView.builder(
-                shrinkWrap: true,
-                  itemCount: _con.favList.length,
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  primary: false,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    childAspectRatio: Get.size.width / (Get.size.height * 0.70),
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return productCardView(index);
-                  },
-                ),
-            ],
-          ),
+          : GridView.builder(
+            shrinkWrap: true,
+              itemCount: _con.favList.length,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              primary: false,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+                childAspectRatio: Get.size.width / (Get.size.height * 0.70),
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                   // _con.loading.value?CircularProgressIndicator(): Text(cartController.favouriteList.length.toString()),
+                    productCardView(index)
+                  ],
+                );
+              },
+            ),
     );
   }
 

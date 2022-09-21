@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
   var carController = Get.put(ShoppingCartController());
   final HomeController bottomCtr = Get.put(HomeController());
 
-
   MyApp({Key? key}) : super(key: key);
 
   @override

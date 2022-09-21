@@ -292,7 +292,9 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                         subTitle: "Something Went Wrong",
                                       ));
                                 }else{
-                                  Get.to(CustomCheckoutScreen(url: response.paymentLink.toString()));
+                                  cartController.clearCart();
+                                  StaticVars.customLauncher(Uri.parse(response.paymentLink.toString()));
+                                  // Get.to(CustomCheckoutScreen(url: response.paymentLink.toString()));
                                 }
                               }
 
