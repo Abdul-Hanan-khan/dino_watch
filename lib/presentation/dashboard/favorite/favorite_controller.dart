@@ -10,47 +10,47 @@ class FavoriteController extends GetxController {
   RxBool loading =false.obs;
 
 
-
-  RxList favList = [
-    {
-      "image": ImageConstant.intro3,
-      "name": "Alchemy Delux",
-      "price": "\$200",
-    },
-    {
-      "image": ImageConstant.intro3,
-      "name": "Luxury Chair",
-      "price": "\$300",
-    },
-    {
-      "image": ImageConstant.intro3,
-      "name": "Alchemy Delux",
-      "price": "\$200",
-    },
-    {
-      "image": ImageConstant.intro3,
-      "name": "Cantilever chair",
-      "price": "\$200",
-    },
-    {
-      "image": ImageConstant.intro3,
-      "name": "Alchemy Delux",
-      "price": "\$200",
-    },
-    {
-      "image": ImageConstant.intro3,
-      "name": "Alchemy Delux",
-      "price": "\$200",
-    },
-    {
-      "image": ImageConstant.intro3,
-      "name": "Alchemy Delux",
-      "price": "\$200",
-    },
-    {
-      "image": ImageConstant.intro3,
-      "name": "Cantilever chair",
-      "price": "\$200",
-    }
-  ].obs;
+  //
+  // RxList favList = [
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Alchemy Delux",
+  //     "price": "\$200",
+  //   },
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Luxury Chair",
+  //     "price": "\$300",
+  //   },
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Alchemy Delux",
+  //     "price": "\$200",
+  //   },
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Cantilever chair",
+  //     "price": "\$200",
+  //   },
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Alchemy Delux",
+  //     "price": "\$200",
+  //   },
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Alchemy Delux",
+  //     "price": "\$200",
+  //   },
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Alchemy Delux",
+  //     "price": "\$200",
+  //   },
+  //   {
+  //     "image": ImageConstant.intro3,
+  //     "name": "Cantilever chair",
+  //     "price": "\$200",
+  //   }
+  // ].obs;
 }

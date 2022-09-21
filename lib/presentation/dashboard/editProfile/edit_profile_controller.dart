@@ -23,8 +23,9 @@ class ProfileEditController extends GetxController {
   List userNameSplit=StaticVars.userName.split(" ");
   @override
   void onInit() async {
-   firstName.value=userNameSplit[0];
-   lastName.value=userNameSplit[2];
+    print(userNameSplit);
+   firstName.value=userNameSplit[0]??"";
+   lastName.value=userNameSplit[2]??"";
 
    print(firstName);
    print(lastName);
