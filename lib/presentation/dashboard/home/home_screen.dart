@@ -311,19 +311,15 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Obx(
                 () => GestureDetector(
                   onTap: () {
-                    // if (!product.isFavourite!.value == true) {
-                    //   cartController.addToFav(product.productId!);
-                    //
-                    //   product.isFavourite!.value = true;
-                    //   // print("current product like status ${product.isFavourite!.value}" );
-                    //
-                    // } else {
-                    //   product.isFavourite!.value = false;
-                    //   cartController.removeFav(product.productId!);
-                    //
-                    //   // print("current product like status ${product.isFavourite!.value}" );
-                    //
-                    // }
+                    if (!product.isFavourite!.value == true) {
+                      _con.addToFav(product.productId!);
+                      product.isFavourite!.value = true;
+                      // print("current product like status ${product.isFavourite!.value}" );
+                    } else {
+                      product.isFavourite!.value = false;
+                      _con.removeFav(product.productId!);
+                      // print("current product like status ${product.isFavourite!.value}" );
+                    }
                     // _con.onFavtrending(index);
                   },
                   child: Container(
