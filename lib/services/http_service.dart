@@ -405,4 +405,35 @@ class HttpService {
     }
     return null;
   }
+
+
+
+
+  static Future<dynamic?> forgotPassword(String userEmail) async {
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/forgotpassword.php'));
+      request.fields.addAll({
+        'useremail': userEmail
+      });
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var temp=(await response.stream.bytesToString());
+        var decodedResponse = json.decode(temp);
+        return (decodedResponse);
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    return null;
+  }
+
+
 }

@@ -5,6 +5,7 @@ import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/commamn/app_text_field.dart';
 
 import '../../../core/app_export.dart';
+import '../../widgets/alertDialog.dart';
 import 'forgot_password_controller.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -74,12 +75,38 @@ class ForgotPasswordScreen extends StatelessWidget {
                             errorMessage: _con.emailError,
                           ),
                           hSizedBox20,
-                          AppButton(
-                            text: AppString.send,
-                            width: Get.width / 2,
-                            onPressed: () {
-                              _con.onForgot();
-                            },
+                          Obx(
+                            ()=>_con.loading.value?const Center(child: CircularProgressIndicator(),): AppButton(
+                              text: AppString.send,
+                              width: Get.width / 2,
+                              onPressed: () async {
+                               var response= await _con.onForgot();
+                               _con.loading.value=false;
+                               response['status'] == 'success' ?  showDialog(
+                                   context: context,
+                                   builder: (_) =>
+                                       AlertDialogWidget(
+                                         onPositiveClick: () {
+                                           Get.back();
+                                           Get.back();
+                                         },
+                                         title: "Message",
+                                         subTitle: "A reset link is sent to your email. Try login After resetting credentials",
+                                       )):showDialog(
+                                   context: context,
+                                   builder: (_) =>
+                                       AlertDialogWidget(
+                                         onPositiveClick: () {
+                                           Get.back();
+                                         },
+                                         title: "Alert",
+                                         subTitle: "Some went wrong. please try again later",
+                                       ));
+
+
+
+                              },
+                            ),
                           )
                         ],
                       ),
