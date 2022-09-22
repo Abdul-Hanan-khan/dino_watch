@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:watch_app/core/utils/api_constants.dart';
+import 'package:watch_app/core/utils/app_string.dart';
 
 import 'package:watch_app/model/add_to_cart_model.dart';
 import 'package:watch_app/model/all_brands_model.dart';
@@ -16,6 +17,7 @@ import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
 import 'package:watch_app/model/products_by_brand.dart';
+import 'package:watch_app/model/search_model.dart';
 import 'package:watch_app/model/signup.dart';
 import 'package:watch_app/model/states_by_country_code.dart';
 import 'package:watch_app/model/view_cart_model.dart';
@@ -434,6 +436,40 @@ class HttpService {
     }
     return null;
   }
+
+
+  static Future<SearchModel?> search(String searchString) async {
+    try {
+      var headers = {
+        'Cookie': 'wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=hanan2%7C1664014640%7Cb0r6nfVdLwehGVlmTUWK5LFrGaEQfxNZmyLgbjEJpVB%7C11391f4b87d9c347194e23a1af6be8fda21eb25b4dccf1f64c2bd7d64689c82a'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/productsearch.php'));
+      request.fields.addAll({
+        'keyword': searchString
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var temp=(await response.stream.bytesToString());
+        var decodedResponse = json.decode(temp);
+        return SearchModel.fromJson(decodedResponse);
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    return null;
+  }
+
+
 
 
 }

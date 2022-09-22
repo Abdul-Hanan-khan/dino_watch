@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:watch_app/presentation/dashboard/search/search_controller.dart';
 
 import '../../core/app_export.dart';
 
 Widget searchBox({TextEditingController? controller, required String hint}) {
+  SearchController con=Get.find();
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
     // margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -34,6 +36,7 @@ Widget searchBox({TextEditingController? controller, required String hint}) {
             color: Colors.black.withOpacity(.7),
           ),
         ),
+
         // suffixIcon: Padding(
         //   padding: const EdgeInsets.all(8.0),
         //   child: Image.asset(
@@ -45,6 +48,10 @@ Widget searchBox({TextEditingController? controller, required String hint}) {
         focusedBorder: InputBorder.none,
         border: InputBorder.none,
       ),
+      onChanged: (value){
+        con.performSearchWithApi(value);
+        print("you can search for $value");
+      },
     ),
   );
 }
