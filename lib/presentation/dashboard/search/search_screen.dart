@@ -71,7 +71,7 @@ class SearchScreen extends StatelessWidget {
                                       height: 250,
                                     ),
                                     Text(
-                                      "Search for different",
+                                      "Search for Different Product",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
