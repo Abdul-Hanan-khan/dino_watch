@@ -39,19 +39,11 @@ Widget searchBox({TextEditingController? controller, required String hint}) {
           ),
         ),
 
-        // suffixIcon: Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Image.asset(
-        //     ImageConstant.close,
-        //     color: Colors.black.withOpacity(.35),
-        //   ),
-        // ),
-
         focusedBorder: InputBorder.none,
         border: InputBorder.none,
       ),
       onChanged: (value){
-        if(!value.isEmpty || value == ""){
+        if(!value.isEmpty || value != "" || value.length <2){
           con.performSearchWithApi(value);
         }else{
           con.searchModel.value == SearchModel();

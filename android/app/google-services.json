@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "824723030809",
+    "project_id": "dino-app-2c647",
+    "storage_bucket": "dino-app-2c647.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824723030809:android:88adff774043f7359f3b88",
+        "android_client_info": {
+          "package_name": "com.example.watch_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824723030809-rnlga6gpf9hd9oggmmload276j7cdf78.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.watch_app",
+            "certificate_hash": "af707f779debbdf8240a5cba140ef85a2e5d3064"
+          }
+        },
+        {
+          "client_id": "824723030809-k11ior1fgtvsrh46crai0a4b5imcu3p5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2tx_h1LvFkp72JToHEKysjIaiI_1FgYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824723030809-k11ior1fgtvsrh46crai0a4b5imcu3p5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
