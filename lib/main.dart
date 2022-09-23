@@ -17,6 +17,20 @@ void main() async {
   LazyBinding().dependencies();
   runApp(MyApp());
   getLoginStatus();
+
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
 }
 
 getLoginStatus() async {

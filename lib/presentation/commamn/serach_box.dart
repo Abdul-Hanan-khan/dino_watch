@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:watch_app/model/search_model.dart';
 import 'package:watch_app/presentation/dashboard/search/search_controller.dart';
 
 import '../../core/app_export.dart';
@@ -49,7 +51,11 @@ Widget searchBox({TextEditingController? controller, required String hint}) {
         border: InputBorder.none,
       ),
       onChanged: (value){
-        con.performSearchWithApi(value);
+        if(!value.isEmpty || value == ""){
+          con.performSearchWithApi(value);
+        }else{
+          con.searchModel.value == SearchModel();
+        }
         print("you can search for $value");
       },
     ),

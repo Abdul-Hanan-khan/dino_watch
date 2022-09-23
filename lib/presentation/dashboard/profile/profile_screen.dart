@@ -89,6 +89,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ontap: () {
                 Get.toNamed(AppRoutes.myOrdersScreen);
               },
+            ),     profileList(
+              icon: ImageConstant.myOrders,
+              name: AppString.orderSummary,
+              ontap: () {
+                Get.toNamed(AppRoutes.orderSummaryScreen);
+              },
             ),
             profileList(
               icon: ImageConstant.chooseLanguage,
