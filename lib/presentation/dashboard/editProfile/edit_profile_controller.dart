@@ -25,7 +25,7 @@ class ProfileEditController extends GetxController {
   void onInit() async {
     print(userNameSplit);
    firstName.value=userNameSplit[0]??"";
-   lastName.value=userNameSplit[2]??"";
+   lastName.value= userNameSplit.length>1? userNameSplit[1]:"";
 
    print(firstName);
    print(lastName);

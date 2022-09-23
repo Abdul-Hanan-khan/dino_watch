@@ -218,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // Get.toNamed(AppRoutes.watchDetailScreen);
       },
       child: Container(
+        padding: EdgeInsets.only(top: 10),
         width: Get.width / 2 - 20,
         // height: 200,
         decoration: BoxDecoration(
@@ -232,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             Container(
               padding: const EdgeInsets.all(10),
@@ -306,8 +308,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Positioned(
-              top: 5,
-              right: 5,
+              top: -11,
+              right: 0,
               child: Obx(
                 () => GestureDetector(
                   onTap: () {
