@@ -1,15 +1,18 @@
+import 'package:get/get.dart';
+
 class SearchModel {
   String? status;
-  List<Products>? products;
+  RxList<Products>? products = <Products>[].obs
+  ;
 
   SearchModel({this.status, this.products});
 
   SearchModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['products'] != null) {
-      products = <Products>[];
+      products!.value = <Products>[];
       json['products'].forEach((v) {
-        products!.add(new Products.fromJson(v));
+        products!.value.add(new Products.fromJson(v));
       });
     }
   }
@@ -17,8 +20,8 @@ class SearchModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.products != null) {
-      data['products'] = this.products!.map((v) => v.toJson()).toList();
+    if (this.products!.value != null) {
+      data['products'] = this.products!.value!.map((v) => v.toJson()).toList();
     }
     return data;
   }

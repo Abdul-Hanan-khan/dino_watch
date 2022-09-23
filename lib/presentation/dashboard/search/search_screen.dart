@@ -62,7 +62,7 @@ class SearchScreen extends StatelessWidget {
                       () => _con.loading.value
                           ? CupertinoActivityIndicator()
                           : _con.searchModel.value.products.isNull ||
-                                  _con.searchModel.value.products!.isEmpty
+                                  _con.searchModel.value.products!.length == 0
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
@@ -77,9 +77,10 @@ class SearchScreen extends StatelessWidget {
                                     ),
                                   ],
                                 )
-                              :  GridView.builder(
+                              :  Obx(
+                        ()=> GridView.builder(
                         shrinkWrap: true,
-                        itemCount: _con.searchModel.value.products!.length,
+                        itemCount: _con.searchList.length,
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                         primary: false,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -89,9 +90,10 @@ class SearchScreen extends StatelessWidget {
                           childAspectRatio: Get.size.width / (Get.size.height * 0.70),
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          return productCardView(_con.searchModel.value.products![index] ,index);
+                          return productCardView(_con.searchList.value[index] ,index);
                         },
                       ),
+                              ),
                     ),
                     hSizedBox10,
                   ],
@@ -104,7 +106,7 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  productCardView(Products product, index) {
+  productCardView(Products product,index) {
     return GestureDetector(
       onTap: () {
         Get.to(WatchDetailScreen(product.productId!));
