@@ -26,7 +26,7 @@ class BottomBarScreen extends StatelessWidget {
   final ProfileEditController _editprofilecon =
       Get.put(ProfileEditController());
   ShoppingCartController cartController = Get.find();
-  HomeController homeController=Get.find();
+  HomeController homeController = Get.find();
   final BottomBarController _con = Get.find();
 
   // sdf
@@ -135,7 +135,9 @@ class BottomBarScreen extends StatelessWidget {
                               : Colors.black,
                         ),
                       ),
-                      index == 1 && cartController.cart.products!.value.length>0 // at cart logic
+                      index == 1 &&
+                              cartController.cart.products!.value.length >
+                                  0 // at cart logic
                           ? Align(
                               alignment: Alignment.topRight,
                               child: Container(
@@ -145,7 +147,7 @@ class BottomBarScreen extends StatelessWidget {
                                     color: AppColors.backgroundColor,
                                     border: Border.all(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20)),
-                                child:  Center(
+                                child: Center(
                                   child: Text(
                                     '${cartController.cart.products!.length}',
                                     style: const TextStyle(
@@ -155,7 +157,9 @@ class BottomBarScreen extends StatelessWidget {
                               ),
                             )
                           : Container(),
-                      index == 2 && homeController.favouriteList.length>0 // at cart logic
+                      index == 2 &&
+                              homeController.favouriteList.length >
+                                  0 // at cart logic
                           ? Align(
                               alignment: Alignment.topRight,
                               child: Container(
@@ -165,7 +169,7 @@ class BottomBarScreen extends StatelessWidget {
                                     color: AppColors.backgroundColor,
                                     border: Border.all(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20)),
-                                child:  Center(
+                                child: Center(
                                   child: Text(
                                     '${homeController.favouriteList.length}',
                                     style: TextStyle(

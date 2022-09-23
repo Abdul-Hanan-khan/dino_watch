@@ -286,12 +286,35 @@ class WatchDetailScreen extends StatelessWidget {
                             child: AppButton(
                               text: "ADD REVIEW",
                               onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  // set to false if you want to force a rating
-                                  builder: (context) => _dialog,
+
+                                Get.bottomSheet(
+                                    StatefulBuilder(
+                                      builder: (BuildContext context, StateSetter setState){
+                                        return Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(height: 10,),
+                                            SizedBox(
+                                                width: Get.width * 0.4,
+                                                child: Divider(height: 4,color: Colors.black,)),
+                                            SizedBox(height: 10,),
+
+                                            Text("What is Your Rate",style: TextStyle(fontWeight: FontWeight.bold),)
+                                          ],
+                                        );
+                                      }
+
+                                    ),
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)))
                                 );
+                               // myBottomSheet(context);
+                                // showDialog(
+                                //   context: context,
+                                //   barrierDismissible: true,
+                                //   // set to false if you want to force a rating
+                                //   builder: (context) => _dialog,
+                                // );
                               },
                             ),
                           )
@@ -449,6 +472,17 @@ class WatchDetailScreen extends StatelessWidget {
 
 
     );
+
+  }
+  myBottomSheet(BuildContext context){
+    return  showBottomSheet(
+      context: context,builder: (context) => Column(
+      children: [
+        SizedBox(height: 8,),
+        Divider(height: 2,),
+        Text("What is Your Rate?")
+      ],
+    ),);
   }
 
   Text info(String text) {
