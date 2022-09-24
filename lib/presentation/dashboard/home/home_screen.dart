@@ -325,15 +325,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(5),
-                    decoration: const BoxDecoration(
-                        color: Color(0xff939393), shape: BoxShape.circle),
+                    decoration:  BoxDecoration(
+                        color: AppColors.backgroundColor.withOpacity(0.3), shape: BoxShape.circle),
                     child: Icon(
                       product.isFavourite!.value
                           ? Icons.favorite
                           : Icons.favorite_border,
                       size: 16,
                       color: product.isFavourite!.value
-                          ? const Color(0xffFF4848)
+                          ?  AppColors.backgroundColor
                           : Colors.white,
                     ),
                   ),
