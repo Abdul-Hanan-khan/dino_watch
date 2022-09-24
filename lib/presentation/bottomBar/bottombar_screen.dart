@@ -23,8 +23,10 @@ import '../../core/app_export.dart';
 
 class BottomBarScreen extends StatelessWidget {
   BottomBarScreen({Key? key}) : super(key: key);
-  final ProfileEditController _editprofilecon = Get.put(ProfileEditController());
-
+  final ProfileEditController _editprofilecon =
+      Get.put(ProfileEditController());
+  ShoppingCartController cartController = Get.find();
+  HomeController homeController=Get.find();
   final BottomBarController _con = Get.find();
 
   // sdf
@@ -122,14 +124,58 @@ class BottomBarScreen extends StatelessWidget {
                         ? AppColors.backgroundColor
                         : null,
                   ),
-                  child: IconButton(
-                    onPressed: () => _con.onTap(index),
-                    icon: Image.asset(
-                      _con.icons[index],
-                      color: _con.pageIndex.value == index
-                          ? Colors.white
-                          : Colors.black,
-                    ),
+                  child: Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () => _con.onTap(index),
+                        icon: Image.asset(
+                          _con.icons[index],
+                          color: _con.pageIndex.value == index
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
+                      index == 1 && cartController.cart.products!.value.length>0 // at cart logic
+                          ? Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                    color: AppColors.backgroundColor,
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child:  Center(
+                                  child: Text(
+                                    '${cartController.cart.products!.length}',
+                                    style: const TextStyle(
+                                        fontSize: 10, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      index == 2 && homeController.favouriteList.length>0 // at cart logic
+                          ? Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                    color: AppColors.backgroundColor,
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child:  Center(
+                                  child: Text(
+                                    '${homeController.favouriteList.length}',
+                                    style: TextStyle(
+                                        fontSize: 10, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container()
+                    ],
                   ),
                 ),
               ],
@@ -187,7 +233,8 @@ class BottomBarScreen extends StatelessWidget {
                                         ? Get.to(const AllBrandsScreen())
                                         : _con.drawerIndex.value == 4
                                             // ? Get.toNamed(AppRoutes.faqscreen)
-                                            ? StaticVars.customLauncher(Uri.parse('https://dannidion.com/frequently-asked-questions/'))
+                                            ? StaticVars.customLauncher(Uri.parse(
+                                                'https://dannidion.com/frequently-asked-questions/'))
                                             : _con.drawerIndex.value == 5
                                                 ? Platform.isIOS
                                                     ? showDialog(
@@ -327,10 +374,9 @@ class BottomBarScreen extends StatelessWidget {
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                        image:  DecorationImage(
+                        image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                                StaticVars.avatar)),
+                            image: NetworkImage(StaticVars.avatar)),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Colors.white,
