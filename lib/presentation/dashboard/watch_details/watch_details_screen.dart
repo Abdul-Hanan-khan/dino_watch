@@ -249,7 +249,7 @@ class WatchDetailScreen extends StatelessWidget {
                           wSizedBox10,
                           RichText(
                             text: TextSpan(
-                              text: '\$',
+                              text: '',
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 23,
@@ -257,9 +257,9 @@ class WatchDetailScreen extends StatelessWidget {
                                   fontStyle: FontStyle.italic),
                               children: [
                                 TextSpan(
-                                    text: '${_con.watchDetailsM.value.price}',
+                                    text: '\$${_con.watchDetailsM.value.price}',
                                     style: TextStyle(
-                                        decoration: TextDecoration.underline,
+                                        // decoration: TextDecoration.underline,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 34,
                                         color: AppColors.purple,
