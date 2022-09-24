@@ -94,11 +94,10 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                   titleText("Phone No"),
                   hSizedBox6,
                   AppTextField(
-
                     shadow: true,
                     hintText: "Enter Your Phone No",
                     // errorMessage: _con.emailError,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.phone,
                     errorMessage: _con.phoneNoError,
                     onChange: (val) {
                       _con.phoneNoCtr.text = val;
@@ -235,120 +234,71 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                         : AppButton(
                             text: AppString.placeOrder,
                             onPressed: () async {
-
-                              if (_con.firstNameCtr.text.toString() == '' ||
-                                  _con.lastNameCtr.text.toString() == "" ||
-                                  _con.emailCtr.text.toString() == "" ||
-                                  _con.phoneNoCtr.text.toString() == "" ||
-                                  _con.addressCtr.text.toString() == "" ||
-                                  _con.countryDropDownValue.value.toString() == "" ||
-                                  _con.statesDropdownvalue.value.toString() == ""||
-                                  _con.postCodeCtr.text.toString() == ""
-                              ) {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => AlertDialogWidget(
-                                          onPositiveClick: () {
-                                            Get.back();
-                                          },
-                                          title: "Error",
-                                          subTitle: "All Fields are Required",
-                                        ));
-                              }else if(cartController.cart.products!.length <1){
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => AlertDialogWidget(
-                                      onPositiveClick: () {
-                                        Get.back();
-                                      },
-                                      title: "Error",
-                                      subTitle: "Your Cart is Empty",
-                                    ));
-                              }else{
-                                _con.placeOrderLoading.value = true;
-                                PlaceOrderModel? response = await HttpService.placeOrder(
-                                    userid: StaticVars.id,
-                                    firstName: _con.firstNameCtr.text.toString(),
-                                    lastName: _con.lastNameCtr.text.toString(),
-                                    email: _con.emailCtr.text.toString(),
-                                    phone: _con.phoneNoCtr.text.toString(),
-                                    address: _con.addressCtr.text.toString(),
-                                    country: _con.countryDropDownValue.value
-                                        .toString(),
-                                    state:
-                                    _con.statesDropdownvalue.value.toString(),
-                                    postCode: _con.postCodeCtr.text.toString(),
-                                    items: cartController.cart.products!.value);
-                                _con.placeOrderLoading.value = false;
-
-                                if(response!.paymentLink.isNull){
+                              if (_con.validate()) {
+                                if (cartController.cart.products!.length < 1) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => AlertDialogWidget(
+                                            onPositiveClick: () {
+                                              Get.back();
+                                            },
+                                            title: "Warning",
+                                            subTitle: "Your Cart is Empty",
+                                          ));
+                                } else if(_con.countryDropDownValue.value.isEmpty || _con.countryDropDownValue.value.isEmpty || _con.countryDropDownValue.value == "" || _con.countryDropDownValue.value == ""  ){
                                   showDialog(
                                       context: context,
                                       builder: (_) => AlertDialogWidget(
                                         onPositiveClick: () {
                                           Get.back();
                                         },
-                                        title: "Error",
-                                        subTitle: "Something Went Wrong",
+                                        title: "Warning",
+                                        subTitle: "Country Name and State are Required",
                                       ));
-                                }else{
-                                  cartController.clearCart();
-                                  StaticVars.customLauncher(Uri.parse(response.paymentLink.toString()));
-                                  // Get.to(CustomCheckoutScreen(url: response.paymentLink.toString()));
+                                }
+
+                                else {
+                                  _con.placeOrderLoading.value = true;
+                                  PlaceOrderModel? response =
+                                      await HttpService.placeOrder(
+                                          userid: StaticVars.id,
+                                          firstName:
+                                              _con.firstNameCtr.text.toString(),
+                                          lastName:
+                                              _con.lastNameCtr.text.toString(),
+                                          email: _con.emailCtr.text.toString(),
+                                          phone:
+                                              _con.phoneNoCtr.text.toString(),
+                                          address:
+                                              _con.addressCtr.text.toString(),
+                                          country: _con
+                                              .countryDropDownValue.value
+                                              .toString(),
+                                          state: _con.statesDropdownvalue.value
+                                              .toString(),
+                                          postCode:
+                                              _con.postCodeCtr.text.toString(),
+                                          items: cartController
+                                              .cart.products!.value);
+                                  _con.placeOrderLoading.value = false;
+
+                                  if (response!.paymentLink.isNull) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (_) => AlertDialogWidget(
+                                              onPositiveClick: () {
+                                                Get.back();
+                                              },
+                                              title: "Error",
+                                              subTitle: "Something Went Wrong",
+                                            ));
+                                  } else {
+                                    cartController.clearCart();
+                                    StaticVars.customLauncher(Uri.parse(
+                                        response.paymentLink.toString()));
+                                  }
                                 }
                               }
-
-
-
-                              // if (!userLoginStatus!) {
-                              //   showDialog(
-                              //       context: context,
-                              //       builder: (_) =>
-                              //           AlertDialogWidget(
-                              //             onPositiveClick: () {
-                              //               Get.off(
-                              //                   LoginScreen());
-                              //             },
-                              //             title: "Warning",
-                              //             subTitle:
-                              //             "Please login first",
-                              //           ));
-                              // } else
-                              // {
-                              //   cartIndex.value = cartController
-                              //       .cart.products!
-                              //       .indexWhere((element) =>
-                              //   element.id ==
-                              //       _con.watchDetailsM.value
-                              //           .id);
-                              //
-                              //   print(cartIndex.value);
-                              //   await cartController.addItem(
-                              //       _con.watchDetailsM.value,
-                              //       cartIndex.value);
-                              //   // Get.to(ShoppingCartScreen());
-                              //   // await cartController.addToCart(watchId.toString());
-                              //   // if(cartController.cartModel.value.status == 'success'){
-                              //   barController.pageIndex.value = 1;
-                              //   // Get.off(BottomBarScreen());
-                              //   //   cartController.viewCart();
-                              //
-                              //   Get.back();
-                              //   Get.back();
-                              //   Get.back();
-                              //
-                              //   // }else{
-                              //   //   showDialog(
-                              //   //       context: context,
-                              //   //       builder: (_) => AlertDialogWidget(
-                              //   //         onPositiveClick: () {
-                              //   //           Get.back();
-                              //   //         },
-                              //   //         title: "Error",
-                              //   //         subTitle: "Failed adding to cart",
-                              //   //       ));
-                              //   // }
-                              // }
                             },
                           ),
                   )

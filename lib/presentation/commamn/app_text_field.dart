@@ -18,7 +18,7 @@ class AppTextField extends StatelessWidget {
   final bool border;
   final bool shadow;
   final bool devider;
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
   final int maxLines;
   final Color? color;
   final Color? bgcolor;
@@ -46,7 +46,7 @@ class AppTextField extends StatelessWidget {
     this.border = true,
     this.shadow = false,
     this.devider = true,
-    this.keyboardType = TextInputType.text,
+    this.keyboardType ,
     this.maxLines = 1,
     this.color,
     this.inputFormatters,
@@ -89,6 +89,7 @@ class AppTextField extends StatelessWidget {
             onTap: ontap,
             readOnly: readonly,
             controller: controller,
+            keyboardType: keyboardType??TextInputType.text,
             onChanged: onChange,
             inputFormatters: inputFormatters,
             cursorColor: AppColors.appColor,
