@@ -19,18 +19,16 @@ import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
 
 import 'watch_details_controller.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class WatchDetailScreen extends StatelessWidget {
   int watchId;
 
   WatchDetailScreen(this.watchId);
 
-
-
   @override
   Widget build(BuildContext context) {
-
-     // RxBool loadingReview=false.obs;
+    // RxBool loadingReview=false.obs;
     final _dialog = RatingDialog(
       initialRating: 1.0,
       starSize: 22,
@@ -57,24 +55,26 @@ class WatchDetailScreen extends StatelessWidget {
       onSubmitted: (response) async {
         print('rating: ${response.rating}, comment: ${response.comment}');
         // loadingReview.value=true;
-        var apiResponse=await HttpService.addReview(userId: StaticVars.id, productId: watchId.toString(), rating: response.rating.round(), commentContent: response.comment);
+        var apiResponse = await HttpService.addReview(
+            userId: StaticVars.id,
+            productId: watchId.toString(),
+            rating: response.rating.round(),
+            commentContent: response.comment);
         // loadingReview.value=false;
-        if(apiResponse['status']=="success"){
-          Get.snackbar(
-            "Message",
-            "Your Review is Recorded. Thanks for Reviewing Our Product",
-            backgroundColor: Colors.white,
-            boxShadows: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3), // changes position of shadow
-              ),
-            ]
-          );
+        if (apiResponse['status'] == "success") {
+          Get.snackbar("Message",
+              "Your Review is Recorded. Thanks for Reviewing Our Product",
+              backgroundColor: Colors.white,
+              boxShadows: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ]);
           // Get.back();
-        }else{
+        } else {
           Get.snackbar(
             "Message",
             "${apiResponse['status']}",
@@ -286,29 +286,165 @@ class WatchDetailScreen extends StatelessWidget {
                             child: AppButton(
                               text: "ADD REVIEW",
                               onPressed: () {
-
                                 Get.bottomSheet(
-                                    StatefulBuilder(
-                                      builder: (BuildContext context, StateSetter setState){
-                                        return Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                  StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 4,
+                                          width: Get.width * 0.2,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.grey),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          "What is Your Rate",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        RatingBar.builder(
+                                          itemSize: 30,
+                                          initialRating: 3,
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 0.0),
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            print(rating);
+                                          },
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Container(
+                                          width:Get.width *0.8,
+                                          child: const Text(
+                                            "Please Share your Opinion About The Product",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,fontSize: 19),
+                                          ),
+                                        ),
+
+                                        Container(
+                                          height: 150,
+                                          width: Get.width,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 10),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 0),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: TextFormField(
+                                            minLines: 1,
+                                            maxLines: 5,
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Your Review",
+                                            ),
+                                            style:
+                                                const TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            SizedBox(height: 10,),
-                                            SizedBox(
-                                                width: Get.width * 0.4,
-                                                child: Divider(height: 4,color: Colors.black,)),
-                                            SizedBox(height: 10,),
 
-                                            Text("What is Your Rate",style: TextStyle(fontWeight: FontWeight.bold),)
+                                            Container(
+                                              margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                              height: 110,
+                                              width: 80,
+                                              color:Colors.white70,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.max,
+
+                                                children: [
+                                                  CircleAvatar(
+                                                    child: Icon(Icons.camera_alt,color: Colors.white,),
+                                                    backgroundColor: AppColors.backgroundColor,
+                                                  ),
+                                                   SizedBox(height: 5,),
+                                                   Text("Add Your Photos",
+                                                       textAlign: TextAlign.center,
+                                                       style: TextStyle(
+                                                     fontSize: 10
+                                                   )),
+                                                ],
+                                              ),
+                                            )
+                                            // Container(
+                                            //   margin: EdgeInsets.only(left: 20),
+                                            //   height: 50,
+                                            //   width: 50,
+                                            //   decoration: BoxDecoration(
+                                            //     color:
+                                            //         AppColors.backgroundColor,
+                                            //     borderRadius:
+                                            //         BorderRadius.circular(30),
+                                            //   ),
+                                            //   child: const Center(
+                                            //     child: Icon(
+                                            //       Icons.camera_alt,
+                                            //       color: Colors.white,
+                                            //     ),
+                                            //   ),
+                                            // )
                                           ],
-                                        );
-                                      }
+                                        ),
+                                        SizedBox(
 
-                                    ),
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)))
+                                          width: Get.width * 0.5,
+                                         child: RaisedButton(
+                                           onPressed: (){},
+                                           child: const Text("Send Review",style: TextStyle(color: Colors.white70),
+                                           ),
+                                           color:AppColors.backgroundColor,
+                                           shape: RoundedRectangleBorder(
+                                             borderRadius: BorderRadius.circular(20)
+                                           ),
+                                         ),
+                                        ),
+                                        Container(height: 50,),
+                                      ],
+                                    );
+                                  }),
+                                  enableDrag: true,
+                                  isScrollControlled: true,
+                                  backgroundColor:   Color(0xffeff6fd),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                  ),
                                 );
-                               // myBottomSheet(context);
+
+                                // myBottomSheet(context);
                                 // showDialog(
                                 //   context: context,
                                 //   barrierDismissible: true,
@@ -321,13 +457,14 @@ class WatchDetailScreen extends StatelessWidget {
                         ],
                       ),
                       hSizedBox8,
-                       StarRating(
-                        rating: double.parse(_con.watchDetailsM.value.ratingCount.toString()).round(),
+                      StarRating(
+                        rating: double.parse(
+                                _con.watchDetailsM.value.ratingCount.toString())
+                            .round(),
                       ),
                       hSizedBox8,
                       Text(
-                        _con.watchDetailsM.value.description ??
-                            "".toString(),
+                        _con.watchDetailsM.value.description ?? "".toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: Colors.black.withOpacity(.4),
@@ -469,20 +606,24 @@ class WatchDetailScreen extends StatelessWidget {
                 ),
               ),
       ),
-
-
     );
-
   }
-  myBottomSheet(BuildContext context){
-    return  showBottomSheet(
-      context: context,builder: (context) => Column(
-      children: [
-        SizedBox(height: 8,),
-        Divider(height: 2,),
-        Text("What is Your Rate?")
-      ],
-    ),);
+
+  myBottomSheet(BuildContext context) {
+    return showBottomSheet(
+      context: context,
+      builder: (context) => Column(
+        children: [
+          SizedBox(
+            height: 8,
+          ),
+          Divider(
+            height: 2,
+          ),
+          Text("What is Your Rate?")
+        ],
+      ),
+    );
   }
 
   Text info(String text) {
