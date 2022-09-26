@@ -115,127 +115,104 @@ class WatchDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: Get.width,
-                        height: 300,
-                        child: Row(
-                          children: [
-                            // const Expanded(
-                            //   flex: 1,
-                            //   child: RotatedBox(
-                            //     quarterTurns: -1,
-                            //     child: Text(
-                            //       "Black Watch",
-                            //       style: TextStyle(
-                            //           fontSize: 40,
-                            //           fontWeight: FontWeight.w600,
-                            //           color: Color(0xffFFE7C1)),
-                            //     ),
-                            //   ),
-                            // ),
-                            ImageSlideshow(
-                              width: MediaQuery.of(context).size.width * 0.6,
+                        width: Get.width * 0.9,
+                        height: Get.width * 0.9,
+                        child: ImageSlideshow(
+                          width: MediaQuery.of(context).size.width * 0.6,
 
-                              /// Height of the [ImageSlideshow].
-                              height: 300,
+                          /// Height of the [ImageSlideshow].
+                          height: 280,
 
-                              /// The page to show when first creating the [ImageSlideshow].
-                              initialPage: 0,
+                          /// The page to show when first creating the [ImageSlideshow].
+                          initialPage: 0,
 
-                              /// The color to paint the indicator.
-                              indicatorColor: Colors.blue,
+                          /// The color to paint the indicator.
+                          indicatorColor: Colors.blue,
 
-                              /// The color to paint behind th indicator.
-                              indicatorBackgroundColor: Colors.grey,
-                              // children: _con.watchDetailsM.value.images!
-                              //     .map(
-                              //       (e) => Image.network(
-                              //         e.src.toString(),
-                              //         fit: BoxFit.contain,
-                              //       ),
-                              //     )
-                              //     .toList(),
+                          /// The color to paint behind th indicator.
+                          indicatorBackgroundColor: Colors.grey,
+// children: _con.watchDetailsM.value.images!
+//     .map(
+//       (e) => Image.network(
+//         e.src.toString(),
+//         fit: BoxFit.contain,
+//       ),
+//     )
+//     .toList(),
 
-                              children: _con.watchDetailsM.value.images!
-                                  .map(
-                                    (e) => GestureDetector(
-                                      onTap: () {
-                                        showImageViewer(
-                                            context,
-                                            Image.network(e.src.toString())
-                                                .image,
-                                            swipeDismissible: false);
-                                      },
-                                      child: Image.network(
-                                        e.src.toString(),
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-
-                              onPageChanged: (value) {
-                                print('Page changed: $value');
-                              },
-
-                              /// Auto scroll interval.
-                              /// Do not auto scroll with null or 0.
-                              autoPlayInterval: 10000,
-
-                              /// Loops back to first slide.
-                              // isLoop: true,
-                            ),
-
-                            // Expanded(
-                            //   flex: 3,
-                            //   child: SizedBox(
-                            //     height: 300,
-                            //     // color: Colors.amberAccent,
-                            //     child: Image.network(
-                            //       _con.watchDetailsM.value.images![0].src
-                            //           .toString(),
-                            //       fit: BoxFit.contain,
-                            //     ),
-                            //   ),
-                            // ),
-                            Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    hSizedBox36,
-                                    _con.watchDetailsM.value.tags!.length == 0
-                                        ? Container()
-                                        : details(AppString.brand),
-                                    _con.watchDetailsM.value.tags!.length == 0
-                                        ? Container()
-                                        : info(_con
-                                            .watchDetailsM.value.tags![0].name
-                                            .toString()),
-                                    hSizedBox36,
-                                    _con.watchDetailsM.value.attributes!
-                                                .length ==
-                                            0
-                                        ? Container()
-                                        : details(AppString.color),
-                                    _con.watchDetailsM.value.attributes!
-                                                .length ==
-                                            0
-                                        ? Container()
-                                        : info(_con.watchDetailsM.value
-                                            .attributes![1].options![0]),
-                                    hSizedBox36,
-                                    details(AppString.warranty),
-                                    info(AppString.years),
-                                  ],
+                          children: _con.watchDetailsM.value.images!
+                              .map(
+                                (e) => GestureDetector(
+                                  onTap: () {
+                                    showImageViewer(context,
+                                        Image.network(e.src.toString()).image,
+                                        swipeDismissible: false);
+                                  },
+                                  child: Image.network(
+                                    e.src.toString(),
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                              .toList(),
+
+                          onPageChanged: (value) {
+                            print('Page changed: $value');
+                          },
+
+                          /// Auto scroll interval.
+                          /// Do not auto scroll with null or 0.
+                          autoPlayInterval: 10000,
+
+                          /// Loops back to first slide.
+// isLoop: true,
                         ),
                       ),
-                      hSizedBox20,
+                      // hSizedBox20,
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              hSizedBox36,
+                              _con.watchDetailsM.value.tags!.length == 0
+                                  ? Container()
+                                  : details(AppString.brand),
+                              _con.watchDetailsM.value.tags!.length == 0
+                                  ? Container()
+                                  : info(_con.watchDetailsM.value.tags![0].name
+                                      .toString()),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              hSizedBox36,
+                              _con.watchDetailsM.value.attributes!.length == 0
+                                  ? Container()
+                                  : details(AppString.color),
+                              _con.watchDetailsM.value.attributes!.length == 0
+                                  ? Container()
+                                  : info(_con.watchDetailsM.value.attributes![1]
+                                      .options![0]),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              hSizedBox36,
+                              details(AppString.warranty),
+                              info(AppString.years),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           Expanded(
@@ -334,17 +311,19 @@ class WatchDetailScreen extends StatelessWidget {
                                             print(rating);
                                           },
                                         ),
-                                        SizedBox(height: 10,),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Container(
-                                          width:Get.width *0.8,
+                                          width: Get.width * 0.8,
                                           child: const Text(
                                             "Please Share your Opinion About The Product",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold,fontSize: 19),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 19),
                                           ),
                                         ),
-
                                         Container(
                                           height: 150,
                                           width: Get.width,
@@ -373,28 +352,35 @@ class WatchDetailScreen extends StatelessWidget {
                                               MainAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-
                                             Container(
-                                              margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 20, vertical: 10),
                                               height: 110,
                                               width: 80,
-                                              color:Colors.white70,
+                                              color: Colors.white70,
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 mainAxisSize: MainAxisSize.max,
-
                                                 children: [
                                                   CircleAvatar(
-                                                    child: Icon(Icons.camera_alt,color: Colors.white,),
-                                                    backgroundColor: AppColors.backgroundColor,
+                                                    child: Icon(
+                                                      Icons.camera_alt,
+                                                      color: Colors.white,
+                                                    ),
+                                                    backgroundColor: AppColors
+                                                        .backgroundColor,
                                                   ),
-                                                   SizedBox(height: 5,),
-                                                   Text("Add Your Photos",
-                                                       textAlign: TextAlign.center,
-                                                       style: TextStyle(
-                                                     fontSize: 10
-                                                   )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text("Add Your Photos",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 10)),
                                                 ],
                                               ),
                                             )
@@ -418,25 +404,29 @@ class WatchDetailScreen extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-
                                           width: Get.width * 0.5,
-                                         child: RaisedButton(
-                                           onPressed: (){},
-                                           child: const Text("Send Review",style: TextStyle(color: Colors.white70),
-                                           ),
-                                           color:AppColors.backgroundColor,
-                                           shape: RoundedRectangleBorder(
-                                             borderRadius: BorderRadius.circular(20)
-                                           ),
-                                         ),
+                                          child: RaisedButton(
+                                            onPressed: () {},
+                                            child: const Text(
+                                              "Send Review",
+                                              style: TextStyle(
+                                                  color: Colors.white70),
+                                            ),
+                                            color: AppColors.backgroundColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                          ),
                                         ),
-                                        Container(height: 50,),
+                                        Container(
+                                          height: 50,
+                                        ),
                                       ],
                                     );
                                   }),
                                   enableDrag: true,
                                   isScrollControlled: true,
-                                  backgroundColor:   Color(0xffeff6fd),
+                                  backgroundColor: Color(0xffeff6fd),
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(20),
