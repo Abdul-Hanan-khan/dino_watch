@@ -3,12 +3,13 @@ import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/get_checkout_info.dart';
 
 import 'order_summary_controller.dart';
 
 class OrderSummaryScreen extends StatelessWidget {
   OrderSummaryScreen({Key? key}) : super(key: key);
-  final OrderSummaryController _con = Get.put(OrderSummaryController());
+  final OrderSummaryController _con = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -44,166 +45,173 @@ class OrderSummaryScreen extends StatelessWidget {
                 ),
               ),
               hSizedBox10,
-              Container(
-                height: 50,
-                width: Get.width,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25),
-                  border: Border.all(
-                    color: const Color(0xffD2D2D2),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      ImageConstant.addnewaddress,
-                      height: 25,
-                      width: 25,
+              GestureDetector(
+                onTap: (){
+                  Get.to(GetCheckoutInfoScreen());
+                },
+                child: Container(
+                  height: 50,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: const Color(0xffD2D2D2),
                     ),
-                    wSizedBox10,
-                    Text(
-                      AppString.addNewAddress,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        ImageConstant.addnewaddress,
+                        height: 25,
+                        width: 25,
                       ),
-                    )
-                  ],
+                      wSizedBox10,
+                      Text(
+                        AppString.addNewAddress,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               ListView.builder(
-                itemCount: 3,
+                itemCount: _con.addressModel.addressList!.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
-                  return Obx(
-                    () => Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _con.isSelectAdd.value = index;
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(14),
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 10.0,
-                                  spreadRadius: .5,
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  ImageConstant.office,
-                                  height: 35,
-                                  width: 35,
-                                ),
-                                wSizedBox20,
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        AppString.office,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      hSizedBox4,
-                                      const Text(
-                                        "James A.",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      hSizedBox4,
-                                      const Text(
-                                        "+781-343-1253",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      hSizedBox4,
-                                      const Text(
-                                        "717 Romani Street, Boston, Massachusetts 02110, USA",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff707070),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Radio(
-                                  visualDensity: const VisualDensity(
-                                    horizontal: VisualDensity.minimumDensity,
-                                    vertical: VisualDensity.minimumDensity,
-                                  ),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  activeColor: AppColors.yellowColor,
-                                  value: _con.isSelectAdd.value,
-                                  groupValue: index,
-                                  onChanged: (val) {
-                                    _con.isSelectAdd.value = index;
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        if (_con.isSelectAdd.value == index)
-                          Positioned(
-                            bottom: 30,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color:
-                                        Colors.grey.shade300.withOpacity(0.6),
-                                    blurRadius: 10.0,
-                                    spreadRadius: .5,
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                AppString.defaulttext,
-                                style: TextStyle(
-                                  color: AppColors.yellowColor,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          )
-                      ],
-                    ),
-                  );
+
+                  return Text("${_con.addressModel.addressList![index].address}");
+                  // return Obx(
+                  //   () => Stack(
+                  //     alignment: Alignment.bottomRight,
+                  //     children: [
+                  //       GestureDetector(
+                  //         onTap: () {
+                  //           _con.isSelectAdd.value = index;
+                  //         },
+                  //         child: Container(
+                  //           padding: const EdgeInsets.all(14),
+                  //           margin: const EdgeInsets.symmetric(vertical: 10),
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.white,
+                  //             borderRadius: BorderRadius.circular(10),
+                  //             boxShadow: const [
+                  //               BoxShadow(
+                  //                 color: Colors.black12,
+                  //                 blurRadius: 10.0,
+                  //                 spreadRadius: .5,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //           child: Row(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: [
+                  //               Image.asset(
+                  //                 ImageConstant.office,
+                  //                 height: 35,
+                  //                 width: 35,
+                  //               ),
+                  //               wSizedBox20,
+                  //               Expanded(
+                  //                 child: Column(
+                  //                   crossAxisAlignment:
+                  //                       CrossAxisAlignment.start,
+                  //                   children: [
+                  //                     Text(
+                  //                       AppString.office,
+                  //                       style: const TextStyle(
+                  //                         fontSize: 16,
+                  //                         fontWeight: FontWeight.w600,
+                  //                       ),
+                  //                     ),
+                  //                     hSizedBox4,
+                  //                     const Text(
+                  //                       "James A.",
+                  //                       style: TextStyle(
+                  //                         fontSize: 14,
+                  //                         fontWeight: FontWeight.w500,
+                  //                       ),
+                  //                     ),
+                  //                     hSizedBox4,
+                  //                     const Text(
+                  //                       "+781-343-1253",
+                  //                       style: TextStyle(
+                  //                         fontSize: 14,
+                  //                         fontWeight: FontWeight.w500,
+                  //                       ),
+                  //                     ),
+                  //                     hSizedBox4,
+                  //                     const Text(
+                  //                       "717 Romani Street, Boston, Massachusetts 02110, USA",
+                  //                       style: TextStyle(
+                  //                         fontSize: 14,
+                  //                         fontWeight: FontWeight.w500,
+                  //                         color: Color(0xff707070),
+                  //                       ),
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //               Radio(
+                  //                 visualDensity: const VisualDensity(
+                  //                   horizontal: VisualDensity.minimumDensity,
+                  //                   vertical: VisualDensity.minimumDensity,
+                  //                 ),
+                  //                 materialTapTargetSize:
+                  //                     MaterialTapTargetSize.shrinkWrap,
+                  //                 activeColor: AppColors.yellowColor,
+                  //                 value: _con.isSelectAdd.value,
+                  //                 groupValue: index,
+                  //                 onChanged: (val) {
+                  //                   _con.isSelectAdd.value = index;
+                  //                 },
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       if (_con.isSelectAdd.value == index)
+                  //         Positioned(
+                  //           bottom: 30,
+                  //           child: Container(
+                  //             padding: const EdgeInsets.symmetric(
+                  //               horizontal: 15,
+                  //               vertical: 10,
+                  //             ),
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.white,
+                  //               borderRadius: const BorderRadius.only(
+                  //                 topLeft: Radius.circular(10),
+                  //                 bottomLeft: Radius.circular(10),
+                  //               ),
+                  //               boxShadow: [
+                  //                 BoxShadow(
+                  //                   color:
+                  //                       Colors.grey.shade300.withOpacity(0.6),
+                  //                   blurRadius: 10.0,
+                  //                   spreadRadius: .5,
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             child: Text(
+                  //               AppString.defaulttext,
+                  //               style: TextStyle(
+                  //                 color: AppColors.yellowColor,
+                  //                 fontWeight: FontWeight.w600,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         )
+                  //     ],
+                  //   ),
+                  // );
                 },
               ),
               hSizedBox16,

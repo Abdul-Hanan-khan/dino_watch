@@ -4,6 +4,7 @@ import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/model/favourites_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/model/product_list_model.dart';
+import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/services/http_service.dart';
 
@@ -93,12 +94,9 @@ class HomeController extends GetxController {
         (await HttpService.getProductsByCategory(catId: catId))!;
     loadFav();
 
-    // productsModal.value.products.forEach((element) { });
-    // print(productsModal.value.products);
-    // for (var element in data!) {
-    //   productsList!.add(element);
-    //   productsList!.refresh();
-    // }
+    // putting address controller here so that main operation should be executed successfully
+    final OrderSummaryController _con = Get.put(OrderSummaryController());
+
     loadMoreProducts();
     loadingProducts.value = false;
   }
