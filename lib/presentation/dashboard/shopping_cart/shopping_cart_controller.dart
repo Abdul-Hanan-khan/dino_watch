@@ -19,6 +19,7 @@ class ShoppingCartController extends GetxController {
   // final HomeController homeController = Get.find();
   final BottomBarController barController = Get.find();
   Cart cart = Cart(products: <WatchDetailsModel>[].obs);
+  RxBool isLoading=false.obs;
   // FavouritesModel favourites=FavouritesModel();
   // RxList<Products> favouriteList=<Products>[].obs;
 

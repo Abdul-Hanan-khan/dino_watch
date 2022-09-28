@@ -7,6 +7,7 @@ import 'package:watch_app/presentation/commamn/app_button.dart';
 
 class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({Key? key}) : super(key: key);
+  // CheckoutController _con = Get.find();
   final CheckoutController _con = Get.put(CheckoutController());
 
   @override

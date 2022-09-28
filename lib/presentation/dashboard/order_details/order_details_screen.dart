@@ -80,7 +80,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Text("${_con.orderDetailsModel.order!.status}"),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Row(
@@ -97,7 +97,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         "${_con.orderDetailsModel.order!.customer!.firstName} ${_con.orderDetailsModel.order!.customer!.lastName}"),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Column(

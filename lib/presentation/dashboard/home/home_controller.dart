@@ -95,7 +95,7 @@ class HomeController extends GetxController {
     loadFav();
 
     // putting address controller here so that main operation should be executed successfully
-    final OrderSummaryController _con = Get.put(OrderSummaryController());
+    // final OrderSummaryController _con = Get.put(OrderSummaryController());
 
     loadMoreProducts();
     loadingProducts.value = false;
