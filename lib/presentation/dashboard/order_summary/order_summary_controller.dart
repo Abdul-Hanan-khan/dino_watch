@@ -32,13 +32,28 @@ class OrderSummaryController extends GetxController {
 
 
   addOrUpdateAddress(Addresses newAddress, {int? index}) {
-    addressModel.addressList!.add(newAddress);
+    if(index != null){
+      addressModel.addressList!.forEach((element) {
+        element.isSelected!.value=false;
+      });
+      addressModel.addressList!.value[index].isSelected!.value=true;
+      // int newIndex=addressModel.addressList!.indexWhere((element) => element.id == newAddress.id);
+    }else{
+      addressModel.addressList!.value.add(newAddress);
+      addressModel.addressList!.forEach((element) {
+        element.isSelected!.value=false;
+      });
+      int newIndex=addressModel.addressList!.indexWhere((element) => element.id == newAddress.id);
+
+      addressModel.addressList!.value[newIndex].isSelected!.value=true;
+    }
+
     Mapped.saveFileDirectly(file: addressModel.toJson(), cachedFileName: 'addresses');
       print("Address Added successfully",);
 //      calculateTotalItems();
   }
   removeAddress(int index) {
-    addressModel.addressList!.removeAt(index);
+    addressModel.addressList!.value.removeAt(index);
     Mapped.saveFileDirectly(file: addressModel.toJson(), cachedFileName: 'addresses');
 
       print("Address Removed successfully",);

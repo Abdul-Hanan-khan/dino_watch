@@ -7,6 +7,7 @@ import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_screen_custom.dart';
 import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
+import 'package:watch_app/presentation/dashboard/order_summary/order_summary_screen.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -231,26 +232,18 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                   Container(
                     height: 30,
                   ),
-                  Obx(
-                    () => _con.placeOrderLoading.value
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : AppButton(
+                  // Obx(
+                  //   () =>
+                    // _con.placeOrderLoading.value
+                    //     ? Center(
+                    //         child: CircularProgressIndicator(),
+                    //       )
+                    //     :
+                    AppButton(
                             text: AppString.placeOrder,
                             onPressed: () async {
                               if (_con.validate()) {
-                                if (cartController.cart.products!.length < 1) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialogWidget(
-                                            onPositiveClick: () {
-                                              Get.back();
-                                            },
-                                            title: "Warning",
-                                            subTitle: "Your Cart is Empty",
-                                          ));
-                                } else if (_con
+                               if (_con
                                         .countryDropDownValue.value.isEmpty ||
                                     _con.countryDropDownValue.value.isEmpty ||
                                     _con.countryDropDownValue.value == "" ||
@@ -315,6 +308,8 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                   ));
                                   _con.placeOrderLoading.value = false;
 
+                                  Get.off(OrderSummaryScreen());
+
                                   // if (response!.paymentLink.isNull) {
                                   //   showDialog(
                                   //       context: context,
@@ -334,7 +329,7 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                               }
                             },
                           ),
-                  )
+                  // )
                 ],
               ),
             ],

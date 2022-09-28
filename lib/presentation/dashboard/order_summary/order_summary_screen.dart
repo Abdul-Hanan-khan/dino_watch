@@ -80,139 +80,147 @@ class OrderSummaryScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              ListView.builder(
-                itemCount: _con.addressModel.addressList!.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                itemBuilder: (context, index) {
+              Obx(
+                ()=> ListView.builder(
+                  itemCount: _con.addressModel.addressList!.value.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, index) {
 
-                  return Text("${_con.addressModel.addressList![index].address}");
-                  // return Obx(
-                  //   () => Stack(
-                  //     alignment: Alignment.bottomRight,
-                  //     children: [
-                  //       GestureDetector(
-                  //         onTap: () {
-                  //           _con.isSelectAdd.value = index;
-                  //         },
-                  //         child: Container(
-                  //           padding: const EdgeInsets.all(14),
-                  //           margin: const EdgeInsets.symmetric(vertical: 10),
-                  //           decoration: BoxDecoration(
-                  //             color: Colors.white,
-                  //             borderRadius: BorderRadius.circular(10),
-                  //             boxShadow: const [
-                  //               BoxShadow(
-                  //                 color: Colors.black12,
-                  //                 blurRadius: 10.0,
-                  //                 spreadRadius: .5,
-                  //               ),
-                  //             ],
-                  //           ),
-                  //           child: Row(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               Image.asset(
-                  //                 ImageConstant.office,
-                  //                 height: 35,
-                  //                 width: 35,
-                  //               ),
-                  //               wSizedBox20,
-                  //               Expanded(
-                  //                 child: Column(
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.start,
-                  //                   children: [
-                  //                     Text(
-                  //                       AppString.office,
-                  //                       style: const TextStyle(
-                  //                         fontSize: 16,
-                  //                         fontWeight: FontWeight.w600,
-                  //                       ),
-                  //                     ),
-                  //                     hSizedBox4,
-                  //                     const Text(
-                  //                       "James A.",
-                  //                       style: TextStyle(
-                  //                         fontSize: 14,
-                  //                         fontWeight: FontWeight.w500,
-                  //                       ),
-                  //                     ),
-                  //                     hSizedBox4,
-                  //                     const Text(
-                  //                       "+781-343-1253",
-                  //                       style: TextStyle(
-                  //                         fontSize: 14,
-                  //                         fontWeight: FontWeight.w500,
-                  //                       ),
-                  //                     ),
-                  //                     hSizedBox4,
-                  //                     const Text(
-                  //                       "717 Romani Street, Boston, Massachusetts 02110, USA",
-                  //                       style: TextStyle(
-                  //                         fontSize: 14,
-                  //                         fontWeight: FontWeight.w500,
-                  //                         color: Color(0xff707070),
-                  //                       ),
-                  //                     )
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //               Radio(
-                  //                 visualDensity: const VisualDensity(
-                  //                   horizontal: VisualDensity.minimumDensity,
-                  //                   vertical: VisualDensity.minimumDensity,
-                  //                 ),
-                  //                 materialTapTargetSize:
-                  //                     MaterialTapTargetSize.shrinkWrap,
-                  //                 activeColor: AppColors.yellowColor,
-                  //                 value: _con.isSelectAdd.value,
-                  //                 groupValue: index,
-                  //                 onChanged: (val) {
-                  //                   _con.isSelectAdd.value = index;
-                  //                 },
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       if (_con.isSelectAdd.value == index)
-                  //         Positioned(
-                  //           bottom: 30,
-                  //           child: Container(
-                  //             padding: const EdgeInsets.symmetric(
-                  //               horizontal: 15,
-                  //               vertical: 10,
-                  //             ),
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.white,
-                  //               borderRadius: const BorderRadius.only(
-                  //                 topLeft: Radius.circular(10),
-                  //                 bottomLeft: Radius.circular(10),
-                  //               ),
-                  //               boxShadow: [
-                  //                 BoxShadow(
-                  //                   color:
-                  //                       Colors.grey.shade300.withOpacity(0.6),
-                  //                   blurRadius: 10.0,
-                  //                   spreadRadius: .5,
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //             child: Text(
-                  //               AppString.defaulttext,
-                  //               style: TextStyle(
-                  //                 color: AppColors.yellowColor,
-                  //                 fontWeight: FontWeight.w600,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         )
-                  //     ],
-                  //   ),
-                  // );
-                },
+                    int selectedIndex= _con.addressModel.addressList!.indexWhere((element) => element.isSelected!.value==true);
+
+                    if(selectedIndex != -1){
+                      _con.isSelectAdd.value=selectedIndex;
+                    }
+                    // return Text("${_con.addressModel.addressList![index].address}");
+                    return Obx(
+                      ()=> Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _con.isSelectAdd.value = index;
+                              _con.addOrUpdateAddress(_con.addressModel.addressList![index],index: index);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(14),
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 10.0,
+                                    spreadRadius: .5,
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    ImageConstant.office,
+                                    height: 35,
+                                    width: 35,
+                                  ),
+                                  wSizedBox20,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "Home",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        hSizedBox4,
+                                        Text(
+                                          _con.addressModel.addressList![index].firstName.toString()+ " "+_con.addressModel.addressList![index].lastName.toString() ,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        hSizedBox4,
+                                        Text(
+                                          _con.addressModel.addressList![index].phoneNumber.toString() ,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        hSizedBox4,
+                                        Text(
+                                          _con.addressModel.addressList![index].address.toString() ,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xff707070),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Radio(
+                                    visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity,
+                                    ),
+                                    materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                    activeColor: AppColors.yellowColor,
+                                    value: _con.isSelectAdd.value,
+                                    groupValue: index,
+                                    onChanged: (val) {
+                                      _con.isSelectAdd.value = index;
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          if (_con.isSelectAdd.value == index)
+                            Positioned(
+                              bottom: 30,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                      Colors.grey.shade300.withOpacity(0.6),
+                                      blurRadius: 10.0,
+                                      spreadRadius: .5,
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  AppString.defaulttext,
+                                  style: TextStyle(
+                                    color: AppColors.yellowColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            )
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
               hSizedBox16,
               Container(
