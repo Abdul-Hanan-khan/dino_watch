@@ -6,6 +6,7 @@ import 'package:watch_app/services/http_service.dart';
 class WatchDetailController extends GetxController {
   int watchId = 0;
   RxBool loading = false.obs;
+  RxBool loadingSendReview = false.obs;
   Rx<WatchDetailsModel> watchDetailsM = WatchDetailsModel().obs;
 
   WatchDetailController(this.watchId) {
