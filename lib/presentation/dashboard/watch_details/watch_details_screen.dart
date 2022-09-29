@@ -175,7 +175,7 @@ class WatchDetailScreen extends StatelessWidget {
                       // hSizedBox20,
 
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
@@ -204,14 +204,14 @@ class WatchDetailScreen extends StatelessWidget {
                                       .options![0]),
                             ],
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              hSizedBox36,
-                              details(AppString.warranty),
-                              info(AppString.years),
-                            ],
-                          ),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     hSizedBox36,
+                          //     details(AppString.warranty),
+                          //     // info( _con.watchDetailsM.value.),
+                          //   ],
+                          // ),
                         ],
                       ),
                       SizedBox(
