@@ -6,6 +6,8 @@ import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/model/address_model.dart';
 import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
+import 'package:watch_app/presentation/dashboard/checkout/checkout_screen.dart';
+import 'package:watch_app/presentation/dashboard/order_details/order_details_screen.dart';
 import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/get_checkout_info.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
@@ -117,53 +119,54 @@ class ShoppingCartScreen extends StatelessWidget {
                               text: AppString.checkout,
                               width: Get.width / 2,
                               onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) =>
-                                        AlertDialogWidget(
-                                          title: "Message",
-                                          subTitle: "Are you Sure to Place Order",
-                                          onPositiveClick: () async {
-
-                                            _con.isLoading.value=true;
-                                            int index= osController.addressModel.addressList!.indexWhere((element) => element.isSelected!.value == true);
-
-                                            Addresses data= osController.addressModel.addressList![index];
-                                            Get.back();
-                                            PlaceOrderModel? response =
-                                                await HttpService.placeOrder(
-                                                    userid: StaticVars.id,
-                                                    firstName: data.firstName.toString(),
-                                                    lastName:data.lastName.toString(),
-                                                    email: data.email.toString(),
-                                                    phone:data.phoneNumber.toString(),
-                                                    address: data.address.toString(),
-                                                    country: data.country.toString(),
-                                                    state: data.state.toString(),
-                                                    postCode: data.postalCode.toString(),
-                                                    items: _con
-                                                        .cart.products!.value);
-
-                                            _con.isLoading.value=false;
-
-                                            if (response!.paymentLink.isNull) {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (_) => AlertDialogWidget(
-                                                        onPositiveClick: () {
-                                                          Get.back();
-                                                        },
-                                                        title: "Error",
-                                                        subTitle: "Something Went Wrong",
-                                                      ));
-                                            } else {
-                                              _con.clearCart();
-                                              StaticVars.customLauncher(Uri.parse(
-                                                  response.paymentLink.toString()));
-                                            }
-                                          },
-
-                                        ));
+                                Get.to(CheckoutScreen());
+                                // showDialog(
+                                //     context: context,
+                                //     builder: (_) =>
+                                //         AlertDialogWidget(
+                                //           title: "Message",
+                                //           subTitle: "Are you Sure to Place Order",
+                                //           onPositiveClick: () async {
+                                //
+                                //             _con.isLoading.value=true;
+                                //             int index= osController.addressModel.addressList!.indexWhere((element) => element.isSelected!.value == true);
+                                //
+                                //             Addresses data= osController.addressModel.addressList![index];
+                                //             Get.back();
+                                //             PlaceOrderModel? response =
+                                //                 await HttpService.placeOrder(
+                                //                     userid: StaticVars.id,
+                                //                     firstName: data.firstName.toString(),
+                                //                     lastName:data.lastName.toString(),
+                                //                     email: data.email.toString(),
+                                //                     phone:data.phoneNumber.toString(),
+                                //                     address: data.address.toString(),
+                                //                     country: data.country.toString(),
+                                //                     state: data.state.toString(),
+                                //                     postCode: data.postalCode.toString(),
+                                //                     items: _con
+                                //                         .cart.products!.value);
+                                //
+                                //             _con.isLoading.value=false;
+                                //
+                                //             if (response!.paymentLink.isNull) {
+                                //               showDialog(
+                                //                   context: context,
+                                //                   builder: (_) => AlertDialogWidget(
+                                //                         onPositiveClick: () {
+                                //                           Get.back();
+                                //                         },
+                                //                         title: "Error",
+                                //                         subTitle: "Something Went Wrong",
+                                //                       ));
+                                //             } else {
+                                //               _con.clearCart();
+                                //               StaticVars.customLauncher(Uri.parse(
+                                //                   response.paymentLink.toString()));
+                                //             }
+                                //           },
+                                //
+                                //         ));
                                 // Get.to(GetCheckoutInfoScreen());
                                 // Get.toNamed(AppRoutes.checkoutScreen);
                               },

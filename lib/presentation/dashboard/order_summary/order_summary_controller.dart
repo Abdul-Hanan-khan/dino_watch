@@ -37,6 +37,7 @@ class OrderSummaryController extends GetxController {
         element.isSelected!.value=false;
       });
       addressModel.addressList!.value[index].isSelected!.value=true;
+      print(addressModel);
       // int newIndex=addressModel.addressList!.indexWhere((element) => element.id == newAddress.id);
     }else{
       addressModel.addressList!.value.add(newAddress);
