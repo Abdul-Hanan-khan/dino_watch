@@ -87,45 +87,66 @@ class MyOrdersScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Order Id :",style: TextStyle(
-                            fontWeight: FontWeight.bold
+                          const Text("Order Id :",style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.black
                           ),),
                           SizedBox(width: 20,),
                           Text("${_con.allOrders.value.orderlist![index].orderId}"),
+                        ],
+                      ),
+                      SizedBox(height: 5,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Order Amount",style: TextStyle(fontWeight: FontWeight.bold,
+                              color: Colors.black54),),
+
+                          Text("\$${_con.allOrders.value.orderlist![index].orderAmount}"),
                         ],
                       ),
 
                       SizedBox(height: 10,),
 
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Created At"),
-                          // SizedBox(width: 10,),
-                          Text("${_con.allOrders.value.orderlist![index].orderDate}"),
-                        ],
-                      ),
-                      SizedBox(height: 5,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Order Amount"),
 
-                          Text("\$${_con.allOrders.value.orderlist![index].orderAmount}"),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Order Status"),
+                              SizedBox(width: 10,),
+                              Text("${_con.allOrders.value.orderlist![index].orderStatus}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black87),),
+                            ],
+                          ),
+
+
+
+                          SizedBox(width: 20,),
+
+                          Container(height: 35,width: 2,
+
+                          decoration: BoxDecoration(color: Colors.grey),),
+                          SizedBox(width: 20,),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Created At"),
+                              // SizedBox(width: 10,),
+                              Text("${_con.allOrders.value.orderlist![index].orderDate}",style: TextStyle(fontWeight: FontWeight.bold,color:  Colors.black87),),
+                            ],
+                          ),
                         ],
                       ),
+
                       SizedBox(height: 5,),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Order Status"),
-                          SizedBox(width: 10,),
-                          Text("${_con.allOrders.value.orderlist![index].orderStatus}"),
-                        ],
-                      ),
                     ],
                   ),
                 )

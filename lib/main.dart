@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
+import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/routes/app_routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -64,6 +66,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var userController= Get.put(LoginScreenController());
+  var addressController=Get.put(OrderSummaryController());
   var carController = Get.put(ShoppingCartController());
 
   final HomeController bottomCtr = Get.put(HomeController());

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watch_app/core/static/static_vars.dart';
+import 'package:watch_app/model/address_model.dart';
 import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_screen_custom.dart';
+import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
+import 'package:watch_app/presentation/dashboard/order_summary/order_summary_screen.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -14,6 +17,8 @@ import '../../../core/utils/constant_sizebox.dart';
 import '../../../core/utils/image_constant.dart';
 import '../../commamn/app_bar.dart';
 import '../../commamn/app_text_field.dart';
+import 'dart:math';
+
 
 class GetCheckoutInfoScreen extends StatefulWidget {
   GetCheckoutInfoScreen({Key? key}) : super(key: key);
@@ -25,6 +30,7 @@ class GetCheckoutInfoScreen extends StatefulWidget {
 class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
   final _con = Get.put(CheckoutController());
   ShoppingCartController cartController = Get.find();
+  OrderSummaryController osController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -226,16 +232,22 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                   Container(
                     height: 30,
                   ),
-                  Obx(
-                    () => _con.placeOrderLoading.value
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : AppButton(
+                  // Obx(
+                  //   () =>
+                    // _con.placeOrderLoading.value
+                    //     ? Center(
+                    //         child: CircularProgressIndicator(),
+                    //       )
+                    //     :
+                    AppButton(
                             text: AppString.placeOrder,
                             onPressed: () async {
                               if (_con.validate()) {
-                                if (cartController.cart.products!.length < 1) {
+                               if (_con
+                                        .countryDropDownValue.value.isEmpty ||
+                                    _con.countryDropDownValue.value.isEmpty ||
+                                    _con.countryDropDownValue.value == "" ||
+                                    _con.countryDropDownValue.value == "") {
                                   showDialog(
                                       context: context,
                                       builder: (_) => AlertDialogWidget(
@@ -243,65 +255,81 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                               Get.back();
                                             },
                                             title: "Warning",
-                                            subTitle: "Your Cart is Empty",
+                                            subTitle:
+                                                "Country Name and State are Required",
                                           ));
-                                } else if(_con.countryDropDownValue.value.isEmpty || _con.countryDropDownValue.value.isEmpty || _con.countryDropDownValue.value == "" || _con.countryDropDownValue.value == ""  ){
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialogWidget(
-                                        onPositiveClick: () {
-                                          Get.back();
-                                        },
-                                        title: "Warning",
-                                        subTitle: "Country Name and State are Required",
-                                      ));
-                                }
-
-                                else {
+                                } else {
                                   _con.placeOrderLoading.value = true;
-                                  PlaceOrderModel? response =
-                                      await HttpService.placeOrder(
-                                          userid: StaticVars.id,
-                                          firstName:
-                                              _con.firstNameCtr.text.toString(),
-                                          lastName:
-                                              _con.lastNameCtr.text.toString(),
-                                          email: _con.emailCtr.text.toString(),
-                                          phone:
-                                              _con.phoneNoCtr.text.toString(),
-                                          address:
-                                              _con.addressCtr.text.toString(),
-                                          country: _con
-                                              .countryDropDownValue.value
-                                              .toString(),
-                                          state: _con.statesDropdownvalue.value
-                                              .toString(),
-                                          postCode:
-                                              _con.postCodeCtr.text.toString(),
-                                          items: cartController
-                                              .cart.products!.value);
+                                  // PlaceOrderModel? response =
+                                  //     await HttpService.placeOrder(
+                                  //         userid: StaticVars.id,
+                                  //         firstName:
+                                  //             _con.firstNameCtr.text.toString(),
+                                  //         lastName:
+                                  //             _con.lastNameCtr.text.toString(),
+                                  //         email: _con.emailCtr.text.toString(),
+                                  //         phone:
+                                  //             _con.phoneNoCtr.text.toString(),
+                                  //         address:
+                                  //             _con.addressCtr.text.toString(),
+                                  //         country: _con
+                                  //             .countryDropDownValue.value
+                                  //             .toString(),
+                                  //         state: _con.statesDropdownvalue.value
+                                  //             .toString(),
+                                  //         postCode:
+                                  //             _con.postCodeCtr.text.toString(),
+                                  //         items: cartController
+                                  //             .cart.products!.value);
+                                  // _con.placeOrderLoading.value = false;
+                                  Random random = new Random();
+                                  int randomNumber = random.nextInt(50000);
+                                  bool unique=false;
+                                  while(unique == false){
+                                    int index= osController.addressModel.addressList!.indexWhere((element) => element.id == randomNumber);
+                                    if(index == -1){
+                                      unique =true;
+                                    }else{
+                                      unique =false;
+                                    }
+                                  }
+
+                                  osController.addOrUpdateAddress(Addresses(
+                                    id: "adr-$randomNumber",
+                                      firstName: _con.firstNameCtr.text,
+                                      lastName: _con.lastNameCtr.text,
+                                      email: _con.emailCtr.text,
+                                      phoneNumber: _con.phoneNoCtr.text,
+                                      postalCode: _con.postCodeCtr.text,
+                                      address: _con.addressCtr.text,
+                                      country: _con.countryDropDownValue.value,
+                                      state: _con.statesDropdownvalue.value,
+                                      isSelected: RxBool(true)
+                                  ));
                                   _con.placeOrderLoading.value = false;
 
-                                  if (response!.paymentLink.isNull) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (_) => AlertDialogWidget(
-                                              onPositiveClick: () {
-                                                Get.back();
-                                              },
-                                              title: "Error",
-                                              subTitle: "Something Went Wrong",
-                                            ));
-                                  } else {
-                                    cartController.clearCart();
-                                    StaticVars.customLauncher(Uri.parse(
-                                        response.paymentLink.toString()));
-                                  }
+                                  Get.off(OrderSummaryScreen());
+
+                                  // if (response!.paymentLink.isNull) {
+                                  //   showDialog(
+                                  //       context: context,
+                                  //       builder: (_) => AlertDialogWidget(
+                                  //             onPositiveClick: () {
+                                  //               Get.back();
+                                  //             },
+                                  //             title: "Error",
+                                  //             subTitle: "Something Went Wrong",
+                                  //           ));
+                                  // } else {
+                                  //   cartController.clearCart();
+                                  //   StaticVars.customLauncher(Uri.parse(
+                                  //       response.paymentLink.toString()));
+                                  // }
                                 }
                               }
                             },
                           ),
-                  )
+                  // )
                 ],
               ),
             ],

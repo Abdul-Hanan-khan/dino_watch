@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/main.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
+import 'package:watch_app/presentation/auth/login/login_screen.dart';
 import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/favorite/favorite_screen.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
@@ -23,6 +26,7 @@ import '../../core/app_export.dart';
 
 class BottomBarScreen extends StatelessWidget {
   BottomBarScreen({Key? key}) : super(key: key);
+  LoginScreenController authController=Get.find();
   final ProfileEditController _editprofilecon =
       Get.put(ProfileEditController());
   ShoppingCartController cartController = Get.find();
@@ -298,17 +302,11 @@ class BottomBarScreen extends StatelessWidget {
                                                                               .w400,
                                                                     ),
                                                                   ),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    SharedPreferences
-                                                                        prefs =
-                                                                        await SharedPreferences
-                                                                            .getInstance();
-                                                                    prefs.setBool(
-                                                                        'loginStatus',
-                                                                        false);
-                                                                    userLoginStatus =
-                                                                        false;
+                                                                  onPressed: () async {
+                                                                  authController.deleteUser();
+                                                                  cartController.clearCart();
+                                                                  homeController.clearFavs();
+                                                                  userLoginStatus=false;
                                                                     Get.offAllNamed(
                                                                       AppRoutes
                                                                           .loginScreen,
@@ -320,28 +318,15 @@ class BottomBarScreen extends StatelessWidget {
                                                     : logoutDialog(
                                                         context: Get.context,
                                                         onTap: () async {
-                                                          SharedPreferences
-                                                              prefs =
-                                                              await SharedPreferences
-                                                                  .getInstance();
-                                                          prefs.setBool(
-                                                              'loginStatus',
-                                                              false);
-                                                          userLoginStatus =
-                                                              false;
-                                                          prefs.setString(
-                                                              'userId', '');
-                                                          prefs.setString(
-                                                              'userName', '');
-                                                          prefs.setString(
-                                                              'userEmail', '');
-                                                          Get.offAllNamed(
-                                                              AppRoutes
-                                                                  .loginScreen);
+                                                          authController.deleteUser();
+                                                          cartController.clearCart();
+                                                          homeController.clearFavs();
+                                                          userLoginStatus=false;
 
-                                                          StaticVars.userName =
-                                                              '';
-                                                          StaticVars.email = '';
+                                                          Get.offAllNamed(
+                                                            AppRoutes
+                                                                .loginScreen,
+                                                          );
                                                         },
                                                       )
                                                 : null;
@@ -357,8 +342,12 @@ class BottomBarScreen extends StatelessWidget {
                               width: 20,
                             ),
                             wSizedBox16,
-                            Text(
-                              _con.drawerList[index].title,
+                          userLoginStatus == false && index ==5?TextButton(
+
+                              onPressed: (){Get.off(LoginScreen());}, child: const Text(
+                            "Login",style: TextStyle(color: Colors.white),
+                          ))  : Text(
+                             _con.drawerList[index].title,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,

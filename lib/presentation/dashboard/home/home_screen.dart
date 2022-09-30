@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/main.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
 import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
@@ -12,6 +13,7 @@ import 'package:watch_app/presentation/dashboard/editProfile/edit_profile_contro
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/watch_details/watch_details_screen.dart';
+import 'package:watch_app/presentation/widgets/alertDialog.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -313,6 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Obx(
                 () => GestureDetector(
                   onTap: () {
+                  if(userLoginStatus == true){
                     if (!product.isFavourite!.value == true) {
                       _con.addToFav(product.productId!);
                       product.isFavourite!.value = true;
@@ -322,6 +325,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       _con.removeFav(product.productId!);
                       // print("current product like status ${product.isFavourite!.value}" );
                     }
+                  }else{
+                    showDialog(
+                        context: context,
+                        builder: (_) =>
+                            AlertDialogWidget(
+                              onPositiveClick: () {
+                                Get.back();
+                              },
+                              title: "Message",
+                              subTitle: "You Need To Login First",
+                            ));                  }
+
                     // _con.onFavtrending(index);
                   },
                   child: Container(
