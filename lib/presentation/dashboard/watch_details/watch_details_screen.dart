@@ -7,6 +7,7 @@ import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/main.dart';
 import 'package:watch_app/model/watch_details_model.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/auth/login/login_screen.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_screen.dart';
@@ -25,6 +26,7 @@ class WatchDetailScreen extends StatelessWidget {
   int watchId;
 
   WatchDetailScreen(this.watchId);
+  // LoginScreenController loginCtr=Get.find();
 
   // WatchDetailController con=Get.find();
   var reviewController= TextEditingController();
@@ -415,7 +417,7 @@ class WatchDetailScreen extends StatelessWidget {
                                               onPressed: () async {
                                                 _con.loadingSendReview.value = true;
                                                 var apiResponse = await HttpService.addReview(
-                                                    userId: StaticVars.id,
+                                                    userId: "10",
                                                     productId: watchId.toString(),
                                                     rating: ratingValue.round(),
                                                     commentContent: reviewController.text.toString());
@@ -591,8 +593,8 @@ class WatchDetailScreen extends StatelessWidget {
                                                 // Get.off(BottomBarScreen());
                                                 //   cartController.viewCart();
                                                 Get.back();
-                                                Get.back();
-                                                Get.back();
+                                                // Get.back();
+                                                // Get.back();
                                               }
                                             },
                                           )

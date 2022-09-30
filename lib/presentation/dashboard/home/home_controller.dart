@@ -144,7 +144,6 @@ class HomeController extends GetxController {
       favourites.productIds!.value.removeAt(index);
       productsModal.value.products![index].isFavourite!.value = false;
       print(favourites.productIds!.value);
-
     }
     Mapped.saveFileDirectly(
         file: favourites.toJson(), cachedFileName: "Favourites");
@@ -189,6 +188,16 @@ class HomeController extends GetxController {
   }
 
   clearFavs() {
+    favourites.productIds!.forEach((elementIds) {
+      int index= productsModal.value.products!.indexWhere((pElement) => elementIds == pElement.productId);
+      if(index !=- 1){
+        productsModal.value.products![index].isFavourite!.value=false;
+      }
+    });
+    favouriteList.clear();
+    favourites.productIds!.value.clear();
+
+    // favourites=FavouritesModel();
     Mapped.deleteFileDirectly(cachedFileName: 'Favourites');
     // favouriteList.clear();
     print("fav cleared");

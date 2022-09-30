@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:watch_app/core/static/static_vars.dart';
+import 'package:get_storage/get_storage.dart';
+// import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/commamn/clip_path.dart';
 import 'package:watch_app/presentation/dashboard/editProfile/edit_profile_controller.dart';
@@ -15,6 +17,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  LoginScreenController loginCtr=Get.find();
   final BottomBarController _barController = Get.find();
   final ProfileEditController _con = Get.find();
 
@@ -47,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           border: Border.all(color: Colors.white, width: 4),
                           image:  DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(StaticVars.avatar),
+                            image: NetworkImage(loginCtr.user.value.profileImage!.value),
                           ),
                         ),
                       ),
@@ -55,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     hSizedBox10,
                     Obx(
                         ()=> Text(
-                        _con.firstName.toString() + " " +_con.lastName.value ,
+                          loginCtr.user.value.firstName!.value + " " +loginCtr.user.value.lastName!.value ,
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
@@ -65,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     hSizedBox6,
                     Text(
-                      StaticVars.email,
+                      loginCtr.user.value.userEmail!.value,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -91,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),     profileList(
               icon: ImageConstant.myOrders,
-              name: AppString.orderSummary,
+              name: "Add Address",
               ontap: () {
                 Get.toNamed(AppRoutes.orderSummaryScreen);
               },

@@ -81,6 +81,7 @@ class AppString {
   static String total = "Total";
   static String includingTax = "Including Tax";
   static String orderSummary = "Order Summary";
+  static String addAddress = "Add Address";
   static String selectdeliveryaddress = "Select delivery address";
   static String addNewAddress = "Add New Address";
   static String office = "Office";

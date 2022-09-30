@@ -11,17 +11,14 @@ class SplashController extends GetxController {
     Future.delayed(const Duration(seconds: 3), () async {
       if(userLoginStatus == true ){
         Get.offNamed(AppRoutes.bottomBarScreen);
-
-        SharedPreferences prefs= await SharedPreferences.getInstance();
-        StaticVars.userName=prefs.getString('userName').toString();
-        StaticVars.id =prefs.getString('userId').toString();
-        StaticVars.email=prefs.getString('userEmail').toString();
-        StaticVars.avatar=prefs.getString('avatar').toString();
-        print("---"+StaticVars.avatar+"---");
-
+        // SharedPreferences prefs= await SharedPreferences.getInstance();
+        // StaticVars.userName=prefs.getString('userName').toString();
+        // StaticVars.id =prefs.getString('userId').toString();
+        // StaticVars.email=prefs.getString('userEmail').toString();
+        // StaticVars.avatar=prefs.getString('avatar').toString();
+        // print("---"+StaticVars.avatar+"---");
       }else{
         Get.offNamed(AppRoutes.introductionscreen);
-
       }
     });
     super.onInit();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/get_checkout_info.dart';
@@ -15,20 +16,20 @@ class OrderSummaryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(
-        text: AppString.orderSummary,
+        text: AppString.addAddress,
         back: true,
         actionIcon: true,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AppButton(
-        width: Get.width / 2,
-        text: AppString.payment,
-        onPressed: () {
-          Get.toNamed(
-            AppRoutes.paymentScreen,
-          );
-        },
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: AppButton(
+      //   width: Get.width / 2,
+      //   text: AppString.payment,
+      //   onPressed: () {
+      //     Get.toNamed(
+      //       AppRoutes.paymentScreen,
+      //     );
+      //   },
+      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -178,6 +179,7 @@ class OrderSummaryScreen extends StatelessWidget {
                                     groupValue: index,
                                     onChanged: (val) {
                                       _con.isSelectAdd.value = index;
+                                      _con.addOrUpdateAddress(_con.addressModel.addressList![index],index: index);
                                     },
                                   ),
                                 ],
