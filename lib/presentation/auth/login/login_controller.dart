@@ -53,8 +53,7 @@ class LoginScreenController extends GetxController {
   onLogin(BuildContext context) async {
     if (validate()) {
       loading.value = true;
-     user.value =
-      (await HttpService.userLogin(username.toString(), password.toString()))!;
+     user.value = (await HttpService.userLogin(username.value.toString(), password.value.toString()))!;
       loading.value = false;
 
 

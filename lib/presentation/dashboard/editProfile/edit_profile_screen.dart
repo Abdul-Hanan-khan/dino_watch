@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_text_field.dart';
 import 'package:watch_app/presentation/commamn/clip_path.dart';
@@ -21,6 +22,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final ProfileEditController _con = Get.find();
+  final LoginScreenController userCon=Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +67,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: _con.profileImage.value.path.isEmpty
-                                    ? _con.profileUrl.value != ""
+                                    ? _con.profileUrl!.value != ""
                                         // ? NetworkImage(
                                         //     _con.profileUrl.value,
                                         //   )
-                                        ?  NetworkImage(StaticVars.avatar)
+                                        ?  NetworkImage(userCon.user.value.profileImage!.value)
                                         : const AssetImage(
                                             ImageConstant.cam,
                                           ) as ImageProvider
@@ -149,18 +151,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               onPressed: () async {
                                await _con.updateProfile();
                                if(_con.editModel.value.status == 'success'){
+                                 userCon.user.value.firstName!.value=_con.editModel.value.firstName!;
+                                 userCon.user.value.lastName!.value=_con.editModel.value.lastName!;
+                                 userCon.user.value.profileImage!.value=_con.editModel.value.profileImage!;
 
-                                 _con.firstName.value=_con.editModel.value.firstName!;
-                                 _con.lastName.value=_con.editModel.value.lastName!;
-                                 _con.profileUrl.value=_con.editModel.value.profileImage!;
-
-                                   StaticVars.userName= _con.firstName.value + " " + _con.lastName.value;
-                                   StaticVars.avatar= _con.editModel.value.profileImage!.toString();
-                                   SharedPreferences prefs=await SharedPreferences.getInstance();
-
-                                   prefs.setString('userName', StaticVars.userName);
-                                   // prefs.setString('userEmail', response.userEmail.toString());
-                                   prefs.setString('avatar', StaticVars.avatar);
+                                 userCon.saveUser(userCon.user.value);
+                                 // now update user to local
+                                 // _con.firstName.value=_con.editModel.value.firstName!;
+                                 // _con.lastName.value=_con.editModel.value.lastName!;
+                                 // _con.profileUrl.value=_con.editModel.value.profileImage!;
+                                 //
+                                 //   StaticVars.userName= _con.firstName.value + " " + _con.lastName.value;
+                                 //   StaticVars.avatar= _con.editModel.value.profileImage!.toString();
+                                 //   SharedPreferences prefs=await SharedPreferences.getInstance();
+                                 //
+                                 //   prefs.setString('userName', StaticVars.userName);
+                                 //   // prefs.setString('userEmail', response.userEmail.toString());
+                                 //   prefs.setString('avatar', StaticVars.avatar);
 
 
                                 Get.back();

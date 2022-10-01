@@ -1,12 +1,14 @@
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/model/my_orders_model.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/services/http_service.dart';
 
 class MyOrderController extends GetxController {
 
   Rx<MyOrdersModel> allOrders=MyOrdersModel().obs;
   RxBool loadingOrders=false.obs;
+  LoginScreenController loginCon=Get.find();
   void onInit() {
     // TODO: implement onInit
     super.onInit();
@@ -16,7 +18,7 @@ class MyOrderController extends GetxController {
 
   void getAllOrder()async{
     loadingOrders.value=true;
-    allOrders.value= (await HttpService.getAllOrders(StaticVars.id))!;
+    allOrders.value= (await HttpService.getAllOrders(loginCon.user.value.userId.toString()))!;
     print(allOrders.value);
     loadingOrders.value=false;
 

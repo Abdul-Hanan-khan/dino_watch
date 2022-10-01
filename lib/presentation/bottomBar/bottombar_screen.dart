@@ -72,7 +72,11 @@ class BottomBarScreen extends StatelessWidget {
                       )
                     : appBar(
                         actionPressed: () {
-                          Get.toNamed(AppRoutes.editProfileScreen);
+                          if(userLoginStatus == true){
+                            Get.toNamed(AppRoutes.editProfileScreen);
+                          }else{
+
+                          }
                         },
                         backgroundColor: AppColors.appColor,
                         action: ImageConstant.editprofile,
@@ -361,7 +365,7 @@ class BottomBarScreen extends StatelessWidget {
                   },
                 ),
                 const Spacer(),
-                Row(
+                userLoginStatus == false?Container(): Row(
                   children: [
                     Container(
                       height: 50,
@@ -369,7 +373,7 @@ class BottomBarScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(StaticVars.avatar)),
+                            image: NetworkImage(authController.user.value.profileImage!.value)),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Colors.white,
@@ -384,7 +388,7 @@ class BottomBarScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${_editprofilecon.firstName.value} ${_editprofilecon.lastName.value} ",
+                            "${authController.user.value.firstName!.value} ${authController.user.value.lastName!.value} ",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -393,7 +397,7 @@ class BottomBarScreen extends StatelessWidget {
                           ),
                           hSizedBox4,
                           Text(
-                            '${StaticVars.email}',
+                            authController.user.value.userEmail!.value,
                             style: const TextStyle(
                               fontSize: 13,
                               color: Colors.white,

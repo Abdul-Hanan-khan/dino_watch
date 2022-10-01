@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/main.dart';
 import 'package:watch_app/model/signup.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -13,6 +14,7 @@ import '../../../core/utils/helper.dart';
 
 class SignUpController extends GetxController {
   // HomeController homeController =Get.put(HomeController());
+  LoginScreenController loginController =Get.put(LoginScreenController());
 
   RxBool values = false.obs;
   RxBool loading=false.obs;
@@ -108,17 +110,17 @@ class SignUpController extends GetxController {
       loading.value=false;
       if(response!.status == 'success'){
         Get.offAllNamed(AppRoutes.bottomBarScreen);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool('loginStatus', true);
-        prefs.setString('userId', response.userId.toString());
-        prefs.setString('userName', response.userName.toString());
-        prefs.setString('userEmail', response.userEmail.toString());
-        prefs.setString('avatar', response.profileImage.toString());
 
-
-        StaticVars.userName= response.userName.toString();
-        StaticVars.email= response.userEmail.toString();
-        StaticVars.avatar=response.profileImage.toString();
+        loginController.saveUser(response);
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // prefs.setBool('loginStatus', true);
+        // prefs.setString('userId', response.userId.toString());
+        // prefs.setString('userName', response.userName.toString());
+        // prefs.setString('userEmail', response.userEmail.toString());
+        // prefs.setString('avatar', response.profileImage.toString());
+        // StaticVars.userName= response.userName.toString();
+        // StaticVars.email= response.userEmail.toString();
+        // StaticVars.avatar=response.profileImage.toString();
         userLoginStatus=true;
       }else{
         showDialog(

@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
-    print("user id is ---------------------- " + StaticVars.id);
+    // print("user id is ---------------------- " + StaticVars.id);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

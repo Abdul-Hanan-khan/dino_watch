@@ -26,7 +26,7 @@ class WatchDetailScreen extends StatelessWidget {
   int watchId;
 
   WatchDetailScreen(this.watchId);
-  // LoginScreenController loginCtr=Get.find();
+  LoginScreenController loginCtr=Get.find();
 
   // WatchDetailController con=Get.find();
   var reviewController= TextEditingController();
@@ -38,6 +38,7 @@ class WatchDetailScreen extends StatelessWidget {
     final WatchDetailController _con = Get.put(WatchDetailController(watchId));
     BottomBarController barController = Get.find();
     ShoppingCartController cartController = Get.find();
+
     // RxBool loadingReview=false.obs;
     final _dialog = RatingDialog(
       initialRating: 1.0,
@@ -66,7 +67,7 @@ class WatchDetailScreen extends StatelessWidget {
         print('rating: ${response.rating}, comment: ${response.comment}');
         // loadingReview.value=true;
         var apiResponse = await HttpService.addReview(
-            userId: StaticVars.id,
+            userId: loginCtr.user.value.userId.toString(),
             productId: watchId.toString(),
             rating: response.rating.round(),
             commentContent: response.comment);

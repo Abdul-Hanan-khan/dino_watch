@@ -10,6 +10,7 @@ import 'package:watch_app/core/static/static_vars.dart';
 import 'dart:io';
 
 import 'package:watch_app/core/utils/app_string.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/services/http_service.dart';
 
 import '../../../model/edit_profile_model.dart';
@@ -20,52 +21,50 @@ class ProfileEditController extends GetxController {
   RxString lastName = "".obs;
   RxString lastNameError = "".obs;
 
-  List userNameSplit=StaticVars.userName.split(" ");
+  LoginScreenController userCon = Get.find();
+  RxString ? profileUrl = "".obs;
+  // List userNameSplit = StaticVars.userName.split(" ");
+
   @override
   void onInit() async {
-    print(userNameSplit);
-   firstName.value=userNameSplit[0]??"";
-   lastName.value= userNameSplit.length>1? userNameSplit[1]:"";
+    profileUrl  = userCon.user.value.profileImage;
+    // print(userNameSplit);
+    // firstName.value = userNameSplit[0] ?? "";
+    // lastName.value = userNameSplit.length > 1 ? userNameSplit[1] : "";
 
-   print(firstName);
-   print(lastName);
+    print(firstName);
+    print(lastName);
 
     super.onInit();
   }
 
-
-
-  RxBool loading=false.obs;
-  Rx<EditProfileModel> editModel=EditProfileModel().obs;
+  RxBool loading = false.obs;
+  Rx<EditProfileModel> editModel = EditProfileModel().obs;
 
   Rx<File> profileImage = File("").obs;
   final ImagePicker picker = ImagePicker();
   dio.MultipartFile? multipartFile;
-  RxString profileUrl =
-      StaticVars.avatar
-          .obs;
+
 
   bool validate() {
     RxBool isValid = true.obs;
     if (firstName.value.isEmpty) {
       firstNameError.value = "Please Enter First Name";
       isValid.value = false;
-    }else{
+    } else {
       firstNameError.value = "";
-      isValid.value=true;
+      isValid.value = true;
     }
     if (lastName.value.isEmpty) {
       lastNameError.value = "Please Enter Last Name";
       isValid.value = false;
-    }else{
+    } else {
       lastNameError.value = "";
       isValid.value = true;
     }
 
-
     return isValid.value;
   }
-
 
   void pickProfileFile(context) async {
     showModalBottomSheet(
@@ -202,19 +201,19 @@ class ProfileEditController extends GetxController {
       }
     }
     profileImage.value = File(pickedFile!.path);
-
   }
 
-
-
-  Future updateProfile()async{
+  Future updateProfile() async {
     if (validate()) {
-      loading.value= true;
+      loading.value = true;
 
-      editModel.value=(await HttpService.editProfile(userId: StaticVars.id,firstName: firstName.value,lastName: lastName.value,image: profileImage.value.path ))!;
+      editModel.value = (await HttpService.editProfile(
+          userId: userCon.user.value.userId.toString(),
+          firstName: firstName.value,
+          lastName: lastName.value,
+          image: profileImage.value.path))!;
 
-
-      loading.value= false;
+      loading.value = false;
     }
     return editModel;
   }
