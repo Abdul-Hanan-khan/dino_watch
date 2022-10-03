@@ -5,11 +5,13 @@ import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/model/address_model.dart';
 import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
+import 'package:watch_app/presentation/dashboard/order_summary/order_summary_screen.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -18,15 +20,18 @@ import '../../../model/watch_details_model.dart';
 
 class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({Key? key}) : super(key: key);
+
   // CheckoutController _con = Get.find();
-  ShoppingCartController cartController= Get.find();
+  ShoppingCartController cartController = Get.find();
   final CheckoutController _con = Get.put(CheckoutController());
-  OrderSummaryController osController=Get.find();
-  BottomBarController bottomController=Get.find();
+  OrderSummaryController osController = Get.find();
+  BottomBarController bottomController = Get.find();
+  LoginScreenController loginCon=Get.find();
 
   @override
   Widget build(BuildContext context) {
-    int addressIndex= osController.addressModel.addressList!.indexWhere((element) => element.isSelected!.value == true);
+    int addressIndex = osController.addressModel.addressList!
+        .indexWhere((element) => element.isSelected!.value == true);
 
     return Scaffold(
       appBar: appBar(
@@ -55,7 +60,8 @@ class CheckoutScreen extends StatelessWidget {
                 itemCount: cartController.cart.products!.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return checkoutList(cartController.cart.products![index],index);
+                  return checkoutList(
+                      cartController.cart.products![index], index);
                 },
               ),
               hSizedBox12,
@@ -138,7 +144,7 @@ class CheckoutScreen extends StatelessWidget {
                           Text(
                             'Shipping Address :',
                             style: const TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                               fontSize: 14,
                               color: Color(0xff707070),
                             ),
@@ -150,15 +156,38 @@ class CheckoutScreen extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 15),
-                            child: Text(
-                              osController.addressModel.addressList![addressIndex].address.toString(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 14,
-                                // color: Color(0xff707070),
-                                color: Color(0xff707070),
-                              ),
-                            ),
+                            child:
+                                osController.addressModel.addressList!.length <
+                                        1
+                                    ? RaisedButton(
+                                        onPressed: () {
+                                          Get.off(OrderSummaryScreen());
+                                        },
+                                  color: const Color(0xff4d18cc),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                  ),
+                                        child: const Text(
+                                          "Add Address",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )
+                                    : Container(
+                                  width: MediaQuery.of(context).size.width * 0.8,
+
+                                      child: Text(
+                                          osController.addressModel
+                                              .addressList![addressIndex].address
+                                              .toString(),
+                                          maxLines: 5,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            // color: Color(0xff707070),
+                                            color: Color(0xff707070),
+                                          ),
+                                        ),
+                                    ),
                           ),
                         ],
                       ),
@@ -172,7 +201,7 @@ class CheckoutScreen extends StatelessWidget {
                           Text(
                             AppString.subtotal,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                               fontSize: 14,
                               color: Color(0xff707070),
                             ),
@@ -193,7 +222,7 @@ class CheckoutScreen extends StatelessWidget {
                           Text(
                             AppString.shipping,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                               fontSize: 14,
                               color: Color(0xff707070),
                             ),
@@ -254,7 +283,7 @@ class CheckoutScreen extends StatelessWidget {
                           Text(
                             AppString.total,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                               fontSize: 14,
                               color: Color(0xff707070),
                             ),
@@ -284,65 +313,78 @@ class CheckoutScreen extends StatelessWidget {
               hSizedBox20,
               Center(
                 child: Obx(
-                  ()=>_con.placeOrderLoading.value?CircularProgressIndicator(): AppButton(
-                    text: AppString.placeOrder,
-                    width: Get.width / 1.6,
-                    onPressed: () {
-                      // Get.toNamed(AppRoutes.orderSummaryScreen);
-                      showDialog(
-                          context: context,
-                          builder: (_) =>
-                              AlertDialogWidget(
-                                title: "Message",
-                                subTitle: "Are you Sure to Place Order",
-                                onPositiveClick: () async {
+                  () => _con.placeOrderLoading.value
+                      ? CircularProgressIndicator()
+                      : AppButton(
+                          text: AppString.placeOrder,
+                          width: Get.width / 1.6,
+                          onPressed: () {
+                            // Get.toNamed(AppRoutes.orderSummaryScreen);
+                            showDialog(
+                                context: context,
+                                builder: (_) => AlertDialogWidget(
+                                      title: "Message",
+                                      subTitle: "Are you Sure to Place Order",
+                                      onPositiveClick: () async {
+                                        _con.placeOrderLoading.value = true;
+                                        int index = osController
+                                            .addressModel.addressList!
+                                            .indexWhere((element) =>
+                                                element.isSelected!.value ==
+                                                true);
 
-                                  _con.placeOrderLoading.value=true;
-                                  int index= osController.addressModel.addressList!.indexWhere((element) => element.isSelected!.value == true);
+                                        Addresses data = osController
+                                            .addressModel.addressList![index];
+                                        Get.back();
+                                        PlaceOrderModel? response =
+                                            await HttpService.placeOrder(
+                                                userid: loginCon.user.value.userId.toString(),
+                                                firstName:
+                                                    data.firstName.toString(),
+                                                lastName:
+                                                    data.lastName.toString(),
+                                                email: data.email.toString(),
+                                                phone:
+                                                    data.phoneNumber.toString(),
+                                                address:
+                                                    data.address.toString(),
+                                                country:
+                                                    data.country.toString(),
+                                                state: data.state.toString(),
+                                                postCode:
+                                                    data.postalCode.toString(),
+                                                items: cartController
+                                                    .cart.products!.value);
 
-                                  Addresses data= osController.addressModel.addressList![index];
-                                  Get.back();
-                                  PlaceOrderModel? response =
-                                      await HttpService.placeOrder(
-                                          userid: StaticVars.id,
-                                          firstName: data.firstName.toString(),
-                                          lastName:data.lastName.toString(),
-                                          email: data.email.toString(),
-                                          phone:data.phoneNumber.toString(),
-                                          address: data.address.toString(),
-                                          country: data.country.toString(),
-                                          state: data.state.toString(),
-                                          postCode: data.postalCode.toString(),
-                                          items: cartController.cart.products!.value);
+                                        _con.placeOrderLoading.value = false;
 
-                                  _con.placeOrderLoading.value=false;
-
-                                  if (response!.paymentLink.isNull) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (_) => AlertDialogWidget(
-                                              onPositiveClick: () {
-                                                Get.back();
-                                              },
-                                              title: "Error",
-                                              subTitle: "Something Went Wrong",
-                                            ));
-                                  } else {
-                                    cartController.clearCart();
-                                    StaticVars.customLauncher(Uri.parse(
-                                        response.paymentLink.toString()));
-                                 Future.delayed(Duration(seconds: 5),(){
-                                   Get.back();
-                                   Get.back();
-                                   bottomController.pageIndex.value=0;
-
-                                 });
-                                  }
-                                },
-
-                              ));
-                    },
-                  ),
+                                        if (response!.paymentLink.isNull) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (_) => AlertDialogWidget(
+                                                    onPositiveClick: () {
+                                                      Get.back();
+                                                    },
+                                                    title: "Error",
+                                                    subTitle:
+                                                        "Something Went Wrong",
+                                                  ));
+                                        } else {
+                                          cartController.clearCart();
+                                          StaticVars.customLauncher(Uri.parse(
+                                              response.paymentLink.toString()));
+                                          Future.delayed(Duration(seconds: 5),
+                                              () {
+                                            Get.back();
+                                            Get.back();
+                                            bottomController.pageIndex.value =
+                                                0;
+                                          });
+                                        }
+                                      },
+                                    ));
+                          },
+                        ),
                 ),
               ),
               hSizedBox20,
@@ -353,8 +395,7 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 
-  checkoutList(WatchDetailsModel product,index) {
-
+  checkoutList(WatchDetailsModel product, index) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       height: 100,

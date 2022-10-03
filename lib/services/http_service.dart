@@ -69,7 +69,15 @@ class HttpService {
         },
       );
       if (response.statusCode == 200) {
-        return AuthModel.fromJson(jsonDecode(response.body));
+        print(response.body);
+        Map<String,dynamic> data = jsonDecode(response.body);
+        // print("response "+ data["status"]);
+        if(data["status"] == 'success'){
+          return AuthModel.fromJson(jsonDecode(response.body));
+
+        }else{
+          return AuthModel();
+        }
       } else
         return null;
     } catch (e) {

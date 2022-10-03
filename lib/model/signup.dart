@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 class AuthModel {
   String? status;
   int? userId;
-  RxString? userName;
-  RxString? firstName;
-  RxString? lastName;
-  RxString? userEmail;
-  RxString? profileImage;
+ RxString? userName = ''.obs;
+ RxString? firstName= ''.obs;
+ RxString ?lastName= ''.obs;
+ RxString? userEmail= ''.obs;
+ RxString ?profileImage= ''.obs;
 
   AuthModel(
       {this.status,
