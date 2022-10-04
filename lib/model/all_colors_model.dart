@@ -48,3 +48,14 @@ class Brandlist {
     return data;
   }
 }
+
+class CustomColorCodes {
+
+  String? code;
+  String? slug;
+
+
+  CustomColorCodes({ this.code, this.slug,});
+
+
+}
