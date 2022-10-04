@@ -10,8 +10,8 @@ import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
-import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
-import 'package:watch_app/presentation/dashboard/order_summary/order_summary_screen.dart';
+import 'package:watch_app/presentation/dashboard/addresses/addresses_controller.dart';
+import 'package:watch_app/presentation/dashboard/addresses/addresses_screen.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -20,11 +20,10 @@ import '../../../model/watch_details_model.dart';
 
 class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({Key? key}) : super(key: key);
-
   // CheckoutController _con = Get.find();
   ShoppingCartController cartController = Get.find();
   final CheckoutController _con = Get.put(CheckoutController());
-  OrderSummaryController osController = Get.find();
+  AddressesController osController = Get.find();
   BottomBarController bottomController = Get.find();
   LoginScreenController loginCon=Get.find();
 
@@ -161,7 +160,7 @@ class CheckoutScreen extends StatelessWidget {
                                         1
                                     ? RaisedButton(
                                         onPressed: () {
-                                          Get.off(OrderSummaryScreen());
+                                          Get.off(AddressesScreen());
                                         },
                                   color: const Color(0xff4d18cc),
                                   shape: RoundedRectangleBorder(

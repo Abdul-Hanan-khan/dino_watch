@@ -6,8 +6,8 @@ import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_screen_custom.dart';
-import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
-import 'package:watch_app/presentation/dashboard/order_summary/order_summary_screen.dart';
+import 'package:watch_app/presentation/dashboard/addresses/addresses_controller.dart';
+import 'package:watch_app/presentation/dashboard/addresses/addresses_screen.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -30,7 +30,7 @@ class GetCheckoutInfoScreen extends StatefulWidget {
 class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
   final _con = Get.put(CheckoutController());
   ShoppingCartController cartController = Get.find();
-  OrderSummaryController osController = Get.find();
+  AddressesController osController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
 
     return Scaffold(
       appBar: appBar(
-        text: "Confirmation",
+        text: "Addresses",
         back: true,
         actionIcon: true,
         action: ImageConstant.bag,
@@ -240,7 +240,7 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                     //       )
                     //     :
                     AppButton(
-                            text: AppString.placeOrder,
+                            text: AppString.addAddress,
                             onPressed: () async {
                               if (_con.validate()) {
                                if (_con
@@ -308,7 +308,7 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                   ));
                                   _con.placeOrderLoading.value = false;
 
-                                  Get.off(OrderSummaryScreen());
+                                  Get.off(AddressesScreen());
 
                                   // if (response!.paymentLink.isNull) {
                                   //   showDialog(

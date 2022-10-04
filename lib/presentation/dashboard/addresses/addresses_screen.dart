@@ -6,11 +6,11 @@ import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/get_checkout_info.dart';
 
-import 'order_summary_controller.dart';
+import 'addresses_controller.dart';
 
-class OrderSummaryScreen extends StatelessWidget {
-  OrderSummaryScreen({Key? key}) : super(key: key);
-  final OrderSummaryController _con = Get.find();
+class AddressesScreen extends StatelessWidget {
+  AddressesScreen({Key? key}) : super(key: key);
+  final AddressesController _con = Get.find();
 
   @override
   Widget build(BuildContext context) {

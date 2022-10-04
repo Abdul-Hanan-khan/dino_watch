@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController _con = Get.find();
-  var controller = Get.put(CheckoutController());
+  // var controller = Get.put(CheckoutController());
   ShoppingCartController cartController = Get.find();
 
   ScrollController scrollControllerNested = ScrollController();
