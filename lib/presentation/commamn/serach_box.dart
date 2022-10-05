@@ -45,7 +45,8 @@ Widget searchBox({TextEditingController? controller, required String hint}) {
       onChanged: (value){
         // if(!value.isEmpty && value != "" && value.length > 1){
         //   print(value.length);
-          con.performSearchWithApi(value);
+        con.searchString.value=value;
+          con.performSearchWithApi();
         // }
 
       },

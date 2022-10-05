@@ -163,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         profileList(
           icon: ImageConstant.myOrders,
-          name: "Add Address",
+          name: "Addresses",
           ontap: () {
             Get.toNamed(AppRoutes.orderSummaryScreen);
           },

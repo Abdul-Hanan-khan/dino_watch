@@ -8,7 +8,7 @@ import 'package:watch_app/model/place_order_model.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_screen.dart';
 import 'package:watch_app/presentation/dashboard/order_details/order_details_screen.dart';
-import 'package:watch_app/presentation/dashboard/order_summary/order_summary_controller.dart';
+import 'package:watch_app/presentation/dashboard/addresses/addresses_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/get_checkout_info.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -18,7 +18,7 @@ import 'shopping_cart_controller.dart';
 class ShoppingCartScreen extends StatelessWidget {
   ShoppingCartScreen({Key? key}) : super(key: key);
   final ShoppingCartController _con = Get.find();
-  OrderSummaryController osController=Get.find();
+  AddressesController osController=Get.find();
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import 'package:cached_map/cached_map.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/model/address_model.dart';
 
-class OrderSummaryController extends GetxController {
+class AddressesController extends GetxController {
   RxInt isSelectAdd = 0.obs;
   AddressModel addressModel=AddressModel();
 

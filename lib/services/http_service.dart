@@ -9,6 +9,7 @@ import 'package:watch_app/core/utils/app_string.dart';
 
 import 'package:watch_app/model/add_to_cart_model.dart';
 import 'package:watch_app/model/all_brands_model.dart';
+import 'package:watch_app/model/all_colors_model.dart';
 import 'package:watch_app/model/country_list_model.dart';
 import 'package:watch_app/model/edit_profile_model.dart';
 import 'package:watch_app/model/my_orders_model.dart';
@@ -70,12 +71,11 @@ class HttpService {
       );
       if (response.statusCode == 200) {
         print(response.body);
-        Map<String,dynamic> data = jsonDecode(response.body);
+        Map<String, dynamic> data = jsonDecode(response.body);
         // print("response "+ data["status"]);
-        if(data["status"] == 'success'){
+        if (data["status"] == 'success') {
           return AuthModel.fromJson(jsonDecode(response.body));
-
-        }else{
+        } else {
           return AuthModel();
         }
       } else
@@ -328,7 +328,8 @@ class HttpService {
     required String commentContent,
   }) async {
     try {
-      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/addproductrating.php'));
+      var request = http.MultipartRequest('POST',
+          Uri.parse('https://dannidion.com/apies/addproductrating.php'));
       request.fields.addAll({
         'user_id': userId,
         'product_id': productId,
@@ -336,18 +337,15 @@ class HttpService {
         'comment_content': commentContent
       });
 
-
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         var temp = await response.stream.bytesToString();
         var decodedResponse = json.decode(temp);
         return decodedResponse;
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
       }
-
     } catch (e) {
       print(e);
       return null;
@@ -395,49 +393,42 @@ class HttpService {
 
   static Future<OrderDetailsModel?> loadOrderDetails(String orderId) async {
     try {
-      var request = http.Request('GET', Uri.parse('https://dannidion.com/wc-api/v3/orders/$orderId?consumer_key=ck_96d89bdadb96f00e78e0e2bc9d87a33e2fac45bf&consumer_secret=cs_6dda6a67adaa1decc82e07eac0d427965ea918c0'));
-
+      var request = http.Request(
+          'GET',
+          Uri.parse(
+              'https://dannidion.com/wc-api/v3/orders/$orderId?consumer_key=ck_96d89bdadb96f00e78e0e2bc9d87a33e2fac45bf&consumer_secret=cs_6dda6a67adaa1decc82e07eac0d427965ea918c0'));
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        var temp=(await response.stream.bytesToString());
+        var temp = (await response.stream.bytesToString());
         var decodedResponse = json.decode(temp);
         return OrderDetailsModel.fromJson(decodedResponse);
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
       }
-
     } catch (e) {
       print(e);
       return null;
     }
     return null;
   }
-
-
-
 
   static Future<dynamic?> forgotPassword(String userEmail) async {
     try {
-      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/forgotpassword.php'));
-      request.fields.addAll({
-        'useremail': userEmail
-      });
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('https://dannidion.com/apies/forgotpassword.php'));
+      request.fields.addAll({'useremail': userEmail});
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        var temp=(await response.stream.bytesToString());
+        var temp = (await response.stream.bytesToString());
         var decodedResponse = json.decode(temp);
         return (decodedResponse);
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
       }
-
-
     } catch (e) {
       print(e);
       return null;
@@ -445,39 +436,56 @@ class HttpService {
     return null;
   }
 
+  static Future<AllColors?> getAllColors() async {
+    try {
+      var request = http.Request(
+          'GET', Uri.parse('https://dannidion.com/apies/getallcolors.php'));
+      http.StreamedResponse response = await request.send();
 
-  static Future<SearchModel?> search(String searchString) async {
+      if (response.statusCode == 200) {
+        var temp = (await response.stream.bytesToString());
+        var decodedResponse = json.decode(temp);
+        return AllColors.fromJson(decodedResponse);
+      } else {
+        print(response.reasonPhrase);
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    return null;
+  }
+
+  static Future<SearchModel?> search(String searchString, String slug) async {
     try {
       var headers = {
-        'Cookie': 'wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=hanan2%7C1664014640%7Cb0r6nfVdLwehGVlmTUWK5LFrGaEQfxNZmyLgbjEJpVB%7C11391f4b87d9c347194e23a1af6be8fda21eb25b4dccf1f64c2bd7d64689c82a'
+        'Cookie':
+            'wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=hanan2%7C1664014640%7Cb0r6nfVdLwehGVlmTUWK5LFrGaEQfxNZmyLgbjEJpVB%7C11391f4b87d9c347194e23a1af6be8fda21eb25b4dccf1f64c2bd7d64689c82a'
       };
-      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/productsearch.php'));
-      request.fields.addAll({
-        'keyword': searchString
-      });
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('https://dannidion.com/apies/productsearch.php'));
+      request.fields.addAll(
+          {
+            'keyword': searchString,
+            'color': slug ?? ''
+          },
+      );
 
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        var temp=(await response.stream.bytesToString());
+        var temp = (await response.stream.bytesToString());
         var decodedResponse = json.decode(temp);
         return SearchModel.fromJson(decodedResponse);
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
       }
-
-
     } catch (e) {
       print(e);
       return null;
     }
     return null;
   }
-
-
-
-
 }

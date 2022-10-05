@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
+import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/commamn/serach_box.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
 import 'package:watch_app/presentation/dashboard/search/search_controller.dart';
@@ -13,7 +14,10 @@ import '../watch_details/watch_details_screen.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
-  final SearchController _con = Get.put(SearchController());
+
+  // final SearchController _con = Get.put(SearchController());
+  SearchController _con = Get.find();
+
   // HomeController homeController=Get.find();
 
   @override
@@ -32,73 +36,179 @@ class SearchScreen extends StatelessWidget {
             children: [
               searchBox(hint: AppString.search),
               hSizedBox10,
-              DefaultTabController(
-                length: 4,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 40.0,
-                      child: TabBar(
-                        padding: EdgeInsets.zero,
-                        physics: const BouncingScrollPhysics(),
-                        indicatorColor: Colors.black,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        unselectedLabelColor: Colors.black.withOpacity(.4),
-                        labelColor: Colors.black,
-                        labelStyle: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                        labelPadding:
-                            const EdgeInsets.symmetric(horizontal: 0.0),
-                        controller: _con.tabController,
-                        tabs: _con.tabbar,
-                        indicatorWeight: 1.0,
-                        isScrollable: false,
-                      ),
-                    ),
-                    hSizedBox20,
-                    Obx(
-                      () => _con.loading.value
-                          ? CupertinoActivityIndicator()
-                          : _con.searchModel.value.products.isNull ||
-                                  _con.searchModel.value.products!.length == 0
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: const [
-                                    SizedBox(
-                                      height: 250,
-                                    ),
-                                    Text(
-                                      "Search for Different Product",
+              Obx(
+                () => _con.allColorsModel.value.brandlist == null ||
+                        _con.allColorsModel.value.brandlist!.length < 1
+                    ? Container()
+                    : Container(
+                        height: 30,
+                        width: Get.width,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              _con.allColorsModel.value.brandlist!.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: (){
+                                _con.selectedIndex.value=index;
+                                _con.selectedSlug.value=_con.allColorsModel.value.brandlist![index].slug.toString();
+                                _con.performSearchWithApi();
+                              },
+                              child: Obx(
+                                ()=> Container(
+                                  width: 80,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: _con.selectedIndex.value == index
+                                        ? Colors.black
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        color: _con.selectedIndex.value == index
+                                            ? Colors.transparent
+                                            : Colors.grey),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      _con.allColorsModel.value.brandlist![index].name
+                                          .toString(),
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                        color: _con.selectedIndex.value == index? Colors.white:Colors.black
+                                      ),
                                     ),
-                                  ],
-                                )
-                              :  Obx(
-                        ()=> GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: _con.searchList.length,
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        primary: false,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 15,
-                          mainAxisSpacing: 15,
-                          childAspectRatio: Get.size.width / (Get.size.height * 0.70),
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return productCardView(_con.searchList.value[index] ,index);
-                        },
-                      ),
+                                  ),
+                                ),
                               ),
-                    ),
-                    hSizedBox10,
-                  ],
-                ),
+                            );
+
+                            Text(_con
+                                .allColorsModel.value.brandlist![index].name
+                                .toString());
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              width: 8,
+                            );
+                          },
+                        ),
+                      ),
               ),
+              // DefaultTabController(
+              //   length: 4,
+              //   child: Column(
+              //     children: [
+              //       SizedBox(
+              //         height: 40.0,
+              //         child: TabBar(
+              //           padding: EdgeInsets.zero,
+              //           physics: const BouncingScrollPhysics(),
+              //           indicatorColor: Colors.black,
+              //           indicatorSize: TabBarIndicatorSize.tab,
+              //           unselectedLabelColor: Colors.black.withOpacity(.4),
+              //           labelColor: Colors.black,
+              //           labelStyle: const TextStyle(
+              //             fontWeight: FontWeight.w600,
+              //             fontSize: 16,
+              //           ),
+              //           labelPadding:
+              //               const EdgeInsets.symmetric(horizontal: 0.0),
+              //           controller: _con.tabController,
+              //           tabs: _con.tabbar,
+              //           indicatorWeight: 1.0,
+              //           isScrollable: false,
+              //         ),
+              //       ),
+              //       hSizedBox20,
+              //       Obx(
+              //         () => _con.loading.value
+              //             ? CupertinoActivityIndicator()
+              //             : _con.searchModel.value.products.isNull ||
+              //                     _con.searchModel.value.products!.length == 0
+              //                 ? Column(
+              //                     mainAxisAlignment: MainAxisAlignment.center,
+              //                     mainAxisSize: MainAxisSize.max,
+              //                     children: const [
+              //                       SizedBox(
+              //                         height: 250,
+              //                       ),
+              //                       Text(
+              //                         "Search for Different Product",
+              //                         style: TextStyle(
+              //                             fontWeight: FontWeight.bold),
+              //                       ),
+              //                     ],
+              //                   )
+              //                 :  Obx(
+              //           ()=> GridView.builder(
+              //           shrinkWrap: true,
+              //           itemCount: _con.searchList.length,
+              //           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              //           primary: false,
+              //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //             crossAxisCount: 2,
+              //             crossAxisSpacing: 15,
+              //             mainAxisSpacing: 15,
+              //             childAspectRatio: Get.size.width / (Get.size.height * 0.70),
+              //           ),
+              //           itemBuilder: (BuildContext context, int index) {
+              //             return productCardView(_con.searchList.value[index] ,index);
+              //           },
+              //         ),
+              //                 ),
+              //       ),
+              //       hSizedBox10,
+              //     ],
+              //   ),
+              // ),
+              Column(
+                children: [
+                  hSizedBox20,
+                  Obx(
+                    () => _con.loading.value
+                        ? CupertinoActivityIndicator()
+                        : _con.searchModel.value.products.isNull ||
+                                _con.searchModel.value.products!.length == 0
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: const [
+                                  SizedBox(
+                                    height: 250,
+                                  ),
+                                  Text(
+                                    "Search for Different Product",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )
+                            : Obx(
+                                () => GridView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: _con.searchList.length,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 15),
+                                  primary: false,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 15,
+                                    mainAxisSpacing: 15,
+                                    childAspectRatio: Get.size.width /
+                                        (Get.size.height * 0.70),
+                                  ),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return productCardView(
+                                        _con.searchList.value[index], index);
+                                  },
+                                ),
+                              ),
+                  ),
+                  hSizedBox10,
+                ],
+              )
             ],
           ),
         ),
@@ -106,7 +216,7 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  productCardView(Products product,index) {
+  productCardView(Products product, index) {
     return GestureDetector(
       onTap: () {
         Get.to(WatchDetailScreen(product.productId!));

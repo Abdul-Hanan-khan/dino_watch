@@ -19,7 +19,7 @@ import '../presentation/dashboard/filter/filter_screen.dart';
 import '../presentation/dashboard/invite_friend/invite_friend_screen.dart';
 import '../presentation/dashboard/my_orders/my_orders_screen.dart';
 import '../presentation/dashboard/notification/notification_screen.dart';
-import '../presentation/dashboard/order_summary/order_summary_screen.dart';
+import '../presentation/dashboard/addresses/addresses_screen.dart';
 import '../presentation/dashboard/payment/payment_screen.dart';
 import '../presentation/dashboard/privacypolicy/privacy_policy_screen.dart';
 import '../presentation/dashboard/reviews/reviews_screen.dart';
@@ -77,7 +77,7 @@ class AppRoutes {
     GetPage(name: seeMoreScreen, page: () => SeeMoreScreen()),
     GetPage(name: searchScreen, page: () => SearchScreen()),
     GetPage(name: checkoutScreen, page: () => CheckoutScreen()),
-    GetPage(name: orderSummaryScreen, page: () => OrderSummaryScreen()),
+    GetPage(name: orderSummaryScreen, page: () => AddressesScreen()),
     GetPage(name: paymentScreen, page: () => PaymentScreen()),
     GetPage(name: successfullyScreen, page: () => const SuccessfullyScreen()),
     GetPage(name: addNewCardScreen, page: () => AddNewCardScreen()),
