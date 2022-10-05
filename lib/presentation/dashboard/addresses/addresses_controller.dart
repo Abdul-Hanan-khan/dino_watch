@@ -61,6 +61,13 @@ class AddressesController extends GetxController {
 //      calculateTotalItems();
   }
 
+  updateAddress(AddressModel addressModel){
+    // addressModel.addressList!.value[index]=newAddress;
+    Mapped.saveFileDirectly(file: addressModel.toJson(), cachedFileName: 'addresses');
+    print("Address updated");
+
+  }
+
 
 
 

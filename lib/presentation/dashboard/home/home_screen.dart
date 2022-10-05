@@ -216,6 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
   productCardView(Products product, index) {
     return GestureDetector(
       onTap: () {
+        print(product.productId);
         Get.to(WatchDetailScreen(product.productId!));
         // Get.toNamed(AppRoutes.watchDetailScreen);
       },

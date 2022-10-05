@@ -4,6 +4,7 @@ import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
+import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/get_checkout_info.dart';
 
 import 'addresses_controller.dart';
@@ -11,9 +12,11 @@ import 'addresses_controller.dart';
 class AddressesScreen extends StatelessWidget {
   AddressesScreen({Key? key}) : super(key: key);
   final AddressesController _con = Get.find();
+  final cInfo = Get.put(CheckoutController());
 
   @override
   Widget build(BuildContext context) {
+    // cInfo.getCountriesList();
     return Scaffold(
       appBar: appBar(
         text: AppString.addAddress,
@@ -47,7 +50,7 @@ class AddressesScreen extends StatelessWidget {
               ),
               hSizedBox10,
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Get.to(GetCheckoutInfoScreen());
                 },
                 child: Container(
@@ -82,27 +85,30 @@ class AddressesScreen extends StatelessWidget {
                 ),
               ),
               Obx(
-                ()=> ListView.builder(
+                () => ListView.builder(
                   itemCount: _con.addressModel.addressList!.value.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
+                    int selectedIndex = _con.addressModel.addressList!
+                        .indexWhere(
+                            (element) => element.isSelected!.value == true);
 
-                    int selectedIndex= _con.addressModel.addressList!.indexWhere((element) => element.isSelected!.value==true);
-
-                    if(selectedIndex != -1){
-                      _con.isSelectAdd.value=selectedIndex;
+                    if (selectedIndex != -1) {
+                      _con.isSelectAdd.value = selectedIndex;
                     }
                     // return Text("${_con.addressModel.addressList![index].address}");
                     return Obx(
-                      ()=> Stack(
+                      () => Stack(
                         alignment: Alignment.bottomRight,
                         children: [
                           GestureDetector(
                             onTap: () {
                               _con.isSelectAdd.value = index;
-                              _con.addOrUpdateAddress(_con.addressModel.addressList![index],index: index);
+                              _con.addOrUpdateAddress(
+                                  _con.addressModel.addressList![index],
+                                  index: index);
                             },
                             child: Container(
                               padding: const EdgeInsets.all(14),
@@ -130,7 +136,7 @@ class AddressesScreen extends StatelessWidget {
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           "Home",
@@ -141,7 +147,13 @@ class AddressesScreen extends StatelessWidget {
                                         ),
                                         hSizedBox4,
                                         Text(
-                                          _con.addressModel.addressList![index].firstName.toString()+ " "+_con.addressModel.addressList![index].lastName.toString() ,
+                                          _con.addressModel.addressList![index]
+                                                  .firstName!.value
+                                                  .toString() +
+                                              " " +
+                                              _con.addressModel
+                                                  .addressList![index].lastName
+                                                  .toString(),
                                           style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -149,7 +161,9 @@ class AddressesScreen extends StatelessWidget {
                                         ),
                                         hSizedBox4,
                                         Text(
-                                          _con.addressModel.addressList![index].phoneNumber.toString() ,
+                                          _con.addressModel.addressList![index]
+                                              .phoneNumber!.value
+                                              .toString(),
                                           style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -157,7 +171,9 @@ class AddressesScreen extends StatelessWidget {
                                         ),
                                         hSizedBox4,
                                         Text(
-                                          _con.addressModel.addressList![index].address.toString() ,
+                                          _con.addressModel.addressList![index]
+                                              .address!.value
+                                              .toString(),
                                           style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -173,13 +189,15 @@ class AddressesScreen extends StatelessWidget {
                                       vertical: VisualDensity.minimumDensity,
                                     ),
                                     materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
+                                        MaterialTapTargetSize.shrinkWrap,
                                     activeColor: AppColors.yellowColor,
                                     value: _con.isSelectAdd.value,
                                     groupValue: index,
                                     onChanged: (val) {
                                       _con.isSelectAdd.value = index;
-                                      _con.addOrUpdateAddress(_con.addressModel.addressList![index],index: index);
+                                      _con.addOrUpdateAddress(
+                                          _con.addressModel.addressList![index],
+                                          index: index);
                                     },
                                   ),
                                 ],
@@ -188,11 +206,11 @@ class AddressesScreen extends StatelessWidget {
                           ),
                           if (_con.isSelectAdd.value == index)
                             Positioned(
-                              bottom: 30,
+                              bottom: 66,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 10,
+                                  horizontal: 8,
+                                  vertical: 5,
                                 ),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -203,7 +221,7 @@ class AddressesScreen extends StatelessWidget {
                                   boxShadow: [
                                     BoxShadow(
                                       color:
-                                      Colors.grey.shade300.withOpacity(0.6),
+                                          Colors.grey.shade300.withOpacity(0.6),
                                       blurRadius: 10.0,
                                       spreadRadius: .5,
                                     ),
@@ -212,12 +230,48 @@ class AddressesScreen extends StatelessWidget {
                                 child: Text(
                                   AppString.defaulttext,
                                   style: TextStyle(
-                                    color: AppColors.yellowColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                      color: AppColors.yellowColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10),
                                 ),
                               ),
-                            )
+                            ),
+                          Positioned(
+                            right: 10,
+                            bottom: 30,
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                    onTap:(){
+                                      cInfo.firstNameInitVal.value=_con.addressModel.addressList![index].firstName.toString();
+                                      cInfo.lastNameInitVal.value=_con.addressModel.addressList![index].lastName.toString();
+                                      cInfo.emailInitVal.value=_con.addressModel.addressList![index].email.toString();
+                                      cInfo.phoneNoInitVal.value=_con.addressModel.addressList![index].phoneNumber.toString();
+                                      cInfo.addressInitVal.value=_con.addressModel.addressList![index].address.toString();
+                                      cInfo.postCodeInitVal.value=_con.addressModel.addressList![index].postalCode.toString();
+                                      cInfo.countryDropDownValue.value=_con.addressModel.addressList![index].country.toString();
+                                      cInfo.statesDropdownvalue.value=_con.addressModel.addressList![index].state.toString();
+
+
+                                      cInfo.firstNameCtr.text=_con.addressModel.addressList![index].firstName.toString();
+                                      cInfo.lastNameCtr.text=_con.addressModel.addressList![index].lastName.toString();
+                                      cInfo.emailCtr.text=_con.addressModel.addressList![index].email.toString();
+                                      cInfo.phoneNoCtr.text=_con.addressModel.addressList![index].phoneNumber.toString();
+                                      cInfo.addressCtr.text=_con.addressModel.addressList![index].address.toString();
+                                      cInfo.postCodeCtr.text=_con.addressModel.addressList![index].postalCode.toString();
+                                      // cInfo.countryDropDownValue.value=_con.addressModel.addressList![index].country.toString();
+                                      // cInfo.statesDropdownvalue.value=_con.addressModel.addressList![index].state.toString();
+
+
+
+                                      Get.to(GetCheckoutInfoScreen(fromUpdate: true,));
+                                    },
+                                    child: Image.asset('assets/images/editing.png',height: 20,width: 20,)),
+                                SizedBox(width: 7,),
+                                Image.asset('assets/images/garbage.png',height: 20,width: 20,)
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     );

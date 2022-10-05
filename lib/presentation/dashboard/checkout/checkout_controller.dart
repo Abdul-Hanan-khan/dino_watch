@@ -30,11 +30,20 @@ class CheckoutController extends GetxController {
   RxString addressError = ''.obs;
   RxString postCodeError = ''.obs;
 
+
+  RxString firstNameInitVal = ''.obs;
+  RxString lastNameInitVal = ''.obs;
+  RxString emailInitVal = ''.obs;
+  RxString phoneNoInitVal = ''.obs;
+  RxString addressInitVal = ''.obs;
+  RxString postCodeInitVal = ''.obs;
+
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getCountriesList();
+    // getCountriesList();
   }
 
   bool validate() {
