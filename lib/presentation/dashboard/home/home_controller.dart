@@ -13,7 +13,7 @@ class HomeController extends GetxController {
   ShoppingCartController cartController = Get.find();
   RxBool loadingCat = false.obs;
   RxBool loadingProducts = false.obs;
-  RxInt isSelected = (0).obs;
+  RxInt isSelected = (2).obs;
   RxList isFavdiscount = [].obs;
   RxList<Categories>? categoriesList = <Categories>[].obs;
   Rx<ProductByCat> productsModal = ProductByCat().obs;
@@ -30,7 +30,7 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getCategories();
-    getProductByCat(catId: '97'); // for ladies related products
+    getProductByCat(catId: '15'); // 97 for ladies related products , 96 for ladies related products , 15 for ladies related products
   }
 
   onFavdiscount(int index) {

@@ -50,7 +50,7 @@ class SearchController extends GetxController
     loading.value = false;
     print(searchList.value);
   }
-  
+
 
 
 }

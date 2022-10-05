@@ -20,6 +20,8 @@ class FavoriteScreen extends StatelessWidget {
     return Obx(
       () => homeController.favouriteList.isEmpty
           ? Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(ImageConstant.noFav),
                 const Text("No favorite yet")

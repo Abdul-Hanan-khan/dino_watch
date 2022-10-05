@@ -39,6 +39,7 @@ class BottomBarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        backgroundColor: Colors.white,
         drawer: drawerOpen(),
         key: _con.scaffoldKey,
         appBar: _con.pageIndex.value == 0
