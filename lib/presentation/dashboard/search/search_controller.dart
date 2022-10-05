@@ -13,6 +13,7 @@ class SearchController extends GetxController
   RxString searchString =''.obs;
   Rx<SearchModel> searchModel = SearchModel().obs;
   Rx<AllColors> allColorsModel = AllColors().obs;
+  RxList<CustomColorCodes> customCC=<CustomColorCodes>[].obs;
   RxList<Products> searchList=<Products>[].obs;
   late final TabController tabController;
   RxList<Widget> tabbar = ([
@@ -49,6 +50,7 @@ class SearchController extends GetxController
     loading.value = false;
     print(searchList.value);
   }
+  
 
 
 }
