@@ -1,5 +1,7 @@
+import 'package:get/get.dart';
+
 class EditProfileModel {
-  String? status;
+  RxString? status;
   String? firstName;
   String? lastName;
   String? profileImage;

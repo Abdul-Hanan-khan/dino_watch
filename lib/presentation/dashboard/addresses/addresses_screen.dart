@@ -86,7 +86,7 @@ class AddressesScreen extends StatelessWidget {
               ),
               Obx(
                 () => ListView.builder(
-                  itemCount: _con.addressModel.addressList!.value.length,
+                  itemCount: _con.addressModel.addressList!.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
@@ -251,8 +251,6 @@ class AddressesScreen extends StatelessWidget {
                                       cInfo.postCodeInitVal.value=_con.addressModel.addressList![index].postalCode.toString();
                                       cInfo.countryDropDownValue.value=_con.addressModel.addressList![index].country.toString();
                                       cInfo.statesDropdownvalue.value=_con.addressModel.addressList![index].state.toString();
-
-
                                       cInfo.firstNameCtr.text=_con.addressModel.addressList![index].firstName.toString();
                                       cInfo.lastNameCtr.text=_con.addressModel.addressList![index].lastName.toString();
                                       cInfo.emailCtr.text=_con.addressModel.addressList![index].email.toString();
@@ -261,9 +259,6 @@ class AddressesScreen extends StatelessWidget {
                                       cInfo.postCodeCtr.text=_con.addressModel.addressList![index].postalCode.toString();
                                       // cInfo.countryDropDownValue.value=_con.addressModel.addressList![index].country.toString();
                                       // cInfo.statesDropdownvalue.value=_con.addressModel.addressList![index].state.toString();
-
-
-
                                       Get.to(GetCheckoutInfoScreen(fromUpdate: true,));
                                     },
                                     child: Image.asset('assets/images/editing.png',height: 20,width: 20,)),

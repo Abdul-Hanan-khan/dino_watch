@@ -40,7 +40,7 @@ class AddressesController extends GetxController {
       print(addressModel);
       // int newIndex=addressModel.addressList!.indexWhere((element) => element.id == newAddress.id);
     }else{
-      addressModel.addressList!.value.add(newAddress);
+      addressModel.addressList!.add(newAddress);
       addressModel.addressList!.forEach((element) {
         element.isSelected!.value=false;
       });
@@ -54,7 +54,7 @@ class AddressesController extends GetxController {
 //      calculateTotalItems();
   }
   removeAddress(int index) {
-    addressModel.addressList!.value.removeAt(index);
+    addressModel.addressList!.removeAt(index);
     Mapped.saveFileDirectly(file: addressModel.toJson(), cachedFileName: 'addresses');
 
       print("Address Removed successfully",);

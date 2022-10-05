@@ -197,7 +197,7 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                     ),
                   ),
                   hSizedBox6,
-                  Obx(
+                 widget.fromUpdate!? Container(): Obx(
                     () => !_con.fetchedStates.value
                         ? Container()
                         : _con.loadingStates.value
@@ -286,9 +286,6 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                         _con.addressInitVal.value='';
                         _con.postCodeInitVal.value='';
                         Get.back();
-                        Get.off(AddressesScreen());
-
-
                       }else{
                         print("add address index not found");
                       }
@@ -351,11 +348,27 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                       unique =false;
                                     }
                                   }
-                                  Addresses ?address=Addresses();
 
+
+                                  Addresses ?address =Addresses.fromJson({
+                                  'id':"",
+                                  'first_name':"Mr",
+                                  'last_name':"Khan",
+                                  'email':"asd",
+                                  'phone_number':"1122",
+                                  'address':'',
+                                  'postal_code':'',
+                                  'country':'',
+                                  'state':'',
+                                  'is_selected':false
+                                  });
+
+
+                                  print(address);
+                                  print(address.firstName);
                                   address.id= "adr-$randomNumber";
 
-                                  address.firstName!.value??"";
+                                  // address.firstName!.value??"";
 
 
                                   address.firstName!.value=_con.firstNameCtr.text.toString();
@@ -384,8 +397,8 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                   //     isSelected: RxBool(true)
                                   // ));
                                   _con.placeOrderLoading.value = false;
-
-                                  Get.off(AddressesScreen());
+                                  Get.back();
+                                  // Get.off(AddressesScreen());
 
                                   // if (response!.paymentLink.isNull) {
                                   //   showDialog(
