@@ -351,9 +351,13 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                                       unique =false;
                                     }
                                   }
-                                  Addresses address=Addresses();
+                                  Addresses ?address=Addresses();
 
                                   address.id= "adr-$randomNumber";
+
+                                  address.firstName!.value??"";
+
+
                                   address.firstName!.value=_con.firstNameCtr.text.toString();
                                   address.lastName!.value=_con.lastNameCtr.text.toString();
                                   address.email!.value=_con.emailCtr.text.toString();

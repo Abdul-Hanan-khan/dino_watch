@@ -16,7 +16,7 @@ class AddressesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // cInfo.getCountriesList();
+    cInfo.getCountriesList();
     return Scaffold(
       appBar: appBar(
         text: AppString.addAddress,
@@ -268,7 +268,78 @@ class AddressesScreen extends StatelessWidget {
                                     },
                                     child: Image.asset('assets/images/editing.png',height: 20,width: 20,)),
                                 SizedBox(width: 7,),
-                                Image.asset('assets/images/garbage.png',height: 20,width: 20,)
+
+
+
+                                GestureDetector(
+
+                                    onTap:(){
+                                      showDialog(
+                                        barrierColor: const Color.fromRGBO(0, 0, 0, 0.76),
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            actionsPadding: const EdgeInsets.symmetric(horizontal: 20),
+                                            backgroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                            title: Text(
+                                              "Delete Address",
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            content: Text("Are you Sure to Delete Address"),
+                                            actions: [
+                                              InkWell(
+                                                onTap: () => Navigator.pop(context),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(2.0),
+                                                  ),
+                                                  margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                                  padding:
+                                                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                                                  child: Text(
+                                                    AppString.cancel,
+                                                    style: TextStyle(
+                                                      color: Colors.blue.shade600,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: (){
+                                                  _con.removeAddress(index);
+                                                  Get.back();
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(2.0),
+                                                  ),
+                                                  margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                                  padding:
+                                                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+                                                  child: Text(
+                                                    "Remove",
+                                                    style: const TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Image.asset('assets/images/garbage.png',height: 20,width: 20,))
                               ],
                             ),
                           )
