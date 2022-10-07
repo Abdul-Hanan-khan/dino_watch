@@ -38,7 +38,7 @@ class OrderDetailsScreen extends StatelessWidget {
             )
           : Column(
             children: [
-              orderStatusBar(size),
+              // orderStatusBar(size),
               Container(
                   decoration: BoxDecoration(
                       color: Color(0xff4d18cc).withOpacity(0.02),

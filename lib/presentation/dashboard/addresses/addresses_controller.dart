@@ -60,6 +60,13 @@ class AddressesController extends GetxController {
       print("Address Removed successfully",);
 //      calculateTotalItems();
   }
+//   clearAddresses() {
+//     addressModel.addressList!.clear();
+//     Mapped.deleteFileDirectly(cachedFileName: 'addresses');
+//
+//       print("Address Removed successfully",);
+// //      calculateTotalItems();
+//   }
 
   updateAddress(AddressModel addressModel){
     // addressModel.addressList!.value[index]=newAddress;

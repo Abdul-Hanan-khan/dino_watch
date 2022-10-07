@@ -15,6 +15,7 @@ class MyOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(
         text: AppString.myOrders,
@@ -44,11 +45,17 @@ class MyOrdersScreen extends StatelessWidget {
                         child: Text("No Order Found"),
                       ),
                     )
-                  : SingleChildScrollView(child: showOrderList()),
+                  : SingleChildScrollView(child: Column(
+                    children: [
+                      orderStatusBar(size),
+                      showOrderList(),
+                    ],
+                  )),
         ),
       ),
     );
   }
+
 
   Widget showOrderList() {
     return Container(
@@ -153,6 +160,41 @@ class MyOrdersScreen extends StatelessWidget {
               ),
             );
           }),
+    );
+  }
+
+
+
+  Widget orderStatusBar(Size size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //pending completed approved
+      children: [
+        RaisedButton(
+          onPressed: () {},
+          child: const Text('Pending',style: TextStyle(color: Colors.white),),
+          color:  const Color(0xff4d18cc),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        RaisedButton(
+          onPressed: () {},
+          child: const Text('Approved',style: TextStyle(color: Colors.black),),
+          color:  Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        RaisedButton(
+          onPressed: () {},
+          child: const Text('Completed',style: TextStyle(color: Colors.black),),
+          color:  Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ],
     );
   }
 }

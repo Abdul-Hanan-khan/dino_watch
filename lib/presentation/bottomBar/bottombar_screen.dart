@@ -9,6 +9,7 @@ import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/main.dart';
 import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/auth/login/login_screen.dart';
+import 'package:watch_app/presentation/dashboard/addresses/addresses_controller.dart';
 import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/favorite/favorite_screen.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
@@ -32,6 +33,7 @@ class BottomBarScreen extends StatelessWidget {
   ShoppingCartController cartController = Get.find();
   HomeController homeController = Get.find();
   final BottomBarController _con = Get.find();
+  AddressesController addressCon=Get.find();
 
   // sdf
 
@@ -311,6 +313,7 @@ class BottomBarScreen extends StatelessWidget {
                                                                   authController.deleteUser();
                                                                   cartController.clearCart();
                                                                   homeController.clearFavs();
+                                                                  // addressCon.clearAddresses();
                                                                   userLoginStatus=false;
                                                                     Get.offAllNamed(
                                                                       AppRoutes
@@ -326,6 +329,7 @@ class BottomBarScreen extends StatelessWidget {
                                                           authController.deleteUser();
                                                           cartController.clearCart();
                                                           homeController.clearFavs();
+                                                          // addressCon.clearAddresses();
                                                           userLoginStatus=false;
 
                                                           Get.offAllNamed(

@@ -375,7 +375,7 @@ class CheckoutScreen extends StatelessWidget {
                                           Future.delayed(Duration(seconds: 5),
                                               () {
                                             Get.back();
-                                            Get.back();
+                                            // Get.back();
                                             bottomController.pageIndex.value =
                                                 0;
                                           });
