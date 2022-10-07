@@ -37,20 +37,35 @@ class HttpService {
     String password,
   ) async {
     try {
-      var response = await http.post(
-        Uri.parse(AppApis.signUp),
-        body: {
-          'first_name': firstName,
-          'last_name': lastName,
-          'email': email,
-          'username': username,
-          'password': password,
-        },
-      );
+      var headers = {
+        'Cookie': 'tk_ai=jetpack%3AX%2BCJfdiFCnjGbMbUrRhfbkKT; wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=shahid01%7C1665293508%7CgVjLnh2GCJ5Maw3oDsUoypza5c7c3PCZRPFz1mPFIor%7C4d6cf411cd030355a7dc365098dda2883dc2eefd1aaf09c028ab52a23eec08c6'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/user-accounts.php'));
+      request.fields.addAll({
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': email,
+        'username': username,
+        'password': password
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
       if (response.statusCode == 200) {
-        return AuthModel.fromJson(jsonDecode(response.body));
-      } else
-        return null;
+        var temp = await response.stream.bytesToString();
+        var response2 = json.decode(temp);
+        if(response2['status'] == "success"){
+          return AuthModel.fromJson(response2);
+        }else{
+          return AuthModel();
+        }
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
     } catch (e) {
       print(e);
       return null;
@@ -62,27 +77,60 @@ class HttpService {
     String userPassword,
   ) async {
     try {
-      var response = await http.post(
-        Uri.parse(AppApis.login),
-        body: {
-          'username': username,
-          'user_password': userPassword,
-        },
-      );
+
+      var headers = {
+        'Cookie': 'tk_ai=jetpack%3AX%2BCJfdiFCnjGbMbUrRhfbkKT; wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=shabbir2022%7C1665292507%7CV9fpAFG6MMKebBG36wVA8ipcO22MQcsPqUU9h1Jixjm%7C12fabf4d15454a46d289c3159d4f404cdd9cc965556c13ad5630b5e576e92332'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/login.php'));
+      request.fields.addAll({
+        'username': username,
+        'user_password': userPassword
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
       if (response.statusCode == 200) {
-        print(response.body);
-        Map<String, dynamic> data = jsonDecode(response.body);
-        // print("response "+ data["status"]);
-        if (data["status"] == 'success') {
-          return AuthModel.fromJson(jsonDecode(response.body));
-        } else {
+        var temp = await response.stream.bytesToString();
+        var response2 = json.decode(temp);
+        if(response2['status'] == "success"){
+          return AuthModel.fromJson(response2);
+        }else{
           return AuthModel();
         }
-      } else
-        return null;
+      }
+      else {
+        print(response.reasonPhrase);
+        return AuthModel();
+      }
+
+
+
+
+
+
+      // var response = await http.post(
+      //   Uri.parse(AppApis.login),
+      //   body: {
+      //     'username': username,
+      //     'user_password': userPassword,
+      //   },
+      // );
+      // if (response.statusCode == 200) {
+      //   print(response.body);
+      //   Map<String, dynamic> data = jsonDecode(response.body);
+      //   // print("response "+ data["status"]);
+      //   if (data["status"] == 'success') {
+      //     return AuthModel.fromJson(jsonDecode(response.body));
+      //   } else {
+      //     return AuthModel();
+      //   }
+      // } else
+      //   return null;
     } catch (e) {
       print(e);
-      return null;
+      return AuthModel();
     }
   }
 

@@ -106,7 +106,7 @@ class SignUpController extends GetxController {
   onSignup(BuildContext context) async {
     if (validate())  {
       loading.value=true;
-     AuthModel ?response=  await HttpService.uesrSignUp(firstName.toString(), lastName.toString(), email.toString(), userName.toString(), password.toString());
+     AuthModel ?response=  await HttpService.uesrSignUp(firstName.trim().toString(), lastName.trim().toString(), email.trim().toString(), userName.trim().toString(), password.trim().toString());
       loading.value=false;
       if(response!.status == 'success'){
         Get.offAllNamed(AppRoutes.bottomBarScreen);
@@ -125,7 +125,7 @@ class SignUpController extends GetxController {
       }else{
         showDialog(
             context: context,
-            builder: (_) => AlertDialogWidget(onPositiveClick: (){},title: "Error",subTitle: "User name or password is Wrong",)
+            builder: (_) => AlertDialogWidget(onPositiveClick: (){Get.back();},title: "Error",subTitle: response.status,)
         );
 
       }

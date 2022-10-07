@@ -22,10 +22,11 @@ class AuthModel {
     status = json['status'];
     userId = json['user_id'];
     userName!.value = json['user_name'];
-    firstName!.value = json['first_name'];
-    lastName!.value = json['last_name'];
+    firstName!.value = json['first_name']??"";
+    lastName!.value = json['last_name']??"";
     userEmail!.value = json['user_email'];
-    profileImage!.value = json['profile_image'];
+    profileImage!.value = json['profile_image']??"https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png";
+    print(profileImage!.value);
   }
 
   Map<String, dynamic> toJson() {
