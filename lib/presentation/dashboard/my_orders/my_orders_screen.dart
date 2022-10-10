@@ -15,6 +15,7 @@ class MyOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _con.getAllOrder();
     Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(
@@ -45,12 +46,16 @@ class MyOrdersScreen extends StatelessWidget {
                         child: Text("No Order Found"),
                       ),
                     )
-                  : SingleChildScrollView(child: Column(
-                    children: [
-                      orderStatusBar(size),
-                      showOrderList(),
-                    ],
-                  )),
+                  : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                      children: [
+                        orderStatusBar(size),
+                        showOrderList(),
+                      ],
+                    ),
+              )),
         ),
       ),
     );
@@ -72,7 +77,6 @@ class MyOrdersScreen extends StatelessWidget {
               },
 
               child: Container(
-
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
@@ -38,9 +39,11 @@ class HttpService {
   ) async {
     try {
       var headers = {
-        'Cookie': 'tk_ai=jetpack%3AX%2BCJfdiFCnjGbMbUrRhfbkKT; wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=shahid01%7C1665293508%7CgVjLnh2GCJ5Maw3oDsUoypza5c7c3PCZRPFz1mPFIor%7C4d6cf411cd030355a7dc365098dda2883dc2eefd1aaf09c028ab52a23eec08c6'
+        'Cookie':
+            'tk_ai=jetpack%3AX%2BCJfdiFCnjGbMbUrRhfbkKT; wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=shahid01%7C1665293508%7CgVjLnh2GCJ5Maw3oDsUoypza5c7c3PCZRPFz1mPFIor%7C4d6cf411cd030355a7dc365098dda2883dc2eefd1aaf09c028ab52a23eec08c6'
       };
-      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/user-accounts.php'));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('https://dannidion.com/apies/user-accounts.php'));
       request.fields.addAll({
         'first_name': firstName,
         'last_name': lastName,
@@ -56,16 +59,14 @@ class HttpService {
       if (response.statusCode == 200) {
         var temp = await response.stream.bytesToString();
         var response2 = json.decode(temp);
-        if(response2['status'] == "success"){
+        if (response2['status'] == "success") {
           return AuthModel.fromJson(response2);
-        }else{
+        } else {
           return AuthModel();
         }
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
       }
-
     } catch (e) {
       print(e);
       return null;
@@ -77,15 +78,14 @@ class HttpService {
     String userPassword,
   ) async {
     try {
-
       var headers = {
-        'Cookie': 'tk_ai=jetpack%3AX%2BCJfdiFCnjGbMbUrRhfbkKT; wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=shabbir2022%7C1665292507%7CV9fpAFG6MMKebBG36wVA8ipcO22MQcsPqUU9h1Jixjm%7C12fabf4d15454a46d289c3159d4f404cdd9cc965556c13ad5630b5e576e92332'
+        'Cookie':
+            'tk_ai=jetpack%3AX%2BCJfdiFCnjGbMbUrRhfbkKT; wordpress_logged_in_96f6aaa319a7fadc18ae17fe56f82271=shabbir2022%7C1665292507%7CV9fpAFG6MMKebBG36wVA8ipcO22MQcsPqUU9h1Jixjm%7C12fabf4d15454a46d289c3159d4f404cdd9cc965556c13ad5630b5e576e92332'
       };
-      var request = http.MultipartRequest('POST', Uri.parse('https://dannidion.com/apies/login.php'));
-      request.fields.addAll({
-        'username': username,
-        'user_password': userPassword
-      });
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('https://dannidion.com/apies/login.php'));
+      request.fields
+          .addAll({'username': username, 'user_password': userPassword});
 
       request.headers.addAll(headers);
 
@@ -94,21 +94,15 @@ class HttpService {
       if (response.statusCode == 200) {
         var temp = await response.stream.bytesToString();
         var response2 = json.decode(temp);
-        if(response2['status'] == "success"){
+        if (response2['status'] == "success") {
           return AuthModel.fromJson(response2);
-        }else{
+        } else {
           return AuthModel();
         }
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
         return AuthModel();
       }
-
-
-
-
-
 
       // var response = await http.post(
       //   Uri.parse(AppApis.login),
@@ -351,10 +345,77 @@ class HttpService {
     }
   }
 
+
+
+
+  // static Future<MyOrdersModel?> allMyOrders(String userId) async {
+  //   var client = Dio();
+  //
+  //   final url = 'https://dannidion.com/apies/myorders.php?userid=$userId';
+  //   try {
+  //     final response = await client.get(url);
+  //
+  //     if (response.statusCode == 200) {
+  //       return MyOrdersModel.fromJson(response.data);
+  //     } else {
+  //       print('${response.statusCode} : ${response.data.toString()}');
+  //       return MyOrdersModel();
+  //       // throw response.statusCode;
+  //     }
+  //   } catch (error) {
+  //     print(error);
+  //     return MyOrdersModel();
+  //   }
+  // }
+
+
+
+
+  // static Future<MyOrdersModel?> allMyOrders(
+  //     String userId) async {
+  //   try {
+  //     String url = 'https://dannidion.com/apies/myorders.php?userid=$userId';
+  //     print(url);
+  //     var response = await http.get(
+  //       Uri.parse(url),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       return MyOrdersModel.fromJson(jsonDecode(response.body));
+  //     } else
+  //       return null;
+  //   } catch (e) {
+  //     print(e);
+  //     return null;
+  //   }
+  // }
+
+
+
+  // static Future<MyOrdersModel> allMyOrders(String userId) async {
+  //   try {
+  //     var response = await http.get(
+  //       Uri.parse("https://dannidion.com/apies/myorders.php?userid=$userId'"),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       return MyOrdersModel.fromJson(jsonDecode(response.body));
+  //
+  //     } else {
+  //       return MyOrdersModel();
+  //     }
+  //   }
+  //   catch (e) {
+  //     return MyOrdersModel();
+  //   }
+  // }
+
   static Future<MyOrdersModel?> getAllOrders(String userId) async {
     try {
       var request = http.Request('GET',
           Uri.parse('https://dannidion.com/apies/myorders.php?userid=$userId'));
+      var headers = {
+        'Accept': '*/*',
+      };
+      request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       if (response.statusCode == 200) {
         var temp = await response.stream.bytesToString();
@@ -513,10 +574,7 @@ class HttpService {
       var request = http.MultipartRequest(
           'POST', Uri.parse('https://dannidion.com/apies/productsearch.php'));
       request.fields.addAll(
-          {
-            'keyword': searchString,
-            'color': slug ?? ''
-          },
+        {'keyword': searchString, 'color': slug ?? ''},
       );
 
       request.headers.addAll(headers);

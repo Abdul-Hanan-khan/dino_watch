@@ -12,7 +12,7 @@ class MyOrderController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getAllOrder();
+    // getAllOrder();
     // getAllBrands();
   }
 

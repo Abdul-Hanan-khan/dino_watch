@@ -58,7 +58,7 @@ class LoginScreenController extends GetxController {
 
 
       if (user.value.status == "success") {
-        Get.to(BottomBarScreen());
+        Get.offAll(BottomBarScreen());
         userLoginStatus=true;
         saveUser(user.value);
 

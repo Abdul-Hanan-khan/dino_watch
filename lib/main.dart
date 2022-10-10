@@ -54,6 +54,7 @@ getLoginStatus() async {
 class LazyBinding implements Bindings {
   @override
   void dependencies() {
+    Get.put(LoginScreenController());
     Get.put(BottomBarController());
   }
 }
@@ -67,7 +68,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var userController= Get.put(LoginScreenController());
   var addressController=Get.put(AddressesController());
   var carController = Get.put(ShoppingCartController());
 var search=Get.put(SearchController());
