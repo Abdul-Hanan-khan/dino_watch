@@ -16,6 +16,7 @@ class MyOrderController extends GetxController {
     // getAllBrands();
   }
 
+
   void getAllOrder()async{
     loadingOrders.value=true;
     allOrders.value= (await HttpService.getAllOrders(loginCon.user.value.userId.toString()))!;
