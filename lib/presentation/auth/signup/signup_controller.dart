@@ -44,32 +44,32 @@ class SignUpController extends GetxController {
     phNoError.value = "";
     userNameError.value = "";
 
-    if (firstName.value.isEmpty) {
+    if (firstName.value.trim().isEmpty) {
       firstNameErro.value = "First Name";
       isValid.value = false;
-    }    if (lastName.value.isEmpty) {
+    }    if (lastName.value.trim().isEmpty) {
       lastNameError.value = "Last Name";
       isValid.value = false;
     }
 
-    if(!Helper.isEmail(email.toString())){
+    if(!Helper.isEmail(email.trim().toString())){
       emailError.value = "Enter valid email";
       isValid.value = false;
 
-    }else if(email.isEmpty){
+    }else if(email.trim().isEmpty){
       emailError.value = "please email";
       isValid.value = false;
 
     }
 
-    if(password.value.length >6){
-      passwordError.value = "please enter max 6 character";
+    if(password.value.trim().length <6){
+      passwordError.value = "Password Should be Greater than 6 Character";
       isValid.value = false;
-    }else if(password.isEmpty || password.value.length <=0){
+    }else if(password.trim().isEmpty || password.value.length <=0){
       passwordError.value = "please enter password";
       isValid.value = false;
     }
-    if(userName.isEmpty || userName == ""){
+    if(userName.trim().isEmpty || userName == ""){
       userNameError.value = "please enter userName";
       isValid.value = false;
 
@@ -93,10 +93,10 @@ class SignUpController extends GetxController {
     //   isValid.value = false;
     // }
 
-    if (phNo.value.isEmpty) {
+    if (phNo.value.trim().isEmpty) {
       phNoError.value = "Please Enter Valid Mobile Number";
       isValid.value = false;
-    } else if (!Helper.isPhoneNumber(phNo.value)) {
+    } else if (!Helper.isPhoneNumber(phNo.value.trim())) {
       phNoError.value = "Please Enter Valid Mobile Number";
       isValid.value = false;
     }
@@ -106,10 +106,11 @@ class SignUpController extends GetxController {
   onSignup(BuildContext context) async {
     if (validate())  {
       loading.value=true;
-     AuthModel ?response=  await HttpService.uesrSignUp(firstName.trim().toString(), lastName.trim().toString(), email.trim().toString(), userName.trim().toString(), password.trim().toString());
+     AuthModel ?response=  await HttpService.uesrSignUp(context, firstName.trim().toString(), lastName.trim().toString(), email.trim().toString(), userName.trim().toString(), password.trim().toString());
       loading.value=false;
       if(response!.status == 'success'){
         Get.offAllNamed(AppRoutes.bottomBarScreen);
+        loginController.user.value=response;
 
         loginController.saveUser(response);
         // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -122,12 +123,6 @@ class SignUpController extends GetxController {
         // StaticVars.email= response.userEmail.toString();
         // StaticVars.avatar=response.profileImage.toString();
         userLoginStatus=true;
-      }else{
-        showDialog(
-            context: context,
-            builder: (_) => AlertDialogWidget(onPositiveClick: (){Get.back();},title: "Error",subTitle: response.status,)
-        );
-
       }
     }
   }

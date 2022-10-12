@@ -7,6 +7,7 @@ import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
 import 'package:watch_app/main.dart';
 import 'package:watch_app/model/product_by_cat_model.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/dashboard/all_brands/all_brands_screen.dart';
 import 'package:watch_app/presentation/dashboard/checkout/checkout_controller.dart';
 import 'package:watch_app/presentation/dashboard/editProfile/edit_profile_controller.dart';
@@ -29,11 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ScrollController scrollControllerNested = ScrollController();
   ScrollController scrollController = ScrollController();
+  LoginScreenController loginCtr=Get.find();
 
   @override
   Widget build(BuildContext context) {
 
-    // print("user id is ---------------------- " + StaticVars.id);
+    print("user login status is ---------------------- "+ userLoginStatus.toString());
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -316,7 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Obx(
                 () => GestureDetector(
                   onTap: () {
-                  if(userLoginStatus == true){
+                  if(userLoginStatus  != false){
                     if (!product.isFavourite!.value == true) {
                       _con.addToFav(product.productId!);
                       product.isFavourite!.value = true;

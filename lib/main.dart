@@ -28,7 +28,7 @@ void main() async {
   });
   LazyBinding().dependencies();
   runApp(MyApp());
-  getLoginStatus();
+  // getLoginStatus();
 
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -45,11 +45,11 @@ void main() async {
 
 }
 
-getLoginStatus() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  userLoginStatus = prefs.getBool('loginStatus') ?? false;
-  print(userLoginStatus);
-}
+// getLoginStatus() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   userLoginStatus = prefs.getBool('loginStatus') ?? false;
+//   print(userLoginStatus);
+// }
 
 class LazyBinding implements Bindings {
   @override

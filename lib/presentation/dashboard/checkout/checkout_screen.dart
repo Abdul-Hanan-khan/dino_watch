@@ -319,6 +319,20 @@ class CheckoutScreen extends StatelessWidget {
                           width: Get.width / 1.6,
                           onPressed: () {
                             // Get.toNamed(AppRoutes.orderSummaryScreen);
+
+                            if(osController.addressModel.addressList!.length<1){
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => AlertDialogWidget(
+                                    onPositiveClick: () {
+                                      Get.back();
+                                    },
+                                    title: "Message",
+                                    subTitle:
+                                    "Please Add Shipping Address",
+                                  ));
+                            }else{
+
                             showDialog(
                                 context: context,
                                 builder: (_) => AlertDialogWidget(
@@ -381,7 +395,7 @@ class CheckoutScreen extends StatelessWidget {
                                           });
                                         }
                                       },
-                                    ));
+                                    ));}
                           },
                         ),
                 ),

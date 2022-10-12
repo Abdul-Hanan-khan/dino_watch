@@ -1,7 +1,6 @@
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:rating_dialog/rating_dialog.dart';
 import 'package:watch_app/core/app_export.dart';
 import 'package:watch_app/core/static/static_vars.dart';
 import 'package:watch_app/core/utils/app_string.dart';
@@ -38,69 +37,8 @@ class WatchDetailScreen extends StatelessWidget {
     final WatchDetailController _con = Get.put(WatchDetailController(watchId));
     BottomBarController barController = Get.find();
     ShoppingCartController cartController = Get.find();
+    LoginScreenController loginCtr=Get.find();
 
-    // RxBool loadingReview=false.obs;
-    final _dialog = RatingDialog(
-      initialRating: 1.0,
-      starSize: 22,
-      // your app's name?
-      title: const Text(
-        'Rate This Watch',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      // encourage your user to leave a high rating?
-      // message: const Text(
-      //   'Tap a star to set your rating. Add more description here if you want.',
-      //   textAlign: TextAlign.center,
-      //   style: TextStyle(fontSize: 15),
-      // ),
-      // your app's logo?
-      // image: Image.asset("assets/images/watch_logo.png",scale: 5,),
-      submitButtonText: 'Submit',
-      commentHint: 'Tell us your experience',
-      onCancelled: () => print('cancelled'),
-      onSubmitted: (response) async {
-        print('rating: ${response.rating}, comment: ${response.comment}');
-        // loadingReview.value=true;
-        var apiResponse = await HttpService.addReview(
-            userId: loginCtr.user.value.userId.toString(),
-            productId: watchId.toString(),
-            rating: response.rating.round(),
-            commentContent: response.comment);
-        // loadingReview.value=false;
-        if (apiResponse['status'] == "success") {
-          Get.snackbar("Message",
-              "Your Review is Recorded. Thanks for Reviewing Our Product",
-              backgroundColor: Colors.white,
-              boxShadows: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]);
-          // Get.back();
-        } else {
-          Get.snackbar(
-            "Message",
-            "${apiResponse['status']}",
-          );
-        }
-
-        // // TODO: add your own logic
-        // if (response.rating < 3.0) {
-        //   // send their comments to your email or anywhere you wish
-        //   // ask the user to contact you instead of leaving a bad review
-        // } else {
-        //   // _rateAndReviewApp();
-        // }
-      },
-    );
 
 
     return Scaffold(
@@ -138,14 +76,6 @@ class WatchDetailScreen extends StatelessWidget {
 
                           /// The color to paint behind th indicator.
                           indicatorBackgroundColor: Colors.grey,
-// children: _con.watchDetailsM.value.images!
-//     .map(
-//       (e) => Image.network(
-//         e.src.toString(),
-//         fit: BoxFit.contain,
-//       ),
-//     )
-//     .toList(),
 
                           children: _con.watchDetailsM.value.images!
                               .map(
@@ -172,7 +102,6 @@ class WatchDetailScreen extends StatelessWidget {
                           autoPlayInterval: 10000,
 
                           /// Loops back to first slide.
-// isLoop: true,
                         ),
                       ),
                       // hSizedBox20,
@@ -207,14 +136,6 @@ class WatchDetailScreen extends StatelessWidget {
                                       .options![0]),
                             ],
                           ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     hSizedBox36,
-                          //     details(AppString.warranty),
-                          //     // info( _con.watchDetailsM.value.),
-                          //   ],
-                          // ),
                         ],
                       ),
                       SizedBox(
@@ -355,62 +276,6 @@ class WatchDetailScreen extends StatelessWidget {
                                                 const TextStyle(fontSize: 14),
                                           ),
                                         ),
-                                        // Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.start,
-                                        //   mainAxisSize: MainAxisSize.max,
-                                        //   children: [
-                                        //     Container(
-                                        //       margin: EdgeInsets.symmetric(
-                                        //           horizontal: 20, vertical: 10),
-                                        //       height: 110,
-                                        //       width: 80,
-                                        //       color: Colors.white70,
-                                        //       child: Column(
-                                        //         mainAxisAlignment:
-                                        //             MainAxisAlignment.center,
-                                        //         crossAxisAlignment:
-                                        //             CrossAxisAlignment.center,
-                                        //         mainAxisSize: MainAxisSize.max,
-                                        //         children: [
-                                        //           CircleAvatar(
-                                        //             child: Icon(
-                                        //               Icons.camera_alt,
-                                        //               color: Colors.white,
-                                        //             ),
-                                        //             backgroundColor: AppColors
-                                        //                 .backgroundColor,
-                                        //           ),
-                                        //           SizedBox(
-                                        //             height: 5,
-                                        //           ),
-                                        //           Text("Add Your Photos",
-                                        //               textAlign:
-                                        //                   TextAlign.center,
-                                        //               style: TextStyle(
-                                        //                   fontSize: 10)),
-                                        //         ],
-                                        //       ),
-                                        //     )
-                                        //     // Container(
-                                        //     //   margin: EdgeInsets.only(left: 20),
-                                        //     //   height: 50,
-                                        //     //   width: 50,
-                                        //     //   decoration: BoxDecoration(
-                                        //     //     color:
-                                        //     //         AppColors.backgroundColor,
-                                        //     //     borderRadius:
-                                        //     //         BorderRadius.circular(30),
-                                        //     //   ),
-                                        //     //   child: const Center(
-                                        //     //     child: Icon(
-                                        //     //       Icons.camera_alt,
-                                        //     //       color: Colors.white,
-                                        //     //     ),
-                                        //     //   ),
-                                        //     // )
-                                        //   ],
-                                        // ),
                                         SizedBox(
                                           width: Get.width * 0.5,
                                           child: Obx(
@@ -453,10 +318,6 @@ class WatchDetailScreen extends StatelessWidget {
                                                           offset: const Offset(0, 3), // changes position of shadow
                                                         ),
                                                       ]);
-                                                  // Get.snackbar(
-                                                  //   "Message",
-                                                  //   "${apiResponse['status']}",
-                                                  // );
                                                 }
 
                                               },
@@ -488,13 +349,6 @@ class WatchDetailScreen extends StatelessWidget {
                                   ),
                                 );
 
-                                // myBottomSheet(context);
-                                // showDialog(
-                                //   context: context,
-                                //   barrierDismissible: true,
-                                //   // set to false if you want to force a rating
-                                //   builder: (context) => _dialog,
-                                // );
                               },
                             ),
                           )
@@ -518,42 +372,6 @@ class WatchDetailScreen extends StatelessWidget {
                       hSizedBox20,
                       Row(
                         children: [
-                          // ...List.generate(
-                          //   _con.colorList.length,
-                          //   (index) {
-                          //     return Obx(
-                          //       () => GestureDetector(
-                          //         onTap: () {
-                          //           _con.isSelectColor.value = index;
-                          //         },
-                          //         child: Container(
-                          //           margin:
-                          //               const EdgeInsets.symmetric(horizontal: 3),
-                          //           height: _con.isSelectColor.value == index
-                          //               ? 35
-                          //               : 24,
-                          //           width: _con.isSelectColor.value == index
-                          //               ? 35
-                          //               : 24,
-                          //           decoration: BoxDecoration(
-                          //             color: _con.colorList[index],
-                          //             shape: BoxShape.circle,
-                          //             border: Border.all(
-                          //                 color: Colors.white, width: 3),
-                          //             boxShadow: const [
-                          //               BoxShadow(
-                          //                 color: Colors.black12,
-                          //                 blurRadius: 10.0,
-                          //                 spreadRadius: .5,
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
-                          // wSizedBox30,
                           Obx(
                             () => !cartController.loading.value
                                 ? Expanded(
@@ -561,7 +379,7 @@ class WatchDetailScreen extends StatelessWidget {
                                         ? AppButton(
                                             text: AppString.addtocart,
                                             onPressed: () async {
-                                              if (!userLoginStatus!) {
+                                              if (userLoginStatus == false) {
                                                 showDialog(
                                                     context: context,
                                                     builder: (_) =>
@@ -586,23 +404,16 @@ class WatchDetailScreen extends StatelessWidget {
                                                 await cartController.addItem(
                                                     _con.watchDetailsM.value,
                                                     cartIndex.value);
-                                                // Get.to(ShoppingCartScreen());
-                                                // await cartController.addToCart(watchId.toString());
-                                                // if(cartController.cartModel.value.status == 'success'){
                                                 barController.pageIndex.value =
                                                     1;
-                                                // Get.off(BottomBarScreen());
-                                                //   cartController.viewCart();
                                                 Get.back();
-                                                // Get.back();
-                                                // Get.back();
                                               }
                                             },
                                           )
                                         : AppButton(
                                             text: AppString.removeFromCart,
                                             onPressed: () async {
-                                              if (!userLoginStatus!) {
+                                              if (userLoginStatus== false) {
                                                 showDialog(
                                                     context: context,
                                                     builder: (_) =>
@@ -619,23 +430,6 @@ class WatchDetailScreen extends StatelessWidget {
                                                 cartController.removeFullItem(
                                                     _con.watchDetailsM.value,
                                                     cartIndex.value);
-                                                // await cartController.addToCart(watchId.toString());
-                                                // if(cartController.cartModel.value.status == 'success'){
-                                                //   barController.pageIndex.value=1;
-                                                //   cartController.viewCart();
-                                                //   Get.back();
-                                                //   Get.back();
-                                                // }else{
-                                                //   showDialog(
-                                                //       context: context,
-                                                //       builder: (_) => AlertDialogWidget(
-                                                //         onPositiveClick: () {
-                                                //           Get.back();
-                                                //         },
-                                                //         title: "Error",
-                                                //         subTitle: "Failed adding to cart",
-                                                //       ));
-                                                // }
                                               }
                                             },
                                           ),

@@ -34,6 +34,7 @@ class BottomBarScreen extends StatelessWidget {
   HomeController homeController = Get.find();
   final BottomBarController _con = Get.find();
   AddressesController addressCon=Get.find();
+  LoginScreenController loginCtr=Get.find();
 
   // sdf
 
@@ -75,7 +76,7 @@ class BottomBarScreen extends StatelessWidget {
                       )
                     : appBar(
                         actionPressed: () {
-                          if(userLoginStatus == true){
+                          if(loginCtr.user.value.status != null){
                             Get.toNamed(AppRoutes.editProfileScreen);
                           }else{
 
@@ -202,6 +203,7 @@ class BottomBarScreen extends StatelessWidget {
   }
 
   Widget drawerOpen() {
+    print(userLoginStatus);
     return Drawer(
       backgroundColor: AppColors.appColor,
       child: Stack(
@@ -351,7 +353,7 @@ class BottomBarScreen extends StatelessWidget {
                               width: 20,
                             ),
                             wSizedBox16,
-                          userLoginStatus == false && index ==5?TextButton(
+                            userLoginStatus== false && index ==5?TextButton(
 
                               onPressed: (){Get.off(LoginScreen());}, child: const Text(
                             "Login",style: TextStyle(color: Colors.white),
@@ -370,7 +372,9 @@ class BottomBarScreen extends StatelessWidget {
                   },
                 ),
                 const Spacer(),
-                userLoginStatus == false?Container(): Row(
+                userLoginStatus
+                    == false?
+                Container(): Row(
                   children: [
                     Container(
                       height: 50,
@@ -378,7 +382,7 @@ class BottomBarScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(authController.user.value.profileImage!.value)),
+                            image: NetworkImage(authController.user.value.status==null?'https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png':authController.user.value.profileImage!.value)),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Colors.white,
@@ -393,7 +397,7 @@ class BottomBarScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${authController.user.value.firstName!.value} ${authController.user.value.lastName!.value} ",
+                            "${authController.user.value.status==null?"": authController.user.value.firstName!.value} ${authController.user.value.status==null?"":authController.user.value.lastName!.value??""} ",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -402,7 +406,7 @@ class BottomBarScreen extends StatelessWidget {
                           ),
                           hSizedBox4,
                           Text(
-                            authController.user.value.userEmail!.value,
+                            authController.user.value.status==null?"" :authController.user.value.userEmail!.value,
                             style: const TextStyle(
                               fontSize: 13,
                               color: Colors.white,

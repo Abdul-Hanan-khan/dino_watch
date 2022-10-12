@@ -120,7 +120,7 @@ class LoginScreenController extends GetxController {
     try {
       Mapped.deleteFileDirectly(cachedFileName: 'User');
         print("User Deleted",);
-      userLoginStatus=true;
+      userLoginStatus=false;
 
     } on Exception catch (e) {
       // TODO

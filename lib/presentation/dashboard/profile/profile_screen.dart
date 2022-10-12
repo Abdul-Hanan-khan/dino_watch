@@ -32,67 +32,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            ClipPath(
-              clipper: CustomClipPath(),
-              child: Container(
-                width: Get.width,
-                height: 256,
-                color: AppColors.appColor,
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 110,
-                        width: 110,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 4),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(userLoginStatus == false
-                                ? " "
-                                : loginCtr.user.value.profileImage!.value),
-                          ),
-                        ),
-                      ),
-                    ),
-                    hSizedBox10,
-                    userLoginStatus == false
-                        ? Container()
-                        : Obx(
-                            () => Text(
-                              loginCtr.user.value.firstName!.value +
-                                  " " +
-                                  loginCtr.user.value.lastName!.value,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
+        child:
+        Column(
+            children: [
+              ClipPath(
+                clipper: CustomClipPath(),
+                child: Container(
+                  width: Get.width,
+                  height: 256,
+                  color: AppColors.appColor,
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: 110,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 4),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(userLoginStatus == false
+                                  ? " "
+                                  : loginCtr.user.value.profileImage!.value),
                             ),
                           ),
-                    hSizedBox6,
-                 userLoginStatus == false?Container():   Obx(
-                      ()=> Text(
-                        loginCtr.user.value.userEmail!.value,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
                         ),
                       ),
-                    ),
-                  ],
+                      hSizedBox10,
+                      userLoginStatus== false
+                          ? Container()
+                          : Obx(
+                              () => Text(
+                                loginCtr.user.value.firstName!.value +
+                                    " " +
+                                    loginCtr.user.value.lastName!.value,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                      hSizedBox6,
+                      userLoginStatus== false
+                          ?Container():   Obx(
+                        ()=> Text(
+                          loginCtr.user.value.userEmail!.value,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            userLoginStatus == true? loggedInContents():
-            loggedOutContents()
-          ],
-        ),
+              loginCtr.user.value.firstName.isNull ?loggedOutContents(): loggedInContents()
+
+            ],
+          ),
+
       ),
     );
   }

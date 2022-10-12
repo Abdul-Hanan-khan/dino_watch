@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
@@ -25,12 +27,14 @@ import 'package:watch_app/model/states_by_country_code.dart';
 import 'package:watch_app/model/view_cart_model.dart';
 import 'package:watch_app/model/watch_details_model.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
+import 'package:watch_app/presentation/widgets/alertDialog.dart';
 
 //
 class HttpService {
   ShoppingCartController cartController = Get.find();
 
   static Future<AuthModel?> uesrSignUp(
+      BuildContext context,
     String firstName,
     String lastName,
     String email,
@@ -62,6 +66,11 @@ class HttpService {
         if (response2['status'] == "success") {
           return AuthModel.fromJson(response2);
         } else {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialogWidget(onPositiveClick: (){Get.back();},title: "Error",subTitle: "Something Went Wrong. Please Try Again a While",)
+          );
+
           return AuthModel();
         }
       } else {
@@ -420,6 +429,7 @@ class HttpService {
       if (response.statusCode == 200) {
         var temp = await response.stream.bytesToString();
         var decodedResponse = json.decode(temp);
+        log("json decoded response"+decodedResponse.toString());
         return MyOrdersModel.fromJson(decodedResponse);
       } else {
         print(response.reasonPhrase);
