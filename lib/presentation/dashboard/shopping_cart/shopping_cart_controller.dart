@@ -8,6 +8,7 @@ import 'package:watch_app/model/cart_model.dart';
 import 'package:watch_app/model/favourites_model.dart';
 import 'package:watch_app/model/view_cart_model.dart';
 import 'package:watch_app/model/watch_details_model.dart';
+import 'package:watch_app/presentation/auth/login/login_controller.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_controller.dart';
 import 'package:watch_app/presentation/dashboard/favorite/favorite_controller.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
@@ -20,6 +21,7 @@ class ShoppingCartController extends GetxController {
   final BottomBarController barController = Get.find();
   Cart cart = Cart(products: <WatchDetailsModel>[].obs);
   RxBool isLoading=false.obs;
+  LoginScreenController loginCtr=Get.find();
   // FavouritesModel favourites=FavouritesModel();
   // RxList<Products> favouriteList=<Products>[].obs;
 
@@ -36,7 +38,6 @@ class ShoppingCartController extends GetxController {
 
   }
 
-
   Rx<AddToCart> addToCartModel = AddToCart().obs;
   // Rx<ViewCartModel> viewCartModel = ViewCartModel().obs;
   RxBool loading = false.obs;
@@ -46,10 +47,11 @@ class ShoppingCartController extends GetxController {
     loadingCart.value= true;
     try{
       Map<String, dynamic>? cartJson =
-      await Mapped.loadFileDirectly(cachedFileName: 'Cart');
+      await Mapped.loadFileDirectly(cachedFileName: 'Cart-${loginCtr.user.value.userId}');
 
       if (cartJson == null)
-      {  cart.products!.value=<WatchDetailsModel>[].obs;
+      {
+        cart.products!.value=<WatchDetailsModel>[].obs;
         loadingCart.value=false;
       }
       else
@@ -76,7 +78,7 @@ class ShoppingCartController extends GetxController {
       cart.products!.add(product);
     }
 
-    Mapped.saveFileDirectly(file: cart.toJson(), cachedFileName: 'Cart');
+    Mapped.saveFileDirectly(file: cart.toJson(), cachedFileName: 'Cart-${loginCtr.user.value.userId}');
     if(index ==-1)
       print("Added to cart successfully",);
 //      calculateTotalItems();
@@ -92,7 +94,7 @@ class ShoppingCartController extends GetxController {
       print("Item removed");
     }
     Mapped.saveFileDirectly(
-        file: cart.toJson(), cachedFileName: 'Cart');
+        file: cart.toJson(), cachedFileName: 'Cart-${loginCtr.user.value.userId}');
 //    calculateTotalItems();
   }
 
@@ -102,11 +104,11 @@ class ShoppingCartController extends GetxController {
     print("Item removed");
 
     Mapped.saveFileDirectly(
-        file: cart.toJson(), cachedFileName: 'Cart');
+        file: cart.toJson(), cachedFileName: 'Cart-${loginCtr.user.value.userId}');
   }
 
   clearCart(){
-    Mapped.deleteFileDirectly(cachedFileName: "Cart");
+    // Mapped.deleteFileDirectly(cachedFileName: "Cart-${loginCtr.user.value.userId}");
     cart.products!.clear();
 //    calculateTotalItems();
   }

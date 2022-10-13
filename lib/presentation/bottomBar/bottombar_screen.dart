@@ -25,21 +25,38 @@ import 'bottombar_controller.dart';
 
 import '../../core/app_export.dart';
 
-class BottomBarScreen extends StatelessWidget {
+class BottomBarScreen extends StatefulWidget {
   BottomBarScreen({Key? key}) : super(key: key);
-  LoginScreenController authController=Get.find();
-  final ProfileEditController _editprofilecon =
-      Get.put(ProfileEditController());
-  ShoppingCartController cartController = Get.find();
-  HomeController homeController = Get.find();
-  final BottomBarController _con = Get.find();
-  AddressesController addressCon=Get.find();
-  LoginScreenController loginCtr=Get.find();
-
-  // sdf
 
   @override
+  State<BottomBarScreen> createState() => _BottomBarScreenState();
+}
+
+class _BottomBarScreenState extends State<BottomBarScreen> {
+  LoginScreenController authController = Get.find();
+
+  ShoppingCartController cartController = Get.find();
+
+  HomeController homeController = Get.find();
+
+  final BottomBarController _con = Get.find();
+
+  AddressesController addressCon = Get.find();
+
+  LoginScreenController loginCtr = Get.find();
+
+  int count = 0;
+
+  // sdf
+  @override
   Widget build(BuildContext context) {
+    if (userLoginStatus == true) {
+      cartController.loadCart().then((value) => {
+            if (count == 0) {setState(() {
+              count++;
+            })}
+          });
+    }
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.white,
@@ -76,11 +93,9 @@ class BottomBarScreen extends StatelessWidget {
                       )
                     : appBar(
                         actionPressed: () {
-                          if(loginCtr.user.value.status != null){
+                          if (loginCtr.user.value.status != null) {
                             Get.toNamed(AppRoutes.editProfileScreen);
-                          }else{
-
-                          }
+                          } else {}
                         },
                         backgroundColor: AppColors.appColor,
                         action: ImageConstant.editprofile,
@@ -311,12 +326,17 @@ class BottomBarScreen extends StatelessWidget {
                                                                               .w400,
                                                                     ),
                                                                   ),
-                                                                  onPressed: () async {
-                                                                  authController.deleteUser();
-                                                                  cartController.clearCart();
-                                                                  homeController.clearFavs();
-                                                                  // addressCon.clearAddresses();
-                                                                  userLoginStatus=false;
+                                                                  onPressed:
+                                                                      () async {
+                                                                    authController
+                                                                        .deleteUser();
+                                                                    cartController
+                                                                        .clearCart();
+                                                                    homeController
+                                                                        .clearFavs();
+                                                                    // addressCon.clearAddresses();
+                                                                    userLoginStatus =
+                                                                        false;
                                                                     Get.offAllNamed(
                                                                       AppRoutes
                                                                           .loginScreen,
@@ -328,11 +348,15 @@ class BottomBarScreen extends StatelessWidget {
                                                     : logoutDialog(
                                                         context: Get.context,
                                                         onTap: () async {
-                                                          authController.deleteUser();
-                                                          cartController.clearCart();
-                                                          homeController.clearFavs();
+                                                          authController
+                                                              .deleteUser();
+                                                          cartController
+                                                              .clearCart();
+                                                          homeController
+                                                              .clearFavs();
                                                           // addressCon.clearAddresses();
-                                                          userLoginStatus=false;
+                                                          userLoginStatus =
+                                                              false;
 
                                                           Get.offAllNamed(
                                                             AppRoutes
@@ -353,18 +377,23 @@ class BottomBarScreen extends StatelessWidget {
                               width: 20,
                             ),
                             wSizedBox16,
-                            userLoginStatus== false && index ==5?TextButton(
-
-                              onPressed: (){Get.off(LoginScreen());}, child: const Text(
-                            "Login",style: TextStyle(color: Colors.white),
-                          ))  : Text(
-                             _con.drawerList[index].title,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            )
+                            userLoginStatus == false && index == 5
+                                ? TextButton(
+                                    onPressed: () {
+                                      Get.off(LoginScreen());
+                                    },
+                                    child: const Text(
+                                      "Login",
+                                      style: TextStyle(color: Colors.white),
+                                    ))
+                                : Text(
+                                    _con.drawerList[index].title,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  )
                           ],
                         ),
                       ),
@@ -372,51 +401,59 @@ class BottomBarScreen extends StatelessWidget {
                   },
                 ),
                 const Spacer(),
-                userLoginStatus
-                    == false?
-                Container(): Row(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(authController.user.value.status==null?'https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png':authController.user.value.profileImage!.value)),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 3,
-                        ),
-                      ),
-                    ),
-                    wSizedBox20,
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                userLoginStatus == false
+                    ? Container()
+                    : Row(
                         children: [
-                          Text(
-                            "${authController.user.value.status==null?"": authController.user.value.firstName!.value} ${authController.user.value.status==null?"":authController.user.value.lastName!.value??""} ",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(authController
+                                              .user.value.status ==
+                                          null
+                                      ? 'https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png'
+                                      : authController
+                                          .user.value.profileImage!.value)),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 3,
+                              ),
                             ),
                           ),
-                          hSizedBox4,
-                          Text(
-                            authController.user.value.status==null?"" :authController.user.value.userEmail!.value,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.white,
+                          wSizedBox20,
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${authController.user.value.status == null ? "" : authController.user.value.firstName!.value} ${authController.user.value.status == null ? "" : authController.user.value.lastName!.value ?? ""} ",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                hSizedBox4,
+                                Text(
+                                  authController.user.value.status == null
+                                      ? ""
+                                      : authController
+                                          .user.value.userEmail!.value,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
                 hSizedBox30,
               ],
             ),

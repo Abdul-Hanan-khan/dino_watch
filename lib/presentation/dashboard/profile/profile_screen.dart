@@ -28,7 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {});
+    print(userLoginStatus);
+    // setState(() {});
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -91,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              loginCtr.user.value.firstName.isNull ?loggedOutContents(): loggedInContents()
+              userLoginStatus == false ?loggedOutContents(): loggedInContents()
 
             ],
           ),

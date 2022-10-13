@@ -7,6 +7,7 @@ import 'package:watch_app/main.dart';
 import 'package:watch_app/model/signup.dart';
 import 'package:watch_app/presentation/bottomBar/bottombar_screen.dart';
 import 'package:watch_app/presentation/dashboard/home/home_controller.dart';
+import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 
 import '../../../core/app_export.dart';
@@ -25,6 +26,7 @@ class LoginScreenController extends GetxController {
   RxString passwordError = "".obs;
 
   RxBool obsure = true.obs;
+  // var cartController=Get.put(ShoppingCartController());
   Rx<AuthModel> user= AuthModel().obs;
 
   void onInit() {
@@ -58,6 +60,7 @@ class LoginScreenController extends GetxController {
 
 
       if (user.value.status == "success") {
+        // cartController.loadCart();
         Get.offAll(BottomBarScreen());
         userLoginStatus=true;
         saveUser(user.value);
