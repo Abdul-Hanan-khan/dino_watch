@@ -193,112 +193,116 @@ class MyOrdersScreen extends StatelessWidget {
 
   Widget orderStatusBar(Size size) {
     return Obx(
-      () => Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: GestureDetector(
-                onTap: () {
-                  _con.selectedStatus.value = "all";
-                  _con.orderType.value = "all";
+      () =>Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        height: 40,
+        child: ListView(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: GestureDetector(
+                  onTap: () {
+                    _con.selectedStatus.value = "all";
+                    _con.orderType.value = "all";
 
-                  _con.getAllOrder();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'All',
-                    style: TextStyle(
-                        color: _con.selectedStatus.value == "all"
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                )),
-            decoration: BoxDecoration(
-                color: _con.selectedStatus.value == "all"
-                    ? Color(0xff4d18cc)
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(20)),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: GestureDetector(
-                onTap: () {
-                  _con.selectedStatus.value = "pending";
-                  _con.orderType.value = "pending";
+                    _con.getAllOrder();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'All',
+                      style: TextStyle(
+                          color: _con.selectedStatus.value == "all"
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                  )),
+              decoration: BoxDecoration(
+                  color: _con.selectedStatus.value == "all"
+                      ? Color(0xff4d18cc)
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: GestureDetector(
+                  onTap: () {
+                    _con.selectedStatus.value = "pending";
+                    _con.orderType.value = "pending";
 
-                  _con.getAllOrder();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Pending',
-                    style: TextStyle(
-                        color: _con.selectedStatus.value == "pending"
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                )),
-            decoration: BoxDecoration(
-                color: _con.selectedStatus.value == "pending"
-                    ? Color(0xff4d18cc)
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(20)),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: GestureDetector(
-                onTap: () {
-                  _con.selectedStatus.value = "processing";
-                  _con.orderType.value = "processing";
+                    _con.getAllOrder();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Pending',
+                      style: TextStyle(
+                          color: _con.selectedStatus.value == "pending"
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                  )),
+              decoration: BoxDecoration(
+                  color: _con.selectedStatus.value == "pending"
+                      ? Color(0xff4d18cc)
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: GestureDetector(
+                  onTap: () {
+                    _con.selectedStatus.value = "processing";
+                    _con.orderType.value = "processing";
 
-                  _con.getAllOrder();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Processing',
-                    style: TextStyle(
-                        color: _con.selectedStatus.value == "processing"
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                )),
-            decoration: BoxDecoration(
-                color: _con.selectedStatus.value == "processing"
-                    ? Color(0xff4d18cc)
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(20)),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: GestureDetector(
-                onTap: () {
-                  _con.selectedStatus.value = "completed";
-                  _con.orderType.value = "completed";
+                    _con.getAllOrder();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Processing',
+                      style: TextStyle(
+                          color: _con.selectedStatus.value == "processing"
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                  )),
+              decoration: BoxDecoration(
+                  color: _con.selectedStatus.value == "processing"
+                      ? Color(0xff4d18cc)
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: GestureDetector(
+                  onTap: () {
+                    _con.selectedStatus.value = "completed";
+                    _con.orderType.value = "completed";
 
-                  _con.getAllOrder();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Completed',
-                    style: TextStyle(
-                        color: _con.selectedStatus.value == "completed"
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                )),
-            decoration: BoxDecoration(
-                color: _con.selectedStatus.value == "completed"
-                    ? Color(0xff4d18cc)
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(20)),
-          ),
-        ],
-      ),
+                    _con.getAllOrder();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Completed',
+                      style: TextStyle(
+                          color: _con.selectedStatus.value == "completed"
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                  )),
+              decoration: BoxDecoration(
+                  color: _con.selectedStatus.value == "completed"
+                      ? Color(0xff4d18cc)
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+          ],
+        ),
+      )
     );
   }
 }

@@ -352,22 +352,17 @@ class CheckoutScreen extends StatelessWidget {
                                         PlaceOrderModel? response =
                                             await HttpService.placeOrder(
                                                 userid: loginCon.user.value.userId.toString(),
-                                                firstName:
-                                                    data.firstName.toString(),
+                                                firstName: data.firstName.toString(),
                                                 lastName:
                                                     data.lastName.toString(),
                                                 email: data.email.toString(),
                                                 phone:
                                                     data.phoneNumber.toString(),
-                                                address:
-                                                    data.address.toString(),
-                                                country:
-                                                    data.country.toString(),
+                                                address: data.address.toString(),
+                                                country: data.country.toString(),
                                                 state: data.state.toString(),
-                                                postCode:
-                                                    data.postalCode.toString(),
-                                                items: cartController
-                                                    .cart.products!.value);
+                                                postCode: data.postalCode.toString(),
+                                                items: cartController.cart.products!.value);
 
                                         _con.placeOrderLoading.value = false;
 

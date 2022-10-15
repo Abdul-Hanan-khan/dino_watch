@@ -56,23 +56,31 @@ class AllReviews extends StatelessWidget {
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      CircleAvatar(
-                                        // child:CachedNetworkImage(
-                                        //   imageUrl: '${_con.allComments.value.data![index].userProfile}',
-                                        //   height: 115,
-                                        //   width: Get.width,
-                                        //   fit: BoxFit.contain,
-                                        //   placeholder: (context, url) => const SizedBox(
-                                        //     // height: 150,
-                                        //     child: CupertinoActivityIndicator(),
-                                        //   ),
-                                        //   errorWidget: (context, url, error) => const SizedBox(
-                                        //     // height: 150,
-                                        //     child: Icon(Icons.error),
-                                        //   ),
-                                        // ),
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage: NetworkImage("${_con.allComments.value.data![index].userProfile??"https://static.thenounproject.com/png/212110-200.png"}"),
+                                      Container(
+                                        padding: EdgeInsets.all(1),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          border: Border.all(color: Colors.grey)
+                                        ),
+                                        child: CircleAvatar(
+                                          radius: 22,
+                                          // child:CachedNetworkImage(
+                                          //   imageUrl: '${_con.allComments.value.data![index].userProfile}',
+                                          //   height: 115,
+                                          //   width: Get.width,
+                                          //   fit: BoxFit.contain,
+                                          //   placeholder: (context, url) => const SizedBox(
+                                          //     // height: 150,
+                                          //     child: CupertinoActivityIndicator(),
+                                          //   ),
+                                          //   errorWidget: (context, url, error) => const SizedBox(
+                                          //     // height: 150,
+                                          //     child: Icon(Icons.error),
+                                          //   ),
+                                          // ),
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage: NetworkImage("${_con.allComments.value.data![index].userProfile??"https://static.thenounproject.com/png/212110-200.png"}"),
+                                        ),
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(left: 10),

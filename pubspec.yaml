@@ -58,6 +58,7 @@ dependencies:
 #  webview_flutter: ^3.0.4
   easy_image_viewer: ^1.1.0
   rating_dialog: ^2.0.4
+  country_picker: ^2.0.16
 
 dev_dependencies:
   flutter_test:
