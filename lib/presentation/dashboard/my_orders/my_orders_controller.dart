@@ -9,6 +9,7 @@ class MyOrderController extends GetxController {
   Rx<MyOrdersModel> allOrders=MyOrdersModel().obs;
   RxBool loadingOrders=false.obs;
   LoginScreenController loginCon=Get.find();
+  RxString orderType="all".obs;
   void onInit() {
     // TODO: implement onInit
     super.onInit();
@@ -19,7 +20,7 @@ class MyOrderController extends GetxController {
 
   void getAllOrder()async{
     loadingOrders.value=true;
-    allOrders.value= (await HttpService.getAllOrders(loginCon.user.value.userId.toString()))!;
+    allOrders.value= (await HttpService.getAllOrders(loginCon.user.value.userId.toString(),orderType.toString()))!;
     print(allOrders.value);
     loadingOrders.value=false;
 

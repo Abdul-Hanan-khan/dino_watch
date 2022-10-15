@@ -175,7 +175,22 @@ class MyOrdersScreen extends StatelessWidget {
       //pending completed approved
       children: [
         RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            _con.orderType.value="all";
+            _con.getAllOrder();
+          },
+          child: const Text('All',style: TextStyle(color: Colors.white),),
+          color:  const Color(0xff4d18cc),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+
+        RaisedButton(
+          onPressed: () {
+            _con.orderType.value="pending";
+            _con.getAllOrder();
+          },
           child: const Text('Pending',style: TextStyle(color: Colors.white),),
           color:  const Color(0xff4d18cc),
           shape: RoundedRectangleBorder(
@@ -183,15 +198,21 @@ class MyOrdersScreen extends StatelessWidget {
           ),
         ),
         RaisedButton(
-          onPressed: () {},
-          child: const Text('Approved',style: TextStyle(color: Colors.black),),
+          onPressed: () {
+            _con.orderType.value="processing";
+            _con.getAllOrder();
+          },
+          child: const Text('Processing',style: TextStyle(color: Colors.black),),
           color:  Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
         ),
         RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            _con.orderType.value="completed";
+            _con.getAllOrder();
+          },
           child: const Text('Completed',style: TextStyle(color: Colors.black),),
           color:  Colors.white,
           shape: RoundedRectangleBorder(
