@@ -543,13 +543,12 @@ class HttpService {
         var decodedResponse = json.decode(temp);
         return OrderDetailsModel.fromJson(decodedResponse);
       } else {
+        return OrderDetailsModel();
         print(response.reasonPhrase);
       }
     } catch (e) {
-      print(e);
-      return null;
+      return OrderDetailsModel();
     }
-    return null;
   }
 
   static Future<dynamic?> forgotPassword(String userEmail) async {
