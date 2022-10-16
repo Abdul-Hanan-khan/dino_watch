@@ -15,6 +15,7 @@ import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/commamn/rateing_bar.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_screen.dart';
+import 'package:watch_app/presentation/dashboard/watch_details/all_reviews.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
 
@@ -355,10 +356,15 @@ class WatchDetailScreen extends StatelessWidget {
                         ],
                       ),
                       hSizedBox8,
-                      StarRating(
-                        rating: double.parse(
-                                _con.watchDetailsM.value.ratingCount.toString())
-                            .round(),
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(AllReviews(watchId));
+                        },
+                        child: StarRating(
+                          rating: double.parse(
+                                  _con.watchDetailsM.value.ratingCount.toString())
+                              .round(),
+                        ),
                       ),
                       hSizedBox8,
                       Text(

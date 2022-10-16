@@ -16,7 +16,7 @@ class MyOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // _con.getAllOrder();
+    _con.getAllOrder();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(
@@ -52,7 +52,7 @@ class MyOrdersScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 0),
                       child: Column(
                         children: [
-                          orderStatusBar2(size),
+                          orderStatusBar(size),
                           showOrderList(),
                         ],
                       ),
@@ -191,7 +191,7 @@ class MyOrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget orderStatusBar2(Size size) {
+  Widget orderStatusBar(Size size) {
     return Obx(
       () => Row(
         mainAxisSize: MainAxisSize.max,

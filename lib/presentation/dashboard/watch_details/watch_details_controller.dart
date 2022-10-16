@@ -22,21 +22,4 @@ class WatchDetailController extends GetxController {
 
   RxInt isSelectColor = 0.obs;
 
-  List<Color> colorList = [
-    const Color(0xff1151A5),
-    const Color(0xff030311),
-    const Color(0xff72692B),
-  ];
-
-// getWatchDetails(int watchId){
-//    loading.value=true;
-//
-//
-//
-//
-//    loading.value=false;
-//
-//
-//
-// }
 }

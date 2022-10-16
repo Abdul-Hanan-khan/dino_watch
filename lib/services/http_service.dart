@@ -15,6 +15,7 @@ import 'package:watch_app/model/all_brands_model.dart';
 import 'package:watch_app/model/all_colors_model.dart';
 import 'package:watch_app/model/country_list_model.dart';
 import 'package:watch_app/model/edit_profile_model.dart';
+import 'package:watch_app/model/get_comments_model.dart';
 import 'package:watch_app/model/my_orders_model.dart';
 import 'package:watch_app/model/order_detials_model.dart';
 import 'package:watch_app/model/place_order_model.dart';
@@ -218,6 +219,24 @@ class HttpService {
       );
       if (response.statusCode == 200) {
         return WatchDetailsModel.fromJson(jsonDecode(response.body));
+      } else
+        return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+  static Future<GetCommentModel?> getComments(
+      {required String productID}) async {
+    try {
+      String url =
+          'https://dannidion.com/apies/getproductcomments.php?product_id=$productID';
+      print(url);
+      var response = await http.get(
+        Uri.parse(url),
+      );
+      if (response.statusCode == 200) {
+        return GetCommentModel.fromJson(jsonDecode(response.body));
       } else
         return null;
     } catch (e) {
