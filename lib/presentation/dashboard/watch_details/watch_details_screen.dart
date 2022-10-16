@@ -167,7 +167,7 @@ class WatchDetailScreen extends StatelessWidget {
                                         // decoration: TextDecoration.underline,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 34,
-                                        color: AppColors.purple,
+                                        color:  Color(0xFF4d18cc),
                                         fontStyle: FontStyle.italic))
                               ],
                             ),
