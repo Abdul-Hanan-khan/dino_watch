@@ -420,7 +420,7 @@ class HttpService {
   static Future<MyOrdersModel?> getAllOrders(String userId,String orderType) async {
     try {
       var request = http.Request('GET',
-          Uri.parse('https://dannidion.com/apies/myorders.php?$userId=13&ordertype=${orderType??"all"}'));
+          Uri.parse('https://dannidion.com/apies/myorders.php?$userId=$userId&ordertype=${orderType??"all"}'));
       var headers = {
         'Accept': '*/*',
       };

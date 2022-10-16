@@ -5,3 +5,10 @@ CN=abdul hanan, OU=it, O=Allience tech, L=Rwp, ST=fedral, C=92 correct
 
 flutter 3.0.1
 dart available with similar version
+
+
+storePassword=dino123
+keyPassword=dino123
+keyAlias=upload
+storeFile=E:/development/AndroidStudioProjects/dino_watch/upload-keystore.jks
+

@@ -11,12 +11,13 @@ import 'my_orders_controller.dart';
 class MyOrdersScreen extends StatelessWidget {
   MyOrdersScreen({Key? key}) : super(key: key);
   final MyOrderController _con = Get.put(MyOrderController());
-  final OrderDetailsController orderDetailsController = Get.put(OrderDetailsController());
+  final OrderDetailsController orderDetailsController =
+      Get.put(OrderDetailsController());
 
   @override
   Widget build(BuildContext context) {
-    _con.getAllOrder();
-    Size size=MediaQuery.of(context).size;
+    // _con.getAllOrder();
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(
         text: AppString.myOrders,
@@ -47,179 +48,257 @@ class MyOrdersScreen extends StatelessWidget {
                       ),
                     )
                   : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                      children: [
-                        orderStatusBar(size),
-                        showOrderList(),
-                      ],
-                    ),
-              )),
+                      child: Padding(
+                      padding: const EdgeInsets.only(bottom: 0),
+                      child: Column(
+                        children: [
+                          orderStatusBar2(size),
+                          showOrderList(),
+                        ],
+                      ),
+                    )),
         ),
       ),
     );
   }
 
-
   Widget showOrderList() {
     return Container(
       width: Get.width,
-      height: Get.height * 0.9,
+      height: Get.height * 0.8,
       child: ListView.builder(
           // shrinkWrap: true,
           itemCount: _con.allOrders.value.orderlist!.length ?? 0,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: (){
-                orderDetailsController.loadOrderDetails(_con.allOrders.value.orderlist![index].orderId.toString());
+              onTap: () {
+                orderDetailsController.loadOrderDetails(
+                    _con.allOrders.value.orderlist![index].orderId.toString());
                 Get.to(OrderDetailsScreen());
               },
-
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Color(0xff4d18cc),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color:  Color(0xff4d18cc).withOpacity(0.2),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Color(0xff4d18cc),
                     ),
-                  ],
-                ),
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Order Id :",style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.black
-                          ),),
-                          SizedBox(width: 20,),
-                          Text("${_con.allOrders.value.orderlist![index].orderId}"),
-                        ],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff4d18cc).withOpacity(0.2),
+                        spreadRadius: 3,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
                       ),
-                      SizedBox(height: 5,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Order Amount",style: TextStyle(fontWeight: FontWeight.bold,
-                              color: Colors.black54),),
-
-                          Text("\$${_con.allOrders.value.orderlist![index].orderAmount}"),
-                        ],
-                      ),
-
-                      SizedBox(height: 10,),
-
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Order Status"),
-                              SizedBox(width: 10,),
-                              Text("${_con.allOrders.value.orderlist![index].orderStatus}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black87),),
-                            ],
-                          ),
-
-
-
-                          SizedBox(width: 20,),
-
-                          Container(height: 35,width: 2,
-
-                          decoration: BoxDecoration(color: Colors.grey),),
-                          SizedBox(width: 20,),
-
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Created At"),
-                              // SizedBox(width: 10,),
-                              Text("${_con.allOrders.value.orderlist![index].orderDate}",style: TextStyle(fontWeight: FontWeight.bold,color:  Colors.black87),),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 5,),
-
                     ],
                   ),
-                )
-              ),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Order Id :",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                                "${_con.allOrders.value.orderlist![index].orderId}"),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Order Amount",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54),
+                            ),
+                            Text(
+                                "\$${_con.allOrders.value.orderlist![index].orderAmount}"),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Order Status"),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "${_con.allOrders.value.orderlist![index].orderStatus}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 2,
+                              decoration: BoxDecoration(color: Colors.grey),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Created At"),
+                                // SizedBox(width: 10,),
+                                Text(
+                                  "${_con.allOrders.value.orderlist![index].orderDate}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                    ),
+                  )),
             );
           }),
     );
   }
 
+  Widget orderStatusBar2(Size size) {
+    return Obx(
+      () => Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+                onTap: () {
+                  _con.selectedStatus.value = "all";
+                  _con.orderType.value = "all";
 
+                  _con.getAllOrder();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'All',
+                    style: TextStyle(
+                        color: _con.selectedStatus.value == "all"
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                )),
+            decoration: BoxDecoration(
+                color: _con.selectedStatus.value == "all"
+                    ? Color(0xff4d18cc)
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(20)),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+                onTap: () {
+                  _con.selectedStatus.value = "pending";
+                  _con.orderType.value = "pending";
 
-  Widget orderStatusBar(Size size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //pending completed approved
-      children: [
-        RaisedButton(
-          onPressed: () {
-            _con.orderType.value="all";
-            _con.getAllOrder();
-          },
-          child: const Text('All',style: TextStyle(color: Colors.white),),
-          color:  const Color(0xff4d18cc),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+                  _con.getAllOrder();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Pending',
+                    style: TextStyle(
+                        color: _con.selectedStatus.value == "pending"
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                )),
+            decoration: BoxDecoration(
+                color: _con.selectedStatus.value == "pending"
+                    ? Color(0xff4d18cc)
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(20)),
           ),
-        ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+                onTap: () {
+                  _con.selectedStatus.value = "processing";
+                  _con.orderType.value = "processing";
 
-        RaisedButton(
-          onPressed: () {
-            _con.orderType.value="pending";
-            _con.getAllOrder();
-          },
-          child: const Text('Pending',style: TextStyle(color: Colors.white),),
-          color:  const Color(0xff4d18cc),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+                  _con.getAllOrder();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Processing',
+                    style: TextStyle(
+                        color: _con.selectedStatus.value == "processing"
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                )),
+            decoration: BoxDecoration(
+                color: _con.selectedStatus.value == "processing"
+                    ? Color(0xff4d18cc)
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(20)),
           ),
-        ),
-        RaisedButton(
-          onPressed: () {
-            _con.orderType.value="processing";
-            _con.getAllOrder();
-          },
-          child: const Text('Processing',style: TextStyle(color: Colors.black),),
-          color:  Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+                onTap: () {
+                  _con.selectedStatus.value = "completed";
+                  _con.orderType.value = "completed";
+
+                  _con.getAllOrder();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Completed',
+                    style: TextStyle(
+                        color: _con.selectedStatus.value == "completed"
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                )),
+            decoration: BoxDecoration(
+                color: _con.selectedStatus.value == "completed"
+                    ? Color(0xff4d18cc)
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(20)),
           ),
-        ),
-        RaisedButton(
-          onPressed: () {
-            _con.orderType.value="completed";
-            _con.getAllOrder();
-          },
-          child: const Text('Completed',style: TextStyle(color: Colors.black),),
-          color:  Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

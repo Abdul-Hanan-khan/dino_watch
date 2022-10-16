@@ -10,6 +10,7 @@ class MyOrderController extends GetxController {
   RxBool loadingOrders=false.obs;
   LoginScreenController loginCon=Get.find();
   RxString orderType="all".obs;
+  RxString selectedStatus="all".obs;
   void onInit() {
     // TODO: implement onInit
     super.onInit();
