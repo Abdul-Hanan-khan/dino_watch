@@ -12,6 +12,7 @@ import 'package:watch_app/presentation/commamn/app_bar.dart';
 import 'package:watch_app/presentation/commamn/app_button.dart';
 import 'package:watch_app/presentation/dashboard/addresses/addresses_controller.dart';
 import 'package:watch_app/presentation/dashboard/addresses/addresses_screen.dart';
+import 'package:watch_app/presentation/dashboard/my_orders/my_orders_screen.dart';
 import 'package:watch_app/presentation/dashboard/shopping_cart/shopping_cart_controller.dart';
 import 'package:watch_app/presentation/widgets/alertDialog.dart';
 import 'package:watch_app/services/http_service.dart';
@@ -387,6 +388,8 @@ class CheckoutScreen extends StatelessWidget {
                                             // Get.back();
                                             bottomController.pageIndex.value =
                                                 0;
+                                            Get.to(MyOrdersScreen());
+
                                           });
                                         }
                                       },

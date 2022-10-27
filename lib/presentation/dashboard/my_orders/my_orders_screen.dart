@@ -48,15 +48,20 @@ class MyOrdersScreen extends StatelessWidget {
                       ),
                     )
                   : SingleChildScrollView(
-                      child: Padding(
-                      padding: const EdgeInsets.only(bottom: 0),
-                      child: Column(
-                        children: [
-                          orderStatusBar(size),
-                          showOrderList(),
-                        ],
-                      ),
-                    )),
+                      child: RefreshIndicator(
+                        onRefresh: ()async{
+                          _con.getAllOrder();
+                        },
+                        child: Padding(
+                        padding: const EdgeInsets.only(bottom: 0),
+                        child: Column(
+                          children: [
+                            orderStatusBar(size),
+                            showOrderList(),
+                          ],
+                        ),
+                    ),
+                      )),
         ),
       ),
     );
@@ -74,7 +79,7 @@ class MyOrdersScreen extends StatelessWidget {
               onTap: () {
                 orderDetailsController.loadOrderDetails(
                     _con.allOrders.value.orderlist![index].orderId.toString());
-                Get.to(OrderDetailsScreen());
+                Get.to(OrderDetailsScreen(_con.allOrders.value.orderlist![index].orderId.toString()));
               },
               child: Container(
                   decoration: BoxDecoration(

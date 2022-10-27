@@ -129,6 +129,9 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                             countryCodeFlag = value.flagEmoji.toString();
                             countryCodeValue = value.displayNameNoCountryCode;
                             countryCode = value.phoneCode;
+                            String countryCodeChar= value.countryCode;
+                            print(countryCodeChar);
+                            _con.getStatesByCountryCode(value.countryCode);
                             setState(() {});
                           });
                     },
@@ -259,55 +262,55 @@ class _GetCheckoutInfoScreenState extends State<GetCheckoutInfoScreen> {
                       _con.postCodeCtr.text = val;
                     },
                   ),
-                  widget.fromUpdate!
-                      ? Container()
-                      : titleText("Select Country"),
-                  hSizedBox6,
-                  widget.fromUpdate!
-                      ? Container()
-                      : Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade200,
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0,
-                              ),
-                            ],
-                          ),
-                          child: Obx(
-                            () => DropdownButton(
-                              // Initial Value
-                              value: _con.countryDropDownValue.value,
-
-                              // Down Arrow Icon
-                              // icon: const Icon(Icons.keyboard_arrow_down),
-
-                              // Array list of items
-                              items: _con.countryList.map((items) {
-                                return DropdownMenuItem(
-                                  value: items.name,
-                                  child: SizedBox(
-                                      width: 200,
-                                      child: Text(items.name.toString())),
-                                );
-                              }).toList(),
-                              // After selecting the desired option,it will
-                              // change button value to selected value
-                              onChanged: (String? newValue) {
-                                int index = _con.countryList.indexWhere(
-                                    (item) => item.name == newValue);
-                                _con.getStatesByCountryCode(
-                                    _con.countryList[index].code.toString());
-                                _con.countryDropDownValue.value =
-                                    newValue.toString();
-                              },
-                            ),
-                          ),
-                        ),
+                  // widget.fromUpdate!
+                  //     ? Container()
+                  //     : titleText("Select Country"),
+                  // hSizedBox6,
+                  // widget.fromUpdate!
+                  //     ? Container()
+                  //     : Container(
+                  //         alignment: Alignment.center,
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.white,
+                  //           borderRadius: BorderRadius.circular(50),
+                  //           boxShadow: [
+                  //             BoxShadow(
+                  //               color: Colors.grey.shade200,
+                  //               blurRadius: 10.0,
+                  //               spreadRadius: 2.0,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: Obx(
+                  //           () => DropdownButton(
+                  //             // Initial Value
+                  //             value: _con.countryDropDownValue.value,
+                  //
+                  //             // Down Arrow Icon
+                  //             // icon: const Icon(Icons.keyboard_arrow_down),
+                  //
+                  //             // Array list of items
+                  //             items: _con.countryList.map((items) {
+                  //               return DropdownMenuItem(
+                  //                 value: items.name,
+                  //                 child: SizedBox(
+                  //                     width: 200,
+                  //                     child: Text(items.name.toString())),
+                  //               );
+                  //             }).toList(),
+                  //             // After selecting the desired option,it will
+                  //             // change button value to selected value
+                  //             onChanged: (String? newValue) {
+                  //               int index = _con.countryList.indexWhere(
+                  //                   (item) => item.name == newValue);
+                  //               _con.getStatesByCountryCode(
+                  //                   _con.countryList[index].code.toString());
+                  //               _con.countryDropDownValue.value =
+                  //                   newValue.toString();
+                  //             },
+                  //           ),
+                  //         ),
+                  //       ),
                   hSizedBox6,
                   widget.fromUpdate!
                       ? Container()
